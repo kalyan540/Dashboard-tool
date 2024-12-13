@@ -553,7 +553,7 @@ if (isDevMode) {
         proxyConfig = getProxyConfig(manifest);
       });
     },
-    allowedHosts: 'app',
+    allowedHosts: 'all',
     historyApiFallback: true,
     hot: true,
     port: devserverPort,

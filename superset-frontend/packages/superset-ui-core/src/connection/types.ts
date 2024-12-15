@@ -151,7 +151,6 @@ export interface SupersetClientInterface
     SupersetClientClass,
     | 'delete'
     | 'get'
-    | 'getHTML'
     | 'post'
     | 'postForm'
     | 'put'

@@ -42,7 +42,6 @@ const SupersetClient: SupersetClientInterface = {
   },
   delete: request => getInstance().delete(request),
   get: request => getInstance().get(request),
-  getHTML: request => getInstance().getHTML(request),
   init: force => getInstance().init(force),
   isAuthenticated: () => getInstance().isAuthenticated(),
   getGuestToken: () => getInstance().getGuestToken(),

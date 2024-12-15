@@ -544,7 +544,6 @@ function AlertList({
     <>
       <SubMenu
         activeChild={pathName}
-        name={header}
         name={isReportEnabled ? Report_header : Alert_header}
         /*tabs={[
           {

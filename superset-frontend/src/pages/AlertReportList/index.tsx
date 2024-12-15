@@ -365,30 +365,30 @@ function AlertList({
           const actions = [
             canEdit
               ? {
-                  label: 'execution-log-action',
-                  tooltip: t('Execution log'),
-                  placement: 'bottom',
-                  icon: 'Note',
-                  onClick: handleGotoExecutionLog,
-                }
+                label: 'execution-log-action',
+                tooltip: t('Execution log'),
+                placement: 'bottom',
+                icon: 'Note',
+                onClick: handleGotoExecutionLog,
+              }
               : null,
             canEdit
               ? {
-                  label: allowEdit ? 'edit-action' : 'preview-action',
-                  tooltip: allowEdit ? t('Edit') : t('View'),
-                  placement: 'bottom',
-                  icon: allowEdit ? 'Edit' : 'Binoculars',
-                  onClick: handleEdit,
-                }
+                label: allowEdit ? 'edit-action' : 'preview-action',
+                tooltip: allowEdit ? t('Edit') : t('View'),
+                placement: 'bottom',
+                icon: allowEdit ? 'Edit' : 'Binoculars',
+                onClick: handleEdit,
+              }
               : null,
             allowEdit && canDelete
               ? {
-                  label: 'delete-action',
-                  tooltip: t('Delete'),
-                  placement: 'bottom',
-                  icon: 'Trash',
-                  onClick: handleDelete,
-                }
+                label: 'delete-action',
+                tooltip: t('Delete'),
+                placement: 'bottom',
+                icon: 'Trash',
+                onClick: handleDelete,
+              }
               : null,
           ].filter(item => item !== null);
 
@@ -514,13 +514,30 @@ function AlertList({
     [],
   );
 
-  const header = HeaderExtension ? (
+  /*const header = HeaderExtension ? (
     <StyledHeaderWithIcon>
       <div>{t('Alerts & reports')}</div>
       <HeaderExtension />
     </StyledHeaderWithIcon>
   ) : (
     t('Alerts & reports')
+  );*/
+  const Alert_header = HeaderExtension ? (
+      <StyledHeaderWithIcon>
+        <div>{t('Alerts')}</div>
+        <HeaderExtension />
+      </StyledHeaderWithIcon>
+    ) : (
+      t('Alerts')
+    );
+
+  const Report_header = HeaderExtension ? (
+    <StyledHeaderWithIcon>
+      <div>{t('Reports')}</div>
+      <HeaderExtension />
+    </StyledHeaderWithIcon>
+  ) : (
+    t('Reports')
   );
 
   return (
@@ -528,7 +545,8 @@ function AlertList({
       <SubMenu
         activeChild={pathName}
         name={header}
-        tabs={[
+        name={isReportEnabled ? Report_header : Alert_header}
+        /*tabs={[
           {
             name: 'Alerts',
             label: t('Alerts'),
@@ -543,7 +561,7 @@ function AlertList({
             usesRouter: true,
             'data-test': 'report-list',
           },
-        ]}
+        ]}*/
         buttons={subMenuButtons}
       >
         <RefreshContainer>
@@ -590,13 +608,13 @@ function AlertList({
         {confirmDelete => {
           const bulkActions: ListViewProps['bulkActions'] = canDelete
             ? [
-                {
-                  key: 'delete',
-                  name: t('Delete'),
-                  onSelect: confirmDelete,
-                  type: 'danger',
-                },
-              ]
+              {
+                key: 'delete',
+                name: t('Delete'),
+                onSelect: confirmDelete,
+                type: 'danger',
+              },
+            ]
             : [];
           return (
             <ListView<AlertObject>

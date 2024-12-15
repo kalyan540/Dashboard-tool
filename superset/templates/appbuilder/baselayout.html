@@ -24,7 +24,9 @@
     {% include 'appbuilder/general/alert.html' %}
 
     {% block navbar %}
-      {% include 'appbuilder/navbar.html' %}
+      {% if 'users/' not in request.path %}
+        {% include 'appbuilder/navbar.html' %}
+      {% endif %}
     {% endblock %}
 
     {% block uncontained %}{% endblock %}

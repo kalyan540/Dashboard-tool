@@ -33,6 +33,31 @@ const DashboardRoute: FC = () => {
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+  const injectCustomStyles = () => (
+    <style>
+      {`
+        .panel-primary > .panel-heading {
+            color: #fff !important;
+            background-color: #fff !important;
+            border-color: #fff !important;
+        }
+        .header-bar {
+            background-color: #fff;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .header-bar h1 {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
+        }
+      `}
+    </style>
+  );
   const handleButtonClick = (buttonName: string) => {
     setActiveButton(buttonName);
 
@@ -122,12 +147,22 @@ const DashboardRoute: FC = () => {
             <DashboardPage idOrSlug={idOrSlug} />
           </div>
         ) : activeButton === 'User Management' ? (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: htmlContent || '<h2>Loading User Management Page...</h2>',
-              }}
-            />
-        ): activeButton === 'Alerts' ? (
+          <>
+            {injectCustomStyles()}
+            <div>
+              {/* Header Bar */}
+              <div className="header-bar">
+                <h1>User Management</h1>
+              </div>
+              {/* Render HTML Content */}
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: htmlContent || '<h2>Loading User Management Page...</h2>',
+                }}
+              />
+            </div>
+          </>
+        ) : activeButton === 'Alerts' ? (
           <AlertList
             addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
             addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
@@ -142,12 +177,12 @@ const DashboardRoute: FC = () => {
             user={currentUser}
           />
         ) : activeButton === 'Analytics' ? (
-            <DashboardPage idOrSlug={'14'} />
-          ) : (
-            <div>
-              <h2>This page is in development.</h2>
-            </div>
-          )}
+          <DashboardPage idOrSlug={'14'} />
+        ) : (
+          <div>
+            <h2>This page is in development.</h2>
+          </div>
+        )}
       </div>
     </div>
   );

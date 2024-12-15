@@ -350,7 +350,7 @@ class ChartRenderer extends Component {
       ?.behaviors.find(behavior => behavior === Behavior.DrillToDetail)
       ? { inContextMenu: this.state.inContextMenu }
       : {};
-
+    this.removeAggregations();
     return (
       <>
         {this.state.showContextMenu && (

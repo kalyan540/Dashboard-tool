@@ -141,7 +141,7 @@ export const PageHeaderWithActions = ({
     <div css={headerStyles} className="header-with-actions">
       <div className="title-panel">
         <DynamicEditableTitle {...editableTitleProps} />
-        {showTitlePanelItems && (
+        {/*showTitlePanelItems && (
           <div css={buttonsStyles}>
             {certificatiedBadgeProps?.certifiedBy && (
               <CertifiedBadge {...certificatiedBadgeProps} />
@@ -149,7 +149,8 @@ export const PageHeaderWithActions = ({
             {showFaveStar && <FaveStar {...faveStarProps} />}
             {titlePanelAdditionalItems}
           </div>
-        )}
+        )*/
+        console.log(CertifiedBadge, FaveStar, buttonsStyles)}
       </div>
       <div className="right-button-panel">
         {rightPanelAdditionalItems}

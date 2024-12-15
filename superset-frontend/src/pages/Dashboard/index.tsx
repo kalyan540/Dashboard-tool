@@ -39,11 +39,11 @@ const DashboardRoute: FC = () => {
   useEffect(() => {
     async function fetchUserList() {
       try {
-        const response = await SupersetClient.get({
+        const response = await SupersetClient.getHTML({
           endpoint: '/users/list', // Endpoint to fetch data
         });
         console.log(response);
-        //console.log('Response Text:', response.text); // Log the raw HTML or response content
+        console.log('Response Text:', response.text); // Log the raw HTML or response content
       } catch (error) {
         console.error('Error fetching user list:', error);
       }

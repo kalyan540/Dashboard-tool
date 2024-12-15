@@ -168,6 +168,12 @@ export default class SupersetClientClass {
     return this.request({ ...requestConfig, method: 'GET' });
   }
 
+  async getHTML<T extends ParseMethod = 'text'>(
+    requestConfig: RequestConfig & { parseMethod?: T },
+  ) {
+    return this.request({ ...requestConfig, method: 'GET' });
+  }
+
   async delete<T extends ParseMethod = 'json'>(
     requestConfig: RequestConfig & { parseMethod?: T },
   ) {

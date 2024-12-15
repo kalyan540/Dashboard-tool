@@ -255,7 +255,7 @@ class ChartRenderer extends Component {
             const cleanedRow = {};
             Object.entries(row).forEach(([key, value]) => {
               // Regex to remove aggregation functions and brackets
-              const cleanedKey = key.replace(/^(MAX|MIN|SUM|AVG|COUNT|COUNT_DISTINCT)\((.*?)\)$/i, '$2');
+              const cleanedKey = key.replace(/^(MAX|MIN|SUM|AVG|COUNT|COUNT_DISTINCT)\(([^)]+)\)/gi, '$2');
               cleanedRow[cleanedKey] = value;
             });
             return cleanedRow;

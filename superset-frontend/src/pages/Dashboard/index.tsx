@@ -25,46 +25,46 @@ import './index.css';
 import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
-import { SupersetClient } from '@superset-ui/core';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
+  const [htmlContent, setHtmlContent] = useState<string | null>(null);
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
   const handleButtonClick = (buttonName: string) => {
     setActiveButton(buttonName);
-  };
-  useEffect(() => {
-    async function fetchUserList() {
-      try {
-        // Get the base URL (e.g., http://localhost:9000)
-        const baseUrl = window.location.origin;
 
-        // Build the full URL for the API request
-        const apiUrl = `${baseUrl}/users/list`;
-
-        // Fetch user list from the API
-        const response = await fetch(apiUrl);
-        
-        // Log the response object
-        console.log(response);
-
-        // If the response is OK, print the response body as text
-        if (response.ok) {
-          const responseText = await response.text(); // Parse the response as text
-          console.log('Response Text:', responseText);
-        } else {
-          console.error('Error fetching data:', response.status);
-        }
-      } catch (error) {
-        console.error('Error fetching user list:', error);
-      }
+    // Fetch user list when the active button is "User Management"
+    if (buttonName === 'User Management') {
+      fetchUserList();
     }
+  };
+  const fetchUserList = async () => {
+    try {
+      // Get the base URL (e.g., http://localhost:9000)
+      const baseUrl = window.location.origin;
 
-    fetchUserList();
-  }, []);
+      // Build the full URL for the API request
+      const apiUrl = `${baseUrl}/users/list/`;
+
+      // Fetch user list from the API
+      const response = await fetch(apiUrl);
+
+      // If the response is OK, save the response body as text
+      if (response.ok) {
+        const responseText = await response.text(); // Parse the response as text
+        setHtmlContent(responseText); // Save the HTML content in state
+      } else {
+        console.error('Error fetching data:', response.status);
+        setHtmlContent('<h2>Error loading user management page</h2>'); // Show an error message
+      }
+    } catch (error) {
+      console.error('Error fetching user list:', error);
+      setHtmlContent('<h2>Error loading user management page</h2>'); // Show an error message
+    }
+  };
   //return <DashboardPage idOrSlug={idOrSlug} />;
 
   return (
@@ -122,8 +122,11 @@ const DashboardRoute: FC = () => {
             <DashboardPage idOrSlug={idOrSlug} />
           </div>
         ) : activeButton === 'User Management' ? (
-          //<UserManagement /> 
-          <h2>This page is in development.</h2>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: htmlContent || '<h2>Loading User Management Page...</h2>',
+              }}
+            />
         ): activeButton === 'Alerts' ? (
           <AlertList
             addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}

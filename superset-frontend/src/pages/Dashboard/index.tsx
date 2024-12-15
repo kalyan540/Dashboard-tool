@@ -179,7 +179,7 @@ const DashboardRoute: FC = () => {
             user={currentUser}
           />
         ) : activeButton === 'Analytics' ? (
-          <DashboardPage idOrSlug={'14'} />
+          <DashboardPage idOrSlug={'15'} />
         ) : (
           <div>
             <h2>This page is in development.</h2>

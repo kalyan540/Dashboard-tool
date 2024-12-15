@@ -1,0 +1,124 @@
+.left-panel {
+    width: 250px;
+    /* Set the container width to 150px */
+    display: flex;
+    flex-direction: column;
+    /* Arrange buttons vertically */
+    align-items: center;
+    /* Center align the buttons inside the container */
+    background-color: #101838;
+    /* Set the container background to white */
+    padding: 10px;
+    /* Add some padding to the container */
+
+}
+
+.divider {
+    width: 100%;
+    height: 0.5px;
+    /* Set the height of the divider line */
+    background-color: #f7f7f7;
+    /* Set the color of the line */
+    margin: 20px 0;
+    /* Add space between the button container and user management */
+}
+
+.user-management {
+    height: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* Arrange buttons vertically */
+    align-items: center;
+    /* Center align the buttons inside the container */
+    background-color: #101838;
+    /* Set the container background to white */
+    padding: 10px;
+    /* Add some padding to the container */
+}
+
+.buttons-container {
+    width: 200px;
+    /* Set the container width to 150px */
+    display: flex;
+    flex-direction: column;
+    /* Arrange buttons vertically */
+    align-items: center;
+    /* Center align the buttons inside the container */
+    background-color: #101838;
+    /* Set the container background to white */
+    padding: 10px;
+    /* Add some padding to the container */
+}
+
+.button {
+    width: 175px;
+    height: 50px;
+    text-align: left;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 14px;
+    /* Add some spacing between buttons */
+    background-color: #101838;
+    color: #fff;
+    border-right: 5px solid transparent;
+    /* Default border color */
+    border-color: transparent;
+    transition: border-color 0.3s ease, border-right 0.3s ease;
+    /* Smooth transition for border color */
+}
+
+.icon {
+    /* Adjust icon size */
+    height: 25px;
+    margin-right: 8px;
+    filter: invert(100%) brightness(200%);
+
+}
+
+.button.active {
+    background-color: #6964E3;
+    border-color: #6964E3;
+    color: #fff;
+}
+
+.button.active:hover {
+    background-color: #6964E3;
+    border-color: #6964E3;
+    color: #fff;
+}
+
+.button:hover {
+    border-color: transparent;
+    /* Disable hover color change by default */
+}
+
+
+.right-panel {
+    background-color: #f4f4f4;
+    padding-left: 3px;
+    width: 100vw;
+}
+
+.dashboard-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-page {
+    /*flex: 0 0 60%;*/
+    /* 60% of total height */
+    overflow: auto;
+}
+
+.full-height {
+    flex: 1 0 100%; /* Full height when AlertList is not displayed */
+}
+
+.alert-list {
+    flex: 0 0 40%;
+    /* 40% of total height */
+    padding-left: 30px;
+    padding-right: 30px;
+}

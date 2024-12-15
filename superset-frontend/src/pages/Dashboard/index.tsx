@@ -43,15 +43,16 @@ const DashboardRoute: FC = () => {
         }
         .header-bar {
             background-color: #fff;
-            height: 50px;
+            height: 64px;
             display: flex;
             align-items: center;
-            padding-left: 20px;
+            padding-left: 16px;
             box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
         .header-bar h1 {
-            font-size: 18px;
+            font-size: 21px;
+            font-weight: 600;
             color: #333;
             margin: 0;
         }

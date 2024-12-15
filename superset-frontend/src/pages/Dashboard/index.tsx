@@ -53,6 +53,7 @@ const DashboardRoute: FC = () => {
         .header-bar h1 {
             font-size: 21px;
             font-weight: 600;
+            font-family: 'Inter', Helvetica, Arial;
             color: #333;
             margin: 0;
         }

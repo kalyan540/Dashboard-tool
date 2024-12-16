@@ -114,21 +114,7 @@ const DashboardRoute: FC = () => {
             <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
             Analytics
           </button>
-          <button
-            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Alerts')}
-          >
-            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
-            Alerts
-          </button>
-
-          <button
-            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Reports')}
-          >
-            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
-            Reports
-          </button>
+          
         </div>
         <div className="divider"></div>
         <div className="user-management">
@@ -192,3 +178,21 @@ const DashboardRoute: FC = () => {
 };
 
 export default DashboardRoute;
+/*
+<button
+            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Alerts')}
+          >
+            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
+            Alerts
+          </button>
+
+          <button
+            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Reports')}
+          >
+            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
+            Reports
+          </button>
+
+*/

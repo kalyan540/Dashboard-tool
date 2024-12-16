@@ -113,7 +113,7 @@ export type PageHeaderWithActionsProps = {
   showFaveStar: boolean;
   showMenuDropdown?: boolean;
   faveStarProps: FaveStarProps;
-  titlePanelAdditionalItems: ReactNode;
+  titlePanelAdditionalItems?: ReactNode;
   rightPanelAdditionalItems: ReactNode;
   additionalActionsMenu: ReactElement;
   menuDropdownProps: Omit<AntdDropdownProps, 'overlay'>;

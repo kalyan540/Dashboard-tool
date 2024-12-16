@@ -143,9 +143,9 @@ export const PageHeaderWithActions = ({
         <DynamicEditableTitle {...editableTitleProps} />
         {showTitlePanelItems && (
           <div css={buttonsStyles}>
-            {/*certificatiedBadgeProps?.certifiedBy && (
+            {certificatiedBadgeProps?.certifiedBy && (
               <CertifiedBadge {...certificatiedBadgeProps} />
-            )*/}
+            )}
             {showFaveStar && <FaveStar {...faveStarProps} />}
             {/*titlePanelAdditionalItems*/}
           </div>

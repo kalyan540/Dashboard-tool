@@ -344,6 +344,26 @@ const config: ControlPanelConfig = {
         ...createAxisControl('y'),
       ],
     },
+    {
+      label: t('Chart ToolTip View'),
+      expanded: true,
+      controlSetRows: [
+        [
+          {
+            name: 'custom_tooltip_text',
+            config: {
+              type: 'TextControl',
+              label: t('Text'),
+              renderTrigger: true,
+              default: '',
+              description: t('Description of Metric'),
+              disableStash: true,
+              resetOnHide: false,
+            },
+          },
+        ],
+      ],
+    },
   ],
   formDataOverrides: formData => ({
     ...formData,

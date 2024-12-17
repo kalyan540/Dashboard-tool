@@ -87,7 +87,7 @@ import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/p
 import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import { FilterPlugins } from 'src/constants';
 import TimeTableChartPlugin from '../TimeTable';
-import { CustomBarChartPlugin } from 'src/Custom_Viz_Plugins/plugin-chart-custom-bar/src';
+import { PluginChartCustomBar } from 'src/Custom_Viz_Plugins/plugin-chart-custom-bar/src';
 
 export default class MainPreset extends Preset {
   constructor() {
@@ -105,7 +105,7 @@ export default class MainPreset extends Preset {
       name: 'Legacy charts',
       presets: [new DeckGLChartPreset()],
       plugins: [
-        new CustomBarChartPlugin.configure({key: "plugin-chart-custom-bar"}),
+        new PluginChartCustomBar.configure({key: "plugin-chart-custom-bar"}),
         new AreaChartPlugin().configure({ key: VizType.LegacyArea }),
         new BarChartPlugin().configure({ key: VizType.LegacyBar }),
         new BigNumberChartPlugin().configure({ key: VizType.BigNumber }),

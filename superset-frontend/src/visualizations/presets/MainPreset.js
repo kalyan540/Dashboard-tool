@@ -48,9 +48,7 @@ import {
   LineChartPlugin,
   TimePivotChartPlugin,
 } from '@superset-ui/legacy-preset-chart-nvd3';
-import {
-  CustomBarChartPlugin,
-} from 'plugins/plugin-chart-Bar';
+
 import { DeckGLChartPreset } from '@superset-ui/legacy-preset-chart-deckgl';
 import {
   BigNumberChartPlugin,
@@ -90,6 +88,7 @@ import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/p
 import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import { FilterPlugins } from 'src/constants';
 import TimeTableChartPlugin from '../TimeTable';
+import { CustomBarChartPlugin } from './plugins/plugin-chart-Bar';
 
 export default class MainPreset extends Preset {
   constructor() {

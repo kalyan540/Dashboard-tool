@@ -46,6 +46,7 @@ import {
   TIME_SERIES_DESCRIPTION_TEXT,
 } from '../../constants';
 
+
 const {
   logAxis,
   minorSplitLine,
@@ -348,6 +349,20 @@ const config: ControlPanelConfig = {
       label: t('Chart ToolTip View'),
       expanded: true,
       controlSetRows: [
+        [
+          {
+            name: 'custom_tooltip',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Enable Custom Tooltip'),
+              renderTrigger: true,
+              default: logAxis,
+              description: t('Enables the custom Tooltip'),
+              disableStash: true,
+              resetOnHide: false,
+            },
+          },
+        ],
         [
           {
             name: 'custom_tooltip_text',

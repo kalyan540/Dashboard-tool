@@ -23,7 +23,7 @@
         "./plugins/legacy-preset-chart-*/src"
       ],
       "@superset-ui/plugin-chart-*": ["./plugins/plugin-chart-*/src"],
-      "plugin-chart-Bar": ["./plugins/plugin-chart-Bar/src"],
+      "plugin-chart-Bar": ["src/visualizations/presets/plugin-chart-Bar/src"],
       "@superset-ui/preset-chart-*": ["./plugins/preset-chart-*/src"],
       "@superset-ui/switchboard": ["./packages/superset-ui-switchboard/src"]
     },

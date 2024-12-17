@@ -50,7 +50,7 @@ import {
 } from '@superset-ui/legacy-preset-chart-nvd3';
 import {
   CustomBarChartPlugin,
-} from '../../../plugins/plugin-chart-Bar';
+} from 'plugin-chart-Bar';
 import { DeckGLChartPreset } from '@superset-ui/legacy-preset-chart-deckgl';
 import {
   BigNumberChartPlugin,
@@ -107,6 +107,7 @@ export default class MainPreset extends Preset {
       name: 'Legacy charts',
       presets: [new DeckGLChartPreset()],
       plugins: [
+        new CustomBarChartPlugin.configure({ key: VizType.LegacyBar}),
         new AreaChartPlugin().configure({ key: VizType.LegacyArea }),
         new BarChartPlugin().configure({ key: VizType.LegacyBar }),
         new BigNumberChartPlugin().configure({ key: VizType.BigNumber }),

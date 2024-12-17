@@ -50,7 +50,7 @@ const metadata = new ChartMetadata({
   useLegacyApi: true,
 });
 
-/*
+/**
  * @deprecated in version 3.0.
  */
 export default class CustomBarChartPlugin extends ChartPlugin {

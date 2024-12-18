@@ -41,7 +41,6 @@ export function tooltipHtml(
   return `
     <div>
       ${titleRow}
-      ${customTextRow}
       <table>
           ${data.length === 0 ? `<tr><td>${t('No data')}</td></tr>` : ''}
           ${data
@@ -60,5 +59,6 @@ export function tooltipHtml(
             })
             .join('')}
       </table>
+      ${customTextRow}
     </div>`;
 }

@@ -28,13 +28,20 @@ export function tooltipHtml(
   data: string[][],
   title?: string,
   focusedRow?: number,
+  customText?: string,
 ) {
   const titleRow = title
     ? `<span style="font-weight: 700;${TRUNCATION_STYLE}">${title}</span>`
     : '';
+  
+  const customTextRow = customText
+    ? `<div style="font-weight: 700; margin-bottom: 8px;">${customText}</div>`
+    : '';
+  
   return `
     <div>
       ${titleRow}
+      ${customTextRow}
       <table>
           ${data.length === 0 ? `<tr><td>${t('No data')}</td></tr>` : ''}
           ${data

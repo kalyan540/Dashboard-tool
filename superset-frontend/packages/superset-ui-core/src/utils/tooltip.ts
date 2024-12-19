@@ -25,7 +25,7 @@ const TRUNCATION_STYLE = `
 `;
 
 export function tooltipHtml(
-  data: string[][],
+  data?: string[][],
   title?: string,
   focusedRow?: number,
   customText?: string,

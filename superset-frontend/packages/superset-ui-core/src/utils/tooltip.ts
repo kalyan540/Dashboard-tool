@@ -38,9 +38,8 @@ export function tooltipHtml(
     ? `<div style="font-weight: 700; margin-bottom: 8px;">${customText}</div>`
     : '';
   
-  const Table = data
+    const Table = Array.isArray(data) && data.length > 0
     ? `<table>
-          ${data.length === 0 ? `<tr><td>${t('No data')}</td></tr>` : ''}
           ${data
             .map((row, i) => {
               const rowStyle =
@@ -57,7 +56,7 @@ export function tooltipHtml(
             })
             .join('')}
       </table>`
-      :'';
+    : `<table><tr><td>${t('No data')}</td></tr></table>`;
   
   return `
     <div>

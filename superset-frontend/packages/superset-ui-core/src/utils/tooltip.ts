@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t } from '../translation';
+//import { t } from '../translation';
 
 const TRUNCATION_STYLE = `
   max-width: 300px;
@@ -56,7 +56,7 @@ export function tooltipHtml(
             })
             .join('')}
       </table>`
-    : `<table><tr><td>${t('No data')}</td></tr></table>`;
+    : '';//`<table><tr><td>${t('No data')}</td></tr></table>`;
   
   return `
     <div>

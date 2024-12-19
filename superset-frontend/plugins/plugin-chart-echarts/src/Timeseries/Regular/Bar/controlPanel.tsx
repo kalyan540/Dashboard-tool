@@ -346,40 +346,7 @@ const config: ControlPanelConfig = {
         ...createAxisControl('y'),
       ],
     },
-    {
-      label: t('Chart ToolTip View'),
-      expanded: true,
-      controlSetRows: [
-        [
-          {
-            name: 'custom_tooltip',
-            config: {
-              type: 'CheckboxControl',
-              label: t('Enable Custom Tooltip'),
-              renderTrigger: true,
-              default: logAxis,
-              description: t('Enables the custom Tooltip'),
-              disableStash: true,
-              resetOnHide: false,
-            },
-          },
-        ],
-        [
-          {
-            name: 'custom_tooltip_text',
-            config: {
-              type: 'TextControl',
-              label: t('Text'),
-              renderTrigger: true,
-              default: '',
-              description: t('Description of Metric'),
-              disableStash: true,
-              resetOnHide: false,
-            },
-          },
-        ],
-      ],
-    },
+    
   ],
   formDataOverrides: formData => ({
     ...formData,

@@ -103,7 +103,7 @@ export default class MainPreset extends Preset {
 
     super({
       name: 'Legacy charts',
-      presets: [new DeckGLChartPreset()],
+      presets: [new DeckGLChartPreset()]
       plugins: [
         new PluginChartCustomBar().configure({key: "plugin-chart-custom-bar"}),
         new PluginChartCustomProjectStatusViz().configure({key: "plugin-chart-custom-project-status-viz"}),

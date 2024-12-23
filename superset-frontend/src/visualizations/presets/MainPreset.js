@@ -87,8 +87,8 @@ import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/p
 import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import { FilterPlugins } from 'src/constants';
 import TimeTableChartPlugin from '../TimeTable';
-//import { PluginChartCustomBar } from 'src/Custom_Viz_Plugins/plugin-chart-custom-bar/src';
-//import { PluginChartCustomProjectStatusViz } from 'src/Custom_Viz_Plugins/plugin-chart-custom-project-status-viz/src';
+import { PluginChartCustomBar } from 'src/Custom_Viz_Plugins/plugin-chart-custom-bar/src';
+import { PluginChartCustomProjectStatusViz } from 'src/Custom_Viz_Plugins/plugin-chart-custom-project-status-viz/src';
 export default class MainPreset extends Preset {
   constructor() {
     const experimentalPlugins = isFeatureEnabled(
@@ -105,8 +105,8 @@ export default class MainPreset extends Preset {
       name: 'Legacy charts',
       presets: [new DeckGLChartPreset()],
       plugins: [
-        //new PluginChartCustomBar().configure({key: "plugin-chart-custom-bar"}),
-        //new PluginChartCustomProjectStatusViz().configure({key: "plugin-chart-custom-project-status-viz"}),
+        new PluginChartCustomBar().configure({key: "plugin-chart-custom-bar"}),
+        new PluginChartCustomProjectStatusViz().configure({key: "plugin-chart-custom-project-status-viz"}),
         new AreaChartPlugin().configure({ key: VizType.LegacyArea }),
         new BarChartPlugin().configure({ key: VizType.LegacyBar }),
         new BigNumberChartPlugin().configure({ key: VizType.BigNumber }),

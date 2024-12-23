@@ -81,8 +81,13 @@ class CeleryConfig:
         "superset.tasks.cache",
     )
     result_backend = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_RESULTS_DB}"
-    worker_prefetch_multiplier = 1
-    task_acks_late = False
+    worker_prefetch_multiplier = 10
+    task_acks_late = True
+    task_annotations = {
+        "sql_lab.get_sql_results": {
+            "rate_limit": "100/s",
+        },
+    }
     beat_schedule = {
         "reports.scheduler": {
             "task": "reports.scheduler",
@@ -100,7 +105,31 @@ CELERY_CONFIG = CeleryConfig
 FEATURE_FLAGS = {"ALERT_REPORTS": True,
                  "ALLOW_ADHOC_SUBQUERY": True,
                  }
-ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
+ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
+
+# Email configuration
+SMTP_HOST = "smtp.gmail.com" # change to your host
+SMTP_PORT = 465 # your port, e.g. 587
+SMTP_STARTTLS = False
+SMTP_SSL_SERVER_AUTH = False # If your using an SMTP server with a valid certificate
+SMTP_SSL = True
+SMTP_USER = "superset2145@gmail.com" # use the empty string "" if using an unauthenticated SMTP server
+SMTP_PASSWORD = "vuyzbzkedpbxlwnu" # use the empty string "" if using an unauthenticated SMTP server
+SMTP_MAIL_FROM = "superset2145@gmail.com"
+EMAIL_REPORTS_SUBJECT_PREFIX = "[Superset] " # optional - overwrites default value in config.py of "[Report] "
+
+WEBDRIVER_TYPE = "chrome"
+WEBDRIVER_OPTION_ARGS = [
+    "--force-device-scale-factor=2.0",
+    "--high-dpi-support=2.0",
+    "--headless",
+    "--disable-gpu",
+    "--disable-dev-shm-usage",
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-extensions",
+]
+
 WEBDRIVER_BASEURL = "http://superset:8088/"  # When using docker compose baseurl should be http://superset_app:8088/
 # The base URL for the email report hyperlinks.
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL

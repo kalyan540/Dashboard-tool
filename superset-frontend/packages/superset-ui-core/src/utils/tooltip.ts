@@ -24,6 +24,12 @@ const TRUNCATION_STYLE = `
   text-overflow: ellipsis;
 `;
 
+const MULTILINE_STYLE = `
+  width: 300px; 
+  word-wrap: break-word; 
+  white-space: normal;
+`;
+
 export function tooltipHtml(
   data?: string[][],
   title?: string,
@@ -35,7 +41,7 @@ export function tooltipHtml(
     : '';
   
   const customTextRow = customText
-    ? `<div style="font-weight: 700; margin-bottom: 8px; ${TRUNCATION_STYLE}">${customText}</div>`
+    ? `<div style="font-weight: 700; margin-bottom: 8px; ${MULTILINE_STYLE}">${customText}</div>`
     : '';
   
     const Table = Array.isArray(data) && data.length > 0

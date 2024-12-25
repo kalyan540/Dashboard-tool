@@ -23,6 +23,7 @@ import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
 import { t } from '@superset-ui/core';
 import './index.css';
 import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
+import ChatBOT from './ChatBOT';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
 
@@ -174,7 +175,7 @@ const DashboardRoute: FC = () => {
             user={currentUser}
           />
         ) : activeButton === 'ChatBot' ? (
-          <DashboardPage idOrSlug={'15'} />
+          <ChatBOT />
         ) : activeButton === 'Analytics' ? (
           <DashboardPage idOrSlug={'15'} />
         ) : (

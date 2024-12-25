@@ -214,6 +214,17 @@ services:
     healthcheck:
       disable: true
 
+  text2sql:
+    build:
+      context: ./Text2Sql  # Directory where the Text-to-SQL Dockerfile and app are located
+    container_name: websocket-server
+    ports:
+      - "8765:8765"
+    depends_on:
+      - db  # Connects to your PostgreSQL database
+    networks:
+      - default  # Ensures it uses the same network as other containers
+
   superset-tests-worker:
     build:
       <<: *common-build
@@ -239,6 +250,8 @@ services:
     volumes: *superset-volumes
     healthcheck:
       test: ["CMD-SHELL", "celery inspect ping -A superset.tasks.celery_app:app -d celery@$$HOSTNAME"]
+  
+  
 
 volumes:
   superset_home:

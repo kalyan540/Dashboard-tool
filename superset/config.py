@@ -1602,6 +1602,7 @@ TALISMAN_CONFIG = {
             "'self'",
             "https://api.mapbox.com",
             "https://events.mapbox.com",
+            "ws://localhost:8765/",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1632,6 +1633,7 @@ TALISMAN_DEV_CONFIG = {
             "'self'",
             "https://api.mapbox.com",
             "https://events.mapbox.com",
+            "ws://localhost:8765/",
         ],
         "object-src": "'none'",
         "style-src": [

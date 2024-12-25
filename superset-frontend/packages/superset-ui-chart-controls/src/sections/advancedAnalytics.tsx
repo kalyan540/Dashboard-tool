@@ -17,7 +17,7 @@
  * under the License.
  */
 import { t, RollingType, ComparisonType } from '@superset-ui/core';
-
+import React from "react";
 import { ControlSubSectionHeader } from '../components/ControlSubSectionHeader';
 import { ControlPanelSectionConfig } from '../types';
 import { formatSelectOptions, displayTimeRelatedControls } from '../utils';

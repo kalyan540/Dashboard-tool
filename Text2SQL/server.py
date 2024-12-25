@@ -8,7 +8,7 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 # Load the model and tokenizer
 model_path = 'gaussalgo/T5-LM-Large-text2sql-spider'
 model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
-tokenizer = AutoTokenizer.from_pretrained(model_path);
+tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 # Database schema (unchanged, used for model input)
 schema = """

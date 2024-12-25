@@ -114,6 +114,15 @@ const DashboardRoute: FC = () => {
             <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
             Analytics
           </button>
+
+          <button
+            className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('ChatBot')}
+          >
+            <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
+            ChatBot
+          </button>
+          
           
         </div>
         <div className="divider"></div>
@@ -164,6 +173,8 @@ const DashboardRoute: FC = () => {
             isReportEnabled={true}
             user={currentUser}
           />
+        ) : activeButton === 'ChatBot' ? (
+          <DashboardPage idOrSlug={'15'} />
         ) : activeButton === 'Analytics' ? (
           <DashboardPage idOrSlug={'15'} />
         ) : (

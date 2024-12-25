@@ -35,7 +35,7 @@ export function tooltipHtml(
     : '';
   
   const customTextRow = customText
-    ? `<div style="font-weight: 700; margin-bottom: 8px;">${customText}</div>`
+    ? `<div style="font-weight: 700; margin-bottom: 8px; ${TRUNCATION_STYLE}">${customText}</div>`
     : '';
   
     const Table = Array.isArray(data) && data.length > 0

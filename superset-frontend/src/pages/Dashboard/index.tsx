@@ -23,7 +23,7 @@ import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
 import { t } from '@superset-ui/core';
 import './index.css';
 import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
-import ChatBOT from './Chatbot';
+import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
 

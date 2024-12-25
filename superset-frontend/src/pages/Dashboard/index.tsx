@@ -17,7 +17,7 @@
  * under the License.
  */
 import { FC, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
 import { t } from '@superset-ui/core';

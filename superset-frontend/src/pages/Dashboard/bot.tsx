@@ -29,7 +29,7 @@ const BioreactorBOT = () => {
 
     useEffect(() => {
         // Open WebSocket connection
-        socket.current = new WebSocket('ws://ec2-54-221-103-4.compute-1.amazonaws.com/:8765');
+        socket.current = new WebSocket('ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765');
 
         socket.current.onopen = () => {
             console.log("Connected to WebSocket server");

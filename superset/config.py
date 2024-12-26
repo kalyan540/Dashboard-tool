@@ -1603,7 +1603,7 @@ TALISMAN_CONFIG = {
             "https://api.mapbox.com",
             "https://events.mapbox.com",
             "ws://localhost:8765/",
-            "ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765/",
+            "ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1635,7 +1635,7 @@ TALISMAN_DEV_CONFIG = {
             "https://api.mapbox.com",
             "https://events.mapbox.com",
             "ws://localhost:8765/",
-            "ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765/",
+            "ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765",
         ],
         "object-src": "'none'",
         "style-src": [

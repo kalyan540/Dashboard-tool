@@ -13,47 +13,49 @@ tokenizer = AutoTokenizer.from_pretrained(model_path)
 # Database schema (for use with text-to-SQL model)
 schema = """
 "candidates" 
+  "Serial #" INTEGER,
   "Category" STRING, 
   "Priority" STRING, 
-  "Order_Number" INTEGER, 
-  "Tech_Stack" STRING, 
+  "Oder #" INTEGER, 
+  "Tech Stack" STRING, 
   "Technology" STRING, 
-  "Date_Order_Opened" DATE, 
-  "Date_Profile_Uploaded" DATE, 
+  "Date Order # was opened" DATE, 
+  "Date Profile Uploaded" DATE, 
   "Portfolio" STRING, 
   "Manager" STRING, 
-  "Internal_External" STRING, 
-  "Candidate_Name" STRING, 
-  "Interview_Secured_Date" DATE, 
-  "Interview_Scheduled_Date" DATE, 
+  "Internal/External" STRING, 
+  "Candidate Name" STRING, 
+  "Interview Secured Date" DATE, 
+  "Interview Scheduled Date" DATE, 
   "Status" STRING, 
-  "Comments" TEXT, 
-  "Selection_Date" DATE, 
-  "Selection_Month" STRING, 
+  "Comments*" TEXT, 
+  "Selection Date" DATE, 
+  "Selection Month" STRING, 
   foreign_key:  
-  primary key: "Order_Number"
+  primary key: "Serial #"
 """
 
 # Table names and column names
 table_names = ["candidates"]  # Table name in the schema
 column_names = [
-    "Category", 
-    "Priority", 
-    "Order_Number", 
-    "Tech_Stack", 
-    "Technology", 
-    "Date_Order_Opened", 
-    "Date_Profile_Uploaded", 
-    "Portfolio", 
-    "Manager", 
-    "Internal_External", 
-    "Candidate_Name", 
-    "Interview_Secured_Date", 
-    "Interview_Scheduled_Date", 
-    "Status", 
-    "Comments", 
-    "Selection_Date", 
-    "Selection_Month"
+  "Serial #",
+  "Category", 
+  "Priority", 
+  "Oder #", 
+  "Tech Stack", 
+  "Technology", 
+  "Date Order # was opened", 
+  "Date Profile Uploaded", 
+  "Portfolio", 
+  "Manager", 
+  "Internal/External", 
+  "Candidate Name", 
+  "Interview Secured Date", 
+  "Interview Scheduled Date", 
+  "Status", 
+  "Comments*", 
+  "Selection Date", 
+  "Selection Month", 
 ]  # Column names in the schema
 
 # Function to add double quotations to table and column names in the SQL query

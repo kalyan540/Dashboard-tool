@@ -10,22 +10,51 @@ model_path = 'gaussalgo/T5-LM-Large-text2sql-spider'
 model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
-# Database schema (unchanged, used for model input)
+# Database schema (for use with text-to-SQL model)
 schema = """
-"USA_OEE" 
-  "timestamp" STRING, 
-  "device_name" STRING, 
-  "Quality" FLOAT, 
-  "Performance" FLOAT, 
-  "Availability" FLOAT, 
-  "OEE" FLOAT, 
+"client_select" 
+  "Category" STRING, 
+  "Priority" STRING, 
+  "Order_Number" INTEGER, 
+  "Tech_Stack" STRING, 
+  "Technology" STRING, 
+  "Date_Order_Opened" DATE, 
+  "Date_Profile_Uploaded" DATE, 
+  "Portfolio" STRING, 
+  "Manager" STRING, 
+  "Internal_External" STRING, 
+  "Candidate_Name" STRING, 
+  "Interview_Secured_Date" DATE, 
+  "Interview_Scheduled_Date" DATE, 
+  "Status" STRING, 
+  "Comments" TEXT, 
+  "Selection_Date" DATE, 
+  "Selection_Month" STRING, 
   foreign_key:  
-  primary key: "timestamp"
+  primary key: "Order_Number"
 """
 
 # Table names and column names
-table_names = ["USA_OEE"]  # Table names in the schema
-column_names = ["timestamp", "device_name", "Quality", "Performance", "Availability", "OEE"]  # Column names in the schema
+table_names = ["client_select"]  # Table name in the schema
+column_names = [
+    "Category", 
+    "Priority", 
+    "Order_Number", 
+    "Tech_Stack", 
+    "Technology", 
+    "Date_Order_Opened", 
+    "Date_Profile_Uploaded", 
+    "Portfolio", 
+    "Manager", 
+    "Internal_External", 
+    "Candidate_Name", 
+    "Interview_Secured_Date", 
+    "Interview_Scheduled_Date", 
+    "Status", 
+    "Comments", 
+    "Selection_Date", 
+    "Selection_Month"
+]  # Column names in the schema
 
 # Function to add double quotations to table and column names in the SQL query
 def add_double_quotations(sql_query, table_names, column_names):

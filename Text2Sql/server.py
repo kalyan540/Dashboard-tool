@@ -12,7 +12,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 # Database schema (for use with text-to-SQL model)
 schema = """
-"clientselect" 
+"candidates" 
   "Category" STRING, 
   "Priority" STRING, 
   "Order_Number" INTEGER, 
@@ -35,7 +35,7 @@ schema = """
 """
 
 # Table names and column names
-table_names = ["clientselect"]  # Table name in the schema
+table_names = ["candidates"]  # Table name in the schema
 column_names = [
     "Category", 
     "Priority", 

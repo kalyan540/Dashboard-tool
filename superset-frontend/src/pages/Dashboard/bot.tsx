@@ -19,13 +19,18 @@ interface SQLQuery {
 
 const BioreactorBOT = () => {
     const [query, setQuery] = useState(""); // State to hold input value
-    //const [currentIndex, setCurrentIndex] = useState<number | null>(null); // Track the current selected query index
-    //const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
     const [tableData, setTableData] = useState<any[]>([]);
-    //const suggestionBoxRef = useRef<HTMLDivElement | null>(null);
+    const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
+    const [suggestions] = useState([
+        "List all candidates with their names and status.",
+        "What is the selection month of candidate 'Moravaneni Sribhargavi'?",
+        "Show me the selection date and candidate name."
+    ]); // Suggested questions
+    const [currentIndex, setCurrentIndex] = useState<number | null>(null); // Track the current selected query index
 
     // WebSocket initialization
     const socket = useRef<WebSocket | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null); // Reference to the input field
 
     useEffect(() => {
         // Open WebSocket connection
@@ -120,6 +125,20 @@ const BioreactorBOT = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value); // Update state when input changes
+        setShowSuggestions(true); // Show suggestions when input changes
+    };
+
+    const handleFocus = () => {
+        setShowSuggestions(true); // Show suggestions on focus
+    };
+
+    const handleBlur = () => {
+        setShowSuggestions(false); // Hide suggestions on blur
+    };
+
+    const handleSuggestionClick = (suggestion: string) => {
+        setQuery(suggestion); // Set the input value to the selected suggestion
+        setShowSuggestions(false); // Hide suggestions after selection
     };
 
     const handleSubmit = () => {
@@ -153,6 +172,9 @@ const BioreactorBOT = () => {
                         placeholder="Write your query"
                         value={query}
                         onChange={handleInputChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        ref={inputRef}
                         style={{
                             width: "100%",
                             padding: "10px",
@@ -160,6 +182,34 @@ const BioreactorBOT = () => {
                             border: "1px solid #ccc",
                         }}
                     />
+                    {showSuggestions && (
+                        <div style={{
+                            position: "absolute",
+                            top: "100%",
+                            left: 0,
+                            right: 0,
+                            backgroundColor: "white",
+                            border: "1px solid #ccc",
+                            borderRadius: "5px",
+                            zIndex: 1000,
+                        }}>
+                            {suggestions.map((suggestion, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => handleSuggestionClick(suggestion)}
+                                    style={{
+                                        padding: "10px",
+                                        cursor: "pointer",
+                                        backgroundColor: currentIndex === index ? "#f0f0f0" : "white",
+                                    }}
+                                    onMouseEnter={() => setCurrentIndex(index)}
+                                    onMouseLeave={() => setCurrentIndex(null)}
+                                >
+                                    {suggestion}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <button
                     onClick={handleSubmit} // Trigger action on button click
@@ -206,7 +256,7 @@ const BioreactorBOT = () => {
                             }}
                         >
                             <tr>
-                                {Object.keys(tableData[0]).map((key, index) => (
+                                {Object.keys(tableData[0]).map ((key, index) => (
                                     <th
                                         key={index}
                                         style={{
@@ -257,7 +307,6 @@ const BioreactorBOT = () => {
                     </p>
                 )}
             </div>
-
         </div>
     );
 };

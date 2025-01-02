@@ -63,7 +63,7 @@ const StyledCrossLinks = styled.div`
 function CrossLinks({
   crossLinks,
   maxLinks = 20,
-  linkPrefix = '/dashboard1/',
+  linkPrefix = '/dashboard/',
 }: CrossLinksProps) {
   const [crossLinksRef, plusRef, elementsTruncated, hasHiddenElements] =
     useTruncation();

@@ -86,7 +86,7 @@ const DashboardsSubMenu = ({
             <Link
               target="_blank"
               rel="noreferer noopener"
-              to={`/dashboard1/${dashboard.id}${urlQueryString}`}
+              to={`/dashboard/${dashboard.id}${urlQueryString}`}
             >
               <div
                 css={css`

@@ -761,8 +761,8 @@ class SupersetIndexView(IndexView):
             return jsonify({'error': str(e)}), 500
         finally:
             if cur:
-                #revoke_permissions_query = f"""REVOKE SELECT ON TABLE {database}.public.{table_name} TO PUBLIC;"""
-                #cur.execute(revoke_permissions_query)
+                revoke_permissions_query = f"""REVOKE SELECT ON TABLE {database}.public.{table_name} FROM PUBLIC;"""
+                cur.execute(revoke_permissions_query)
                 cur.close()
             if conn:
                 conn.close()

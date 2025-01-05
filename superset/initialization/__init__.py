@@ -713,6 +713,12 @@ class SupersetIndexView(IndexView):
             table_name = body.get('table_name', '')
             rows = body.get('formData', [])
 
+            if not database or not table_name:
+                return jsonify({'error': 'Missing database or table_name in the request body'}), 400
+
+            if not rows or not isinstance(rows, list) or not isinstance(rows[0], dict):
+                return jsonify({'error': 'Invalid formData. Expected a list of dictionaries.'}), 400
+
             db_config = {
                 "dbname": database,
                 "user": "superset",
@@ -720,12 +726,6 @@ class SupersetIndexView(IndexView):
                 "host": "db",  # Your PostgreSQL host
                 "port": "5432"
             }
-
-            if not database or not table_name:
-                return jsonify({'error': 'Missing database or table_name in the request body'}), 400
-
-            if not rows or not isinstance(rows, list) or not isinstance(rows[0], dict):
-                return jsonify({'error': 'Invalid formData. Expected a list of dictionaries.'}), 400
 
             conn = psycopg2.connect(**db_config)
             cur = conn.cursor()
@@ -747,8 +747,6 @@ class SupersetIndexView(IndexView):
                 cur.execute(insert_query, values)
 
             conn.commit()
-            cur.close()
-            conn.close()
 
             # For testing: log rows
             for row in rows:
@@ -759,6 +757,13 @@ class SupersetIndexView(IndexView):
             }), 200
 
         except Exception as e:
-            print(f"Error occurred: {e}")
+            logger.error(f"Error occurred: {e}")
             return jsonify({'error': str(e)}), 500
+        finally:
+            if cur:
+                revoke_permissions_query = f"""REVOKE SELECT ON TABLE {database}.public.{table_name} TO PUBLIC;"""
+                cur.execute(revoke_permissions_query)
+                cur.close()
+            if conn:
+                conn.close()
     

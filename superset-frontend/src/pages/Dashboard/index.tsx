@@ -109,6 +109,14 @@ const DashboardRoute: FC = () => {
           </button>
 
           <button
+            className={`button ${activeButton === 'Create' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Create')}
+          >
+            <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
+            Create Assessment
+          </button>
+
+          <button
             className={`button ${activeButton === 'Analytics' ? 'active' : ''}`}
             onClick={() => handleButtonClick('Analytics')}
           >
@@ -121,7 +129,22 @@ const DashboardRoute: FC = () => {
             onClick={() => handleButtonClick('ChatBot')}
           >
             <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
-            ChatBot
+            NPD Bot
+          </button>
+          <button
+            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Alerts')}
+          >
+            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
+            Alerts
+          </button>
+
+          <button
+            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Reports')}
+          >
+            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
+            Reports
           </button>
           
           
@@ -178,6 +201,8 @@ const DashboardRoute: FC = () => {
           <ChatBOT />
         ) : activeButton === 'Analytics' ? (
           <DashboardPage idOrSlug={'15'} />
+        ) : activeButton === 'Create' ? (
+          <DashboardPage idOrSlug={'13'} />
         ) : (
           <div>
             <h2>This page is in development.</h2>

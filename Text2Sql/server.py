@@ -10,53 +10,33 @@ model_path = 'gaussalgo/T5-LM-Large-text2sql-spider'
 model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
-# Database schema (for use with text-to-SQL model)
+# Database schema (unchanged, used for model input)
 schema = """
-"candidates" 
-  "Serial"
-  "Category" STRING, 
-  "Priority" STRING, 
-  "Order" INTEGER, 
-  "TechStack" STRING, 
-  "Technology" STRING, 
-  "Date_Order_was_opened" DATE, 
-  "Date_profile_was_uploaded" DATE, 
-  "Portfolio" STRING, 
-  "Manager" STRING, 
-  "Internal/External" STRING, 
-  "Candidate_Name" STRING, 
-  "Interview_Secured_Date" DATE, 
-  "Interview_Schedule_Date" DATE, 
+"npd_table" 
+  "Business_Unit" STRING, 
+  "NPD_Name" STRING, 
+  "NPD_ID" STRING, 
+  "Maturity_Stage" STRING, 
   "Status" STRING, 
-  "Comments" TEXT, 
-  "Selection_Date" DATE, 
-  "Selection_Month" STRING, 
+  "Accessor_Lead" STRING, 
+  "Date" STRING, 
+  "Assessor_1" STRING, 
+  "Assessor_2" STRING, 
+  "Assessor_3" STRING, 
+  "Assessment_ID" STRING, 
+  "Assessment_Score" LONGINTEGER, 
+  "Remarks" STRING, 
+  "NPD_Cost_(USD)" LONGINTEGER, 
+  "NPD_Budget_(USD)" LONGINTEGER, 
+  "NPD_%_Cost_Used" FLOAT, 
+  "Market_Size_(USD)" LONGINTEGER, 
+  "Score" FLOAT, 
   foreign_key:  
-  primary key: "Serial"
+  primary key: "Assessment_ID"
 """
-
 # Table names and column names
-table_names = ["candidates"]  # Table name in the schema
-column_names = [
-  "Serial"
-  "Category", 
-  "Priority", 
-  "Order", 
-  "TechStack", 
-  "Technology", 
-  "Date_Order_was_opened", 
-  "Date_profile_was_uploaded", 
-  "Portfolio", 
-  "Manager", 
-  "Internal/External", 
-  "Candidate_Name", 
-  "Interview_Secured_Date", 
-  "Interview_Schedule_Date", 
-  "Status", 
-  "Comments", 
-  "Selection_Date", 
-  "Selection_Month",
-]  # Column names in the schema
+table_names = ["npd_table"]  # Table names in the schema
+column_names = ["Business_Unit", "NPD_Name", "NPD_ID", "Maturity_Stage", "Status", "Assessor_Lead", "Date", "Assessor_1", "Assessor_2","Assessor_3", "Assessment_ID", "Assessment_Score", "Remarks", "NPD_Cost_(USD)", "NPD_Budget_(USD)", "NPD_%_Cost_Used", "Market_Size_(USD)", "Score"]
 
 # Function to add double quotations to table and column names in the SQL query
 def add_double_quotations(sql_query, table_names, column_names):

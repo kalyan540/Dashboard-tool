@@ -22,9 +22,9 @@ const BioreactorBOT = () => {
     const [tableData, setTableData] = useState<any[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
     const [suggestions] = useState([
-        "List all candidates with their names and status.",
-        "What is the selection month of candidate 'Moravaneni Sribhargavi'?",
-        "Show me the selection date and candidate name."
+        "What are the npd name and statuses of all NPDs?",
+        "Which npd had more score",
+        "what are the available business unit?"
     ]); // Suggested questions
     const [currentIndex, setCurrentIndex] = useState<number | null>(null); // Track the current selected query index
 

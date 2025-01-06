@@ -112,7 +112,7 @@ const DashboardRoute: FC = () => {
             className={`button ${activeButton === 'Create' ? 'active' : ''}`}
             onClick={() => handleButtonClick('Create')}
           >
-            <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
+            <img src="/static/assets/images/contactform.png" alt="Icon" className="icon" />
             Create Assessment
           </button>
 

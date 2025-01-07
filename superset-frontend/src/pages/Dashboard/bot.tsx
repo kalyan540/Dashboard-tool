@@ -172,6 +172,7 @@ const BioreactorBOT = () => {
                         placeholder="Write your query"
                         value={query}
                         onChange={handleInputChange}
+                        onClick={handleFocus}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         ref={inputRef}

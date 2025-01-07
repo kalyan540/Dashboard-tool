@@ -132,7 +132,7 @@ const BioreactorBOT = () => {
         setShowSuggestions(true); // Show suggestions on focus
     };
 
-    const handleBlur = () => {
+    const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
         const relatedTarget = e.relatedTarget as HTMLElement; // Check where focus is moving
         if (!relatedTarget || !relatedTarget.closest(".suggestions-dropdown")) {
             setShowSuggestions(false); // Hide only if the next focused element is not inside the dropdown

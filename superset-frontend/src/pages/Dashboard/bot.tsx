@@ -154,6 +154,7 @@ const BioreactorBOT = () => {
         } else {
             console.log("WebSocket not open yet.");
         }
+        setShowSuggestions(false);
     };
 
     return (

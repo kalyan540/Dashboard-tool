@@ -133,12 +133,17 @@ const BioreactorBOT = () => {
     };
 
     const handleBlur = () => {
-        setShowSuggestions(false); // Hide suggestions on blur
+        const relatedTarget = e.relatedTarget as HTMLElement; // Check where focus is moving
+        if (!relatedTarget || !relatedTarget.closest(".suggestions-dropdown")) {
+            setShowSuggestions(false); // Hide only if the next focused element is not inside the dropdown
+        }
     };
 
     const handleSuggestionClick = (suggestion: string) => {
         setQuery(suggestion); // Set the input value to the selected suggestion
         setShowSuggestions(false); // Hide suggestions after selection
+        inputRef.current?.focus(); // Refocus the input field
+
     };
 
     const handleSubmit = () => {
@@ -174,7 +179,7 @@ const BioreactorBOT = () => {
                         onChange={handleInputChange}
                         onClick={handleFocus}
                         onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        //onBlur={handleBlur}
                         ref={inputRef}
                         style={{
                             width: "100%",
@@ -184,16 +189,21 @@ const BioreactorBOT = () => {
                         }}
                     />
                     {showSuggestions && (
-                        <div style={{
-                            position: "absolute",
-                            top: "100%",
-                            left: 0,
-                            right: 0,
-                            backgroundColor: "white",
-                            border: "1px solid #ccc",
-                            borderRadius: "5px",
-                            zIndex: 1000,
-                        }}>
+                        <div
+                            className="suggestions-dropdown"
+                            tabIndex={-1}
+                            style={{
+                                position: "absolute",
+                                top: "100%",
+                                left: 0,
+                                right: 0,
+                                backgroundColor: "white",
+                                border: "1px solid #ccc",
+                                borderRadius: "5px",
+                                zIndex: 1000,
+                            }}
+                            onBlur={handleBlur}
+                        >
                             {suggestions.map((suggestion, index) => (
                                 <div
                                     key={index}
@@ -257,7 +267,7 @@ const BioreactorBOT = () => {
                             }}
                         >
                             <tr>
-                                {Object.keys(tableData[0]).map ((key, index) => (
+                                {Object.keys(tableData[0]).map((key, index) => (
                                     <th
                                         key={index}
                                         style={{

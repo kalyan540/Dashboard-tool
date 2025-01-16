@@ -699,7 +699,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             profiling.init_app(self.superset_app)
 
 WELCOME_PAGE_REDIRECT_ADMIN="/superset/welcome/"
-WELCOME_PAGE_REDIRECT_DEFAULT="/"
+WELCOME_PAGE_REDIRECT_DEFAULT="/superset/welcome/"
 
 WELCOME_PAGE_REDIRECT_BY_ROLE={
   'Ford Admin': '/dashboard/Ford_Dashboard/',

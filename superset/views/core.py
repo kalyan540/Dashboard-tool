@@ -788,7 +788,7 @@ class Superset(BaseSupersetView):
 
         if not dashboard:
             abort(404)
-
+        
         try:
             dashboard.raise_for_access()
         except SupersetSecurityException as ex:

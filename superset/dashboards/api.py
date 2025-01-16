@@ -376,10 +376,12 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
+        logger.info("Dashboard %s retrieved", dash.id)
         result = self.dashboard_get_response_schema.dump(dash)
         add_extra_log_payload(
             dashboard_id=dash.id, action=f"{self.__class__.__name__}.get"
         )
+        logger.info("Dashboard %s retrieved", dash.id)
         return self.response(200, result=result)
 
     @expose("/<id_or_slug>/datasets", methods=("GET",))

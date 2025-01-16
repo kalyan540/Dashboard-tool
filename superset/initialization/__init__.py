@@ -698,11 +698,34 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         if self.config["PROFILING"]:
             profiling.init_app(self.superset_app)
 
+WELCOME_PAGE_REDIRECT_ADMIN="/superset/welcome/"
+WELCOME_PAGE_REDIRECT_DEFAULT="/dashboard/list/"
+
+WELCOME_PAGE_REDIRECT_BY_ROLE={
+  'Ford Admin': '/dashboard/Ford_Dashboard/',
+}
+
 
 class SupersetIndexView(IndexView):
     @expose("/")
     def index(self) -> FlaskResponse:
-        return redirect("/superset/welcome/")
+        from superset.views.base import is_user_admin, get_user_roles
+
+        user_roles = get_user_roles()
+        import pprint
+        logger.warning('\n\n\n\n__DEBUG__ user roles: ' + pprint.pformat(user_roles)+'\n\n\n\n')
+
+        if is_user_admin():
+            return redirect(WELCOME_PAGE_REDIRECT_ADMIN)
+        else:
+            for role in user_roles:
+                role_name = role.name
+
+                if role_name in WELCOME_PAGE_REDIRECT_BY_ROLE:
+                    return redirect(WELCOME_PAGE_REDIRECT_BY_ROLE[role_name])
+
+            return redirect(WELCOME_PAGE_REDIRECT_DEFAULT)
+        #return redirect("/superset/welcome/")
     
     @expose("/api/dataset/update", methods=["POST"])
     def update_dataset(self) -> FlaskResponse:

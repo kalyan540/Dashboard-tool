@@ -376,7 +376,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
-        logger.info("Dashboard %s retrieved", dash.id)
+        logger.info("\n\n\n\nDashboard %s retrieved\n\n\n\n", dash.id)
         result = self.dashboard_get_response_schema.dump(dash)
         add_extra_log_payload(
             dashboard_id=dash.id, action=f"{self.__class__.__name__}.get"

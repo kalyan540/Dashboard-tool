@@ -713,7 +713,7 @@ class SupersetIndexView(IndexView):
 
         user_roles = security_manager.get_user_roles()
         import pprint
-        logger.warning('\n\n\n\n__DEBUG__ user roles: ' + pprint.pformat(user_roles)+'\n\n\n\n')
+        logger.info('\n\n\n\n__DEBUG__ user roles: ' + pprint.pformat(user_roles)+'\n\n\n\n')
 
         if security_manager.is_admin():
             return redirect(WELCOME_PAGE_REDIRECT_ADMIN)

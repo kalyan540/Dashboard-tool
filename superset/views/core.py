@@ -797,7 +797,7 @@ class Superset(BaseSupersetView):
                 redirect_url = f"{appbuilder.get_url_for_login}?next={request.url}"
                 warn_msg = "Users must be logged in to view this dashboard."
             else:
-                redirect_url = "/dashboard/list/"
+                redirect_url = "/"
                 warn_msg = utils.error_msg_from_exception(ex)
             return redirect_with_flash(
                 url=redirect_url,

@@ -709,13 +709,13 @@ WELCOME_PAGE_REDIRECT_BY_ROLE={
 class SupersetIndexView(IndexView):
     @expose("/")
     def index(self) -> FlaskResponse:
-        from superset.views.base import is_user_admin, get_user_roles
+        from superset import security_manager
 
-        user_roles = get_user_roles()
+        user_roles = security_manager.get_user_roles()
         import pprint
         logger.warning('\n\n\n\n__DEBUG__ user roles: ' + pprint.pformat(user_roles)+'\n\n\n\n')
 
-        if is_user_admin():
+        if security_manager.user_info_is_admin():
             return redirect(WELCOME_PAGE_REDIRECT_ADMIN)
         else:
             for role in user_roles:

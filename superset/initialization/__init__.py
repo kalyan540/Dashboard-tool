@@ -702,7 +702,7 @@ WELCOME_PAGE_REDIRECT_ADMIN="/superset/welcome/"
 WELCOME_PAGE_REDIRECT_DEFAULT="/superset/welcome/"
 
 WELCOME_PAGE_REDIRECT_BY_ROLE={
-  'Ford Admin': '/dashboard/Ford_Dashboard/',
+  'Ford Admin': '/superset/dashboard/Ford_Dashboard/',
 }
 
 

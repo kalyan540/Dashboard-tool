@@ -88,7 +88,7 @@ class DashboardModelView(DashboardMixin, SupersetModelView, DeleteMixin):  # pyl
         if not isinstance(items, list):
             items = [items]
         ids = "".join(f"&id={d.id}" for d in items)
-        return redirect(f"/dashboard/export_dashboards_form?{ids[1:]}")
+        return redirect(f"/superset/dashboard/export_dashboards_form?{ids[1:]}")
 
     @event_logger.log_this
     @has_access

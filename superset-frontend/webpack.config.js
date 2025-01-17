@@ -564,11 +564,12 @@ if (isDevMode) {
       () => proxyConfig,
     ],
     client: {
-      overlay: {
-        errors: true,
+      /*overlay: {
+        errors: false,
         warnings: false,
         runtimeErrors: error => !/ResizeObserver/.test(error.message),
-      },
+      },*/
+      overlay: false,
       logging: 'error',
     },
     static: path.join(process.cwd(), '../static/assets'),

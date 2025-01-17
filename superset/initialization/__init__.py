@@ -702,7 +702,7 @@ WELCOME_PAGE_REDIRECT_ADMIN="/superset/welcome/"
 WELCOME_PAGE_REDIRECT_DEFAULT="/superset/welcome/"
 
 WELCOME_PAGE_REDIRECT_BY_ROLE={
-  'Ford Admin': '/superset/dashboard/Ford_Dashbord/?native_filters_key=7pq474jQyxrC11MjQ8hL8lqXGSBpIBSXFhPm7IUzxlpZfpNmfIK_6JD6rEUAqU4b',
+  'Ford Admin': '/superset/dashboard/Ford_Dashbord/?native_filters_key=gZFCW9sVo-En6EL0mozJAoQSVt1s6s2TixQ0BF6CH_3E7u92SMQtgV49K9M5lP-G',
 }
 
 

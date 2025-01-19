@@ -58,6 +58,13 @@ const DashboardRoute: FC = () => {
             color: #333;
             margin: 0;
         }
+
+        .iframe-container {
+            width: 100%;
+            height: calc(100vh - 64px); /* Adjust height based on header size */
+            border: none;
+            overflow: hidden;
+        }
       `}
     </style>
   );

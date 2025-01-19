@@ -162,7 +162,19 @@ const DashboardRoute: FC = () => {
             <DashboardPage idOrSlug={idOrSlug} />
           </div>
         ) : activeButton === 'User Management' ? (
-          
+          <>
+            {injectCustomStyles()}
+            <div>
+              <div className="header-bar">
+                <h1>User Management</h1>
+              </div>
+              <iframe
+                src="/users/list"
+                className="iframe-container"
+                title="User Management"
+              />
+            </div>
+          </>
         ) : activeButton === 'Alerts' ? (
           <AlertList
             addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}

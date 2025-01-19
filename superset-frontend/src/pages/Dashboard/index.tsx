@@ -58,6 +58,13 @@ const DashboardRoute: FC = () => {
             color: #333;
             margin: 0;
         }
+
+        .iframe-container {
+            width: 100%;
+            height: calc(100vh - 64px); /* Adjust height based on header size */
+            border: none;
+            overflow: hidden;
+        }
       `}
     </style>
   );
@@ -155,20 +162,7 @@ const DashboardRoute: FC = () => {
             <DashboardPage idOrSlug={idOrSlug} />
           </div>
         ) : activeButton === 'User Management' ? (
-          <div>
-            <div className="header-bar">
-              <h1>User Management</h1>
-            </div>
-            <iframe
-              src="/users/list"
-              style={{
-                width: '100%',
-                height: 'calc(100vh - 64px)', // Adjust height based on your header size
-                border: 'none',
-              }}
-            />
-          </div>
-
+          
         ) : activeButton === 'Alerts' ? (
           <AlertList
             addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}

@@ -189,7 +189,7 @@ const DashboardRoute: FC = () => {
         ) : activeButton === 'Analytics' ? (
           <DashboardPage idOrSlug={'Analytics'} />
         ) : (
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', textAlign: 'center' }}>
             <h2>This page is in development.</h2>
           </div>
         )}

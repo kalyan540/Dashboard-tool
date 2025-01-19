@@ -88,7 +88,7 @@ class DashboardModelView(DashboardMixin, SupersetModelView, DeleteMixin):  # pyl
         if not isinstance(items, list):
             items = [items]
         ids = "".join(f"&id={d.id}" for d in items)
-        return redirect(f"/superset/dashboard/export_dashboards_form?{ids[1:]}")
+        return redirect(f"/dashboard/export_dashboards_form?{ids[1:]}")
 
     @event_logger.log_this
     @has_access
@@ -123,7 +123,7 @@ class Dashboard(BaseSupersetView):
         )
         db.session.add(new_dashboard)
         db.session.commit()  # pylint: disable=consider-using-transaction
-        return redirect(f"/dashboard/{new_dashboard.id}/?edit=true")
+        return redirect(f"/superset/dashboard/{new_dashboard.id}/?edit=true")
 
     @expose("/<dashboard_id_or_slug>/embedded")
     @event_logger.log_this_with_extra_payload

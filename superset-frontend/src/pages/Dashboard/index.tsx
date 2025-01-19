@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { FC, useState} from 'react';
+import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
@@ -117,14 +117,24 @@ const DashboardRoute: FC = () => {
           </button>
 
           <button
-            className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('ChatBot')}
+            className={`button ${activeButton === 'Assetmodal' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Assetmodal')}
           >
-            <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
-            ChatBot
+            <img src="/static/assets/images/assetmodal.png" alt="Icon" className="icon" />
+            Asset Modal
           </button>
-          
-          
+
+          <button
+            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Alerts')}
+          >
+            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
+            Alerts
+          </button>
+
+
+
+
         </div>
         <div className="divider"></div>
         <div className="user-management">
@@ -205,6 +215,14 @@ export default DashboardRoute;
           >
             <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
             Reports
+          </button>
+
+          <button
+            className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('ChatBot')}
+          >
+            <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
+            ChatBot
           </button>
 
 */

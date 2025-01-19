@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { FC, useState} from 'react';
+import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
@@ -123,8 +123,8 @@ const DashboardRoute: FC = () => {
             <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
             ChatBot
           </button>
-          
-          
+
+
         </div>
         <div className="divider"></div>
         <div className="user-management">
@@ -148,15 +148,13 @@ const DashboardRoute: FC = () => {
           <>
             {injectCustomStyles()}
             <div>
-              {/* Header Bar */}
               <div className="header-bar">
                 <h1>User Management</h1>
               </div>
-              {/* Render HTML Content */}
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: htmlContent || '<h2>Loading User Management Page...</h2>',
-                }}
+              <iframe
+                src="/users/list"
+                className="iframe-container"
+                title="User Management"
               />
             </div>
           </>

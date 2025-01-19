@@ -187,7 +187,7 @@ const DashboardRoute: FC = () => {
         ) : activeButton === 'ChatBot' ? (
           <ChatBOT />
         ) : activeButton === 'Analytics' ? (
-          <DashboardPage idOrSlug={'15'} />
+          <DashboardPage idOrSlug={'Analytics'} />
         ) : (
           <div>
             <h2>This page is in development.</h2>

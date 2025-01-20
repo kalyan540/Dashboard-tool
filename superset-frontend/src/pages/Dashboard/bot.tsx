@@ -56,7 +56,7 @@ const BioreactorBOT = () => {
                 sql: sqlQuery, // Use the SQL query received from WebSocket
                 sqlEditorId: "1",
                 tab: "WebSocket Query",
-                schema: "info",
+                schema: "public",
                 tempTable: "",
                 queryLimit: 100000,
                 runAsync: false,

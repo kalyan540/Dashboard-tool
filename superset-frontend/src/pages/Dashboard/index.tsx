@@ -169,7 +169,7 @@ const DashboardRoute: FC = () => {
               className={`button ${activeButton === button.name ? 'active' : ''}`}
               onClick={() => handleButtonClick(button)}
             >
-              <img src={`/static/assets/images/${button.name.toLowerCase()}.png`} alt="Button Icon" className="icon" />
+              
               {button.name}
             </button>
           ))}
@@ -182,7 +182,7 @@ const DashboardRoute: FC = () => {
   );
 };
 
-/*return (
+/*return (<img src={`/static/assets/images/${button.name.toLowerCase()}.png`} alt="Button Icon" className="icon" />
   <div style={{ display: "flex" }}>
     {/* Left Panel with Buttons }
     <div className="left-panel">

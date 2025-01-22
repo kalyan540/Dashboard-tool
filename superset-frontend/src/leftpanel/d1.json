@@ -7,7 +7,7 @@
     "Button2": {
       "name": "Analytics",
       "type": "dashboard",
-      "dashboardId": "13"
+      "dashboardId": "15"
     },
     "Button3": {
       "name": "User Management",

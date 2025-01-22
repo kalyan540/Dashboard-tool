@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
@@ -9,42 +9,37 @@ import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
 
-
-// Example JSON configurations
-const buttonConfig1 = {
-  Button1: { name: 'Dashboard', Type: 'dashboard', dashboardId: '13' },
-  Button2: { name: 'Analytics', Type: 'dashboard', dashboardId: '15' },
-  Button3: { name: 'User Management', Type: 'user', src: '/users/list' },
-};
-
-const buttonConfig2 = {
-  Button1: { name: 'Dashboard', Type: 'dashboard', dashboardId: '21' },
-  Button2: { name: 'Analytics', Type: 'dashboard', dashboardId: '21' },
-  Button3: { name: 'User Management', Type: 'user', src: '/users/list' },
-};
-
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
-  const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [activeDashboardId, setActiveDashboardId] = useState<string | null>(idOrSlug);
-  const [htmlContent, setHtmlContent] = useState<string | null>(null);
+  const [activeButton, setActiveButton] = useState<string | null>(null);
+  const [dashboardId, setDashboardId] = useState<string | null>(null);
+  const [menuConfig, setMenuConfig] = useState<Record<string, any>>({});
+  const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
+    state => state.user,
+  );
 
-  // Combine the two JSON files for the buttons
-  const combinedButtonConfig = { ...buttonConfig1, ...buttonConfig2 };
+  // Load menu configuration from JSON
+  useEffect(() => {
+    const fetchMenuConfig = async () => {
+      try {
+        const response = await fetch('/src/leftpanel/d1.json'); // Adjust the path as needed
+        const data = await response.json();
+        setMenuConfig(data);
+      } catch (error) {
+        console.error('Error loading menu configuration:', error);
+      }
+    };
+    fetchMenuConfig();
+  }, []);
 
   const handleButtonClick = (buttonKey: string) => {
-    const button = combinedButtonConfig[buttonKey];
-    setActiveButton(button.name);
+    const buttonConfig = menuConfig[buttonKey];
+    setActiveButton(buttonKey);
 
-    if (button.Type === 'dashboard' && button.dashboardId) {
-      setActiveDashboardId(button.dashboardId); // Set the dashboard ID dynamically
-      setHtmlContent(null); // Clear any existing iframe content
-    } else if (button.Type === 'user') {
-      // Load User Management Page
-      setHtmlContent(
-        `<iframe src="${button.src}" class="iframe-container" title="User Management"></iframe>`,
-      );
-      setActiveDashboardId(null); // Clear any existing dashboard ID
+    if (buttonConfig?.type === 'dashboard') {
+      setDashboardId(buttonConfig.dashboardId);
+    } else if (buttonConfig?.type === 'user') {
+      setDashboardId(null);
     }
   };
 
@@ -52,34 +47,40 @@ const DashboardRoute: FC = () => {
     <div style={{ display: 'flex' }}>
       {/* Left Panel */}
       <div className="left-panel">
-        {Object.keys(combinedButtonConfig).map((key) => {
-          const button = combinedButtonConfig[key];
-          return (
+        <div className="buttons-container">
+          {Object.entries(menuConfig).map(([key, config]) => (
             <button
               key={key}
-              className={`button ${activeButton === button.name ? 'active' : ''}`}
+              className={`button ${activeButton === key ? 'active' : ''}`}
               onClick={() => handleButtonClick(key)}
             >
-              <img
-                src={`/static/assets/images/${button.name}.png`}
-                alt={`${button.name} Icon`}
-                className="icon"
-              />
-              {button.name}
+              <img src="/static/assets/images/default-icon.png" alt="Icon" className="icon" />
+              {config.name}
             </button>
-          );
-        })}
+          ))}
+        </div>
       </div>
 
       {/* Right Panel */}
       <div className="right-panel">
-        {activeDashboardId ? (
-          <DashboardPage idOrSlug={activeDashboardId} />
-        ) : htmlContent ? (
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        {dashboardId ? (
+          <DashboardPage idOrSlug={dashboardId} />
+        ) : activeButton === 'User Management' ? (
+          <>
+            <div className="header-bar">
+              <h1>User Management</h1>
+            </div>
+            <iframe
+              src="/users/list"
+              className="iframe-container"
+              title="User Management"
+            />
+          </>
+        ) : activeButton === 'ChatBot' ? (
+          <ChatBOT />
         ) : (
           <div>
-            <h2>No Content Available</h2>
+            <h2>This page is in development.</h2>
           </div>
         )}
       </div>

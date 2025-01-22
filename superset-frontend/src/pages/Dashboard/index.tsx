@@ -27,6 +27,9 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
 
+import techparkJson from 'src/leftpanel/techpark.json';
+import fordJson from 'src/leftpanel/ford.json';
+
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
@@ -68,9 +71,9 @@ const DashboardRoute: FC = () => {
     </style>
   );
 
-  const jsonFileMap: { [key: string]: string } = {
-    Tech_Park: 'src/leftpanel/techpark.json',
-    ford: 'src/leftpanel/ford.json',
+  const jsonFileMap: { [key: string]: any } = {
+    Tech_Park: techparkJson,
+    ford: fordJson,
   };
 
   const buttons = Object.values(jsonFileMap[idOrSlug || ''] || {});

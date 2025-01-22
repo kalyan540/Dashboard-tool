@@ -1,4 +1,22 @@
-import { FC, useState, useEffect } from 'react';
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
@@ -12,171 +30,160 @@ import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/ac
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [menuConfig, setMenuConfig] = useState<any>(null);
   const [htmlContent, setHtmlContent] = useState<string | null>(null);
-  const currentUser = useSelector<any, UserWithPermissionsAndRoles>(state => state.user);
-
-  // Fetch the menu configuration from d1.json
-  useEffect(() => {
-    const fetchMenuConfig = async () => {
-      try {
-        const response = await fetch('/src/leftpanel/d1.json');
-        if (!response.ok) throw new Error('Error loading menu config');
-        const config = await response.json();
-        setMenuConfig(config); // Set the menu configuration
-      } catch (error) {
-        console.error('Error loading menu configuration:', error);
-      }
-    };
-
-    fetchMenuConfig();
-  }, []);
-
+  const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
+    state => state.user,
+  );
   const injectCustomStyles = () => (
     <style>
       {`
         .panel-primary > .panel-heading {
-          color: #fff !important;
-          background-color: #fff !important;
-          border-color: #fff !important;
+            color: #fff !important;
+            background-color: #fff !important;
+            border-color: #fff !important;
         }
         .header-bar {
-          background-color: #fff;
-          height: 64px;
-          display: flex;
-          align-items: center;
-          padding-left: 16px;
-          box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
-          margin-bottom: 20px;
+            background-color: #fff;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding-left: 16px;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
         .header-bar h1 {
-          font-size: 21px;
-          font-weight: 600;
-          font-family: 'Inter', Helvetica, Arial;
-          color: #333;
-          margin: 0;
+            font-size: 21px;
+            font-weight: 600;
+            font-family: 'Inter', Helvetica, Arial;
+            color: #333;
+            margin: 0;
         }
 
         .iframe-container {
-          width: 100%;
-          height: calc(100vh - 64px); /* Adjust height based on header size */
-          border: none;
-          overflow: hidden;
+            width: 100%;
+            height: calc(100vh - 64px); /* Adjust height based on header size */
+            border: none;
+            overflow: hidden;
         }
       `}
     </style>
   );
-
-  const handleButtonClick = (buttonName: string, dashboardId: string | null, src: string | null) => {
+  const handleButtonClick = (buttonName: string) => {
     setActiveButton(buttonName);
 
     // Fetch user list when the active button is "User Management"
     if (buttonName === 'User Management') {
       fetchUserList();
     }
-
-    if (dashboardId) {
-      // Update the dashboard page based on dashboardId
-      setActiveButton(buttonName);
-    }
   };
-
   const fetchUserList = async () => {
     try {
+      // Get the base URL (e.g., http://localhost:9000)
       const baseUrl = window.location.origin;
+
+      // Build the full URL for the API request
       const apiUrl = `${baseUrl}/users/list/`;
 
+      // Fetch user list from the API
       const response = await fetch(apiUrl);
+
+      // If the response is OK, save the response body as text
       if (response.ok) {
-        const responseText = await response.text();
-        setHtmlContent(responseText);
+        const responseText = await response.text(); // Parse the response as text
+        setHtmlContent(responseText); // Save the HTML content in state
       } else {
         console.error('Error fetching data:', response.status);
-        setHtmlContent('<h2>Error loading user management page</h2>');
+        setHtmlContent('<h2>Error loading user management page</h2>'); // Show an error message
       }
     } catch (error) {
       console.error('Error fetching user list:', error);
-      setHtmlContent('<h2>Error loading user management page</h2>');
+      setHtmlContent('<h2>Error loading user management page</h2>'); // Show an error message
     }
   };
+  //return <DashboardPage idOrSlug={idOrSlug} />;
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: "flex" }}>
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {menuConfig &&
-            Object.keys(menuConfig).map((buttonKey) => {
-              const button = menuConfig[buttonKey];
-              const { name, type, dashboardId, src } = button;
+          <button
+            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Dashboard')}
+          >
+            <img src="/static/assets/images/dashboard.png" alt="Icon" className="icon" />
+            Dashboard
+          </button>
 
-              return (
-                <button
-                  key={buttonKey}
-                  className={`button ${activeButton === name ? 'active' : ''}`}
-                  onClick={() => handleButtonClick(name, dashboardId || null, src || null)}
-                >
-                  <img
-                    src={`/static/assets/images/${name.toLowerCase()}.png`}
-                    alt="Icon"
-                    className="icon"
-                  />
-                  {name}
-                </button>
-              );
-            })}
+          <button
+            className={`button ${activeButton === 'Analytics' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Analytics')}
+          >
+            <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
+            Analytics
+          </button>
+
+          <button
+            className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('ChatBot')}
+          >
+            <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
+            ChatBot
+          </button>
+
+
+        </div>
+        <div className="divider"></div>
+        <div className="user-management">
+          <button
+            className={`button ${activeButton === 'User Management' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('User Management')}
+          >
+            <img src="/static/assets/images/user.png" alt="Icon" className="icon" />
+            User Management
+          </button>
         </div>
       </div>
 
       {/* Right Panel Content */}
       <div className="right-panel">
-        {activeButton === 'Dashboard' && (
+        {activeButton === 'Dashboard' ? (
           <div className="dashboard-container">
-            {dashboardId ? <DashboardPage idOrSlug={dashboardId.toString()} /> : <div>No Dashboard</div>}
+            <DashboardPage idOrSlug={idOrSlug} />
           </div>
-        )}
-
-        {activeButton === 'User Management' && (
+        ) : activeButton === 'User Management' ? (
           <>
             {injectCustomStyles()}
             <div>
               <div className="header-bar">
                 <h1>User Management</h1>
               </div>
-              <iframe src="/users/list" className="iframe-container" title="User Management" />
+              <iframe
+                src="/users/list"
+                className="iframe-container"
+                title="User Management"
+              />
             </div>
           </>
-        )}
-
-        {activeButton === 'ChatBot' && <ChatBOT />}
-
-        {activeButton === 'Analytics' && (
-          <DashboardPage idOrSlug="15" />
-        )}
-
-        {activeButton === 'Alerts' && (
+        ) : activeButton === 'Alerts' ? (
           <AlertList
             addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
             addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
             isReportEnabled={false}
             user={currentUser}
           />
-        )}
-
-        {activeButton === 'Reports' && (
+        ) : activeButton === 'Reports' ? (
           <AlertList
             addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
             addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
             isReportEnabled={true}
             user={currentUser}
           />
-        )}
-
-        {activeButton === 'Analytics' && (
+        ) : activeButton === 'ChatBot' ? (
+          <ChatBOT />
+        ) : activeButton === 'Analytics' ? (
           <DashboardPage idOrSlug={'15'} />
-        )}
-
-        {activeButton !== 'Dashboard' && activeButton !== 'User Management' && activeButton !== 'Analytics' && (
+        ) : (
           <div>
             <h2>This page is in development.</h2>
           </div>
@@ -184,6 +191,25 @@ const DashboardRoute: FC = () => {
       </div>
     </div>
   );
+
 };
 
 export default DashboardRoute;
+/*
+<button
+            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Alerts')}
+          >
+            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
+            Alerts
+          </button>
+
+          <button
+            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Reports')}
+          >
+            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
+            Reports
+          </button>
+
+*/

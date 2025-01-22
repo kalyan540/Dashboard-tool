@@ -1,39 +1,56 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
-import { t } from '@superset-ui/core';
-import './index.css';
 import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
+import buttonConfig1 from 'src/leftpanel/d1.json'; // First JSON file
+import buttonConfig2 from 'src/leftpanel/d2.json'; // Second JSON file
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
   const [htmlContent, setHtmlContent] = useState<string | null>(null);
+  const [buttons, setButtons] = useState<any>(null);
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+
+  // Load the correct JSON file based on dashboardId
+  useEffect(() => {
+    const declaredDashboardIds = ['13', '21']; // Declared dashboard IDs
+    if (declaredDashboardIds.includes(idOrSlug || '')) {
+      setButtons(idOrSlug === '13' ? buttonConfig1 : buttonConfig2);
+    } else {
+      setButtons(null); // No matching dashboardId, show empty left panel
+    }
+  }, [idOrSlug]);
+
+  const handleButtonClick = (buttonName: string) => {
+    setActiveButton(buttonName);
+
+    // Fetch user list when the active button is "User Management"
+    if (buttonName === 'User Management') {
+      fetchUserList();
+    }
+  };
+
+  const fetchUserList = async () => {
+    try {
+      const response = await fetch('/users/list/');
+      if (response.ok) {
+        const responseText = await response.text();
+        setHtmlContent(responseText);
+      } else {
+        setHtmlContent('<h2>Error loading user management page</h2>');
+      }
+    } catch {
+      setHtmlContent('<h2>Error loading user management page</h2>');
+    }
+  };
+
   const injectCustomStyles = () => (
     <style>
       {`
@@ -68,89 +85,42 @@ const DashboardRoute: FC = () => {
       `}
     </style>
   );
-  const handleButtonClick = (buttonName: string) => {
-    setActiveButton(buttonName);
-
-    // Fetch user list when the active button is "User Management"
-    if (buttonName === 'User Management') {
-      fetchUserList();
-    }
-  };
-  const fetchUserList = async () => {
-    try {
-      // Get the base URL (e.g., http://localhost:9000)
-      const baseUrl = window.location.origin;
-
-      // Build the full URL for the API request
-      const apiUrl = `${baseUrl}/users/list/`;
-
-      // Fetch user list from the API
-      const response = await fetch(apiUrl);
-
-      // If the response is OK, save the response body as text
-      if (response.ok) {
-        const responseText = await response.text(); // Parse the response as text
-        setHtmlContent(responseText); // Save the HTML content in state
-      } else {
-        console.error('Error fetching data:', response.status);
-        setHtmlContent('<h2>Error loading user management page</h2>'); // Show an error message
-      }
-    } catch (error) {
-      console.error('Error fetching user list:', error);
-      setHtmlContent('<h2>Error loading user management page</h2>'); // Show an error message
-    }
-  };
-  //return <DashboardPage idOrSlug={idOrSlug} />;
 
   return (
-    <div style={{ display: "flex" }}>
-      {/* Left Panel with Buttons */}
+    <div style={{ display: 'flex' }}>
+      {/* Left Panel */}
       <div className="left-panel">
-        <div className="buttons-container">
-          <button
-            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Dashboard')}
-          >
-            <img src="/static/assets/images/dashboard.png" alt="Icon" className="icon" />
-            Dashboard
-          </button>
-
-          <button
-            className={`button ${activeButton === 'Analytics' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Analytics')}
-          >
-            <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
-            Analytics
-          </button>
-
-          <button
-            className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('ChatBot')}
-          >
-            <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
-            ChatBot
-          </button>
-
-
-        </div>
-        <div className="divider"></div>
-        <div className="user-management">
-          <button
-            className={`button ${activeButton === 'User Management' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('User Management')}
-          >
-            <img src="/static/assets/images/user.png" alt="Icon" className="icon" />
-            User Management
-          </button>
-        </div>
+        {buttons ? (
+          <div className="buttons-container">
+            {Object.keys(buttons).map(buttonKey => {
+              const button = buttons[buttonKey];
+              return (
+                <button
+                  key={buttonKey}
+                  className={`button ${activeButton === button.name ? 'active' : ''}`}
+                  onClick={() => handleButtonClick(button.name)}
+                >
+                  <img
+                    src={`/static/assets/images/${button.type}.png`}
+                    alt="Icon"
+                    className="icon"
+                  />
+                  {button.name}
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div>
+            <h2>No dashboards available</h2>
+          </div>
+        )}
       </div>
 
-      {/* Right Panel Content */}
+      {/* Right Panel */}
       <div className="right-panel">
-        {activeButton === 'Dashboard' ? (
-          <div className="dashboard-container">
-            <DashboardPage idOrSlug={idOrSlug} />
-          </div>
+        {buttons && activeButton === 'Dashboard' ? (
+          <DashboardPage idOrSlug={idOrSlug} />
         ) : activeButton === 'User Management' ? (
           <>
             {injectCustomStyles()}
@@ -165,24 +135,22 @@ const DashboardRoute: FC = () => {
               />
             </div>
           </>
+        ) : activeButton === 'ChatBot' ? (
+          <ChatBOT />
         ) : activeButton === 'Alerts' ? (
           <AlertList
-            addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
-            addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
+            addDangerToast={addDangerToast('Hello from Dashboard screen at DangerToast')}
+            addSuccessToast={addSuccessToast('Hello from Dashboard screen at SuccessToast')}
             isReportEnabled={false}
             user={currentUser}
           />
         ) : activeButton === 'Reports' ? (
           <AlertList
-            addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
-            addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
+            addDangerToast={addDangerToast('Hello from Dashboard screen at DangerToast')}
+            addSuccessToast={addSuccessToast('Hello from Dashboard screen at SuccessToast')}
             isReportEnabled={true}
             user={currentUser}
           />
-        ) : activeButton === 'ChatBot' ? (
-          <ChatBOT />
-        ) : activeButton === 'Analytics' ? (
-          <DashboardPage idOrSlug={'15'} />
         ) : (
           <div>
             <h2>This page is in development.</h2>
@@ -191,25 +159,6 @@ const DashboardRoute: FC = () => {
       </div>
     </div>
   );
-
 };
 
 export default DashboardRoute;
-/*
-<button
-            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Alerts')}
-          >
-            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
-            Alerts
-          </button>
-
-          <button
-            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Reports')}
-          >
-            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
-            Reports
-          </button>
-
-*/

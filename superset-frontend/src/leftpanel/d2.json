@@ -2,12 +2,12 @@
     "Button1": {
       "name": "Dashboard",
       "type": "dashboard",
-      "dashboardId": "13"
+      "dashboardId": "21"
     },
     "Button2": {
       "name": "Analytics",
       "type": "dashboard",
-      "dashboardId": "13"
+      "dashboardId": "21"
     },
     "Button3": {
       "name": "User Management",
@@ -15,4 +15,3 @@
       "src": "/users/list"
     }
   }
-  

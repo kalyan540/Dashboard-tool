@@ -1,0 +1,21 @@
+{
+    "Button1": {
+      "name": "Reports",
+      "type": "report"
+    },
+    "Button2": {
+      "name": "Alerts",
+      "type": "alert"
+    },
+    "Button3": {
+      "name": "Analytics",
+      "type": "dashboard",
+      "dashboardId": "10"
+    },
+    "Button4": {
+      "name": "User Management",
+      "type": "user",
+      "src": "/users/list"
+    }
+  }
+  

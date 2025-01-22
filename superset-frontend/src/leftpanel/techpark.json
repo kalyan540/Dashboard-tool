@@ -1,0 +1,13 @@
+{
+    "Button1": {
+      "name": "Analytics",
+      "type": "dashboard",
+      "dashboardId": "7"
+    },
+    "Button2": {
+      "name": "User Management",
+      "type": "user",
+      "src": "/users/list"
+    }
+  }
+  

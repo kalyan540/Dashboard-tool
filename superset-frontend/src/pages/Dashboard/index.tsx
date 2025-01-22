@@ -73,7 +73,7 @@ const DashboardRoute: FC = () => {
     ford: 'src/leftpanel/ford.json',
   };
 
-  const buttons = jsonFileMap[idOrSlug || ''] || '/defaultconfig.json';
+  const buttons = Object.values(jsonFileMap[idOrSlug || ''] || {});
 
   /*useEffect(() => {
     const fetchButtons = async () => {

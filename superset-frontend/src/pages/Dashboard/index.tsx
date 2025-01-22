@@ -30,7 +30,6 @@ import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/ac
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [buttons, setButtons] = useState<any[]>([]);
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
@@ -74,9 +73,9 @@ const DashboardRoute: FC = () => {
     ford: 'src/leftpanel/ford.json',
   };
 
-  const jsonPath = jsonFileMap[idOrSlug || ''] || '/defaultconfig.json';
+  const buttons = jsonFileMap[idOrSlug || ''] || '/defaultconfig.json';
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchButtons = async () => {
       try {
         const response = await fetch(jsonPath);
@@ -92,7 +91,7 @@ const DashboardRoute: FC = () => {
     };
 
     fetchButtons();
-  }, [jsonPath]);
+  }, [jsonPath]);*/
 
   const handleButtonClick = (button: any) => {
     setActiveButton(button.name);

@@ -172,7 +172,12 @@ const DashboardRoute: FC = () => {
               className={`button ${activeButton === button.name ? 'active' : ''}`}
               onClick={() => handleButtonClick(button)}
             >
-              
+              {/* Render Icon Dynamically */}
+              <img 
+              src={button.icon || '/static/assets/images/default.png'} 
+              alt={`${button.name} Icon`} 
+              className="icon" 
+            />
               {button.name}
             </button>
           ))}

@@ -2,12 +2,14 @@
     "Button1": {
       "name": "Analytics",
       "type": "dashboard",
-      "dashboardId": "7"
+      "dashboardId": "7",
+      "icon": "/static/assets/images/Analytics.png"
     },
     "Button2": {
       "name": "User Management",
       "type": "user",
-      "src": "/users/list"
+      "src": "/users/list",
+      "icon": "/static/assets/images/user.png"
     }
   }
   

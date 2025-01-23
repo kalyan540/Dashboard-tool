@@ -1,21 +1,25 @@
 {
     "Button1": {
       "name": "Reports",
-      "type": "report"
+      "type": "report",
+      "icon": "/static/assets/images/Reports.png"
     },
     "Button2": {
       "name": "Alerts",
-      "type": "alert"
+      "type": "alert",
+      "icon": "/static/assets/images/Alerts.png"
     },
     "Button3": {
       "name": "Analytics",
       "type": "dashboard",
-      "dashboardId": "10"
+      "dashboardId": "10",
+      "icon": "/static/assets/images/Analytics.png"
     },
     "Button4": {
       "name": "User Management",
       "type": "user",
-      "src": "/users/list"
+      "src": "/users/list",
+      "icon": "/static/assets/images/user.png"
     }
   }
   

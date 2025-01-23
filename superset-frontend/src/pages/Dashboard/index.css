@@ -61,11 +61,13 @@
     /* Add some spacing between buttons */
     background-color: #101838;
     color: #fff;
-    border-right: 5px solid transparent;
+    border: 2px solid white;
+    /* border-right: 5px solid transparent; */
     /* Default border color */
-    border-color: transparent;
+    /* border-color: transparent; */
     transition: border-color 0.3s ease, border-right 0.3s ease;
     /* Smooth transition for border color */
+    padding: 0 16px;
 }
 
 .icon {

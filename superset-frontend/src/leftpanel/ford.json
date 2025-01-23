@@ -2,7 +2,7 @@
   "Button3": {
     "name": "Analytics",
     "type": "dashboard",
-    "dashboardId": "10",
+    "dashboardId": "Ford_Analytics",
     "icon": "/static/assets/images/Analytics.png",
     "divider": false
   },

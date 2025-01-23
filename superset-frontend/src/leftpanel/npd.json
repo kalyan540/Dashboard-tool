@@ -1,4 +1,11 @@
 {
+    "Button4": {
+      "name": "Create Assessment",
+      "type": "dashboard",
+      "dashboardId": "Create_Assessment",
+      "icon": "/static/assets/images/contactform.png",
+      "divider": false
+    },
     "Button3": {
       "name": "Analytics",
       "type": "dashboard",

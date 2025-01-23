@@ -10,7 +10,7 @@
       "name": "Asset Model",
       "type": "dashboard",
       "dashboardId": "",
-      "icon": "/static/assets/images/Analytics.png",
+      "icon": "/static/assets/images/asset.png",
       "divider": false
     },
     "Button2": {

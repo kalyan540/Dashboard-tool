@@ -3,13 +3,15 @@
       "name": "Analytics",
       "type": "dashboard",
       "dashboardId": "7",
-      "icon": "/static/assets/images/Analytics.png"
+      "icon": "/static/assets/images/Analytics.png",
+      "divider": false
     },
     "Button2": {
       "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",
-      "icon": "/static/assets/images/user.png"
+      "icon": "/static/assets/images/user.png",
+      "divider": true
     }
   }
   

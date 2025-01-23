@@ -2,7 +2,7 @@
     "Button1": {
       "name": "Analytics",
       "type": "dashboard",
-      "dashboardId": "7",
+      "dashboardId": "Energy_Analytics",
       "icon": "/static/assets/images/Analytics.png",
       "divider": false
     },

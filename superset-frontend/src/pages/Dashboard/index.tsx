@@ -166,20 +166,23 @@ const DashboardRoute: FC = () => {
           </button>
 
           {/* Dynamic Buttons from JSON */}
-          {buttons.map(button => (
-            <button
-              key={button.name}
-              className={`button ${activeButton === button.name ? 'active' : ''}`}
-              onClick={() => handleButtonClick(button)}
-            >
-              {/* Render Icon Dynamically */}
-              <img 
-              src={button.icon || '/static/assets/images/default.png'} 
-              alt={`${button.name} Icon`} 
-              className="icon" 
-            />
-              {button.name}
-            </button>
+          {buttons.map((button, index) => (
+            <React.Fragment key={index}>
+              {button.divider && <div className="divider"></div>}
+              <button
+                key={button.name}
+                className={`button ${activeButton === button.name ? 'active' : ''}`}
+                onClick={() => handleButtonClick(button)}
+              >
+                {/* Render Icon Dynamically */}
+                <img
+                  src={button.icon || '/static/assets/images/default.png'}
+                  alt={`${button.name} Icon`}
+                  className="icon"
+                />
+                {button.name}
+              </button>
+            </React.Fragment>
           ))}
         </div>
       </div>

@@ -6,7 +6,7 @@
       "icon": "/static/assets/images/Analytics.png"
     },
     "Button2": {
-      "name": "User Management",
+      "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",
       "icon": "/static/assets/images/user.png"

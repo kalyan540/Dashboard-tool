@@ -30,6 +30,7 @@ import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/ac
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
+import npdJson from 'src/leftpanel/npd.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
@@ -76,6 +77,7 @@ const DashboardRoute: FC = () => {
     Tech_Park: techparkJson,
     ford: fordJson,
     lonza: lonzaJson,
+    npd: npdJson,
   };
 
   const buttons = Object.values(jsonFileMap[idOrSlug || ''] || {});

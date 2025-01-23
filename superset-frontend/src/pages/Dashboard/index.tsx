@@ -29,6 +29,7 @@ import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/ac
 
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
+import lonzaJson from 'src/leftpanel/lonza.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
@@ -74,6 +75,7 @@ const DashboardRoute: FC = () => {
   const jsonFileMap: { [key: string]: any } = {
     Tech_Park: techparkJson,
     ford: fordJson,
+    lonza: lonzaJson,
   };
 
   const buttons = Object.values(jsonFileMap[idOrSlug || ''] || {});

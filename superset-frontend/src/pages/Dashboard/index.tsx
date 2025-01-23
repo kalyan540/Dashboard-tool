@@ -119,7 +119,15 @@ const DashboardRoute: FC = () => {
 
     switch (activeButtonConfig.type) {
       case 'dashboard':
-        return <DashboardPage idOrSlug={activeButtonConfig.dashboardId} />;
+        if (activeButtonConfig.dashboardId && activeButtonConfig.dashboardId !== '') {
+          return <DashboardPage idOrSlug={activeButtonConfig.dashboardId} />;
+        } else {
+          return (
+            <div>
+              <h2>This page is in development.</h2>
+            </div>
+          );
+        }
       case 'iframe':
         return (
           <>

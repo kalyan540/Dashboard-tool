@@ -19,6 +19,13 @@
       "divider": false
     },
     "Button4": {
+      "name": "Art of Posibility",
+      "type": "dashboard",
+      "dashboardId": "27",
+      "icon": "/static/assets/images/Analytics.png",
+      "divider": false
+    },
+    "Button5": {
       "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",

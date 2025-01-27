@@ -48,7 +48,7 @@
 
     /* Interop Constraints */
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
 
     /* Backwards Compatibility */
@@ -71,6 +71,7 @@
   "include": [
     "./src/**/*",
     "./spec/**/*",
+    "./src/**/*.json",
     "./packages/*/src/**/*",
     "./packages/*/types/**/*",
     "./plugins/*/src/**/*",

@@ -12,7 +12,7 @@
       "icon": "/static/assets/images/chatboticon.png",
       "divider": false,
       "schema": {
-      "table_name": "candidates",
+      "table_name": "ford",
       "columns": [
         { "name": "Serial", "type": "STRING", "primary_key": true },
         { "name": "Category", "type": "STRING" },

@@ -7,25 +7,44 @@
       "divider": false
     },
     "Button2": {
+      "name": "Chat BOT",
+      "type": "chatbot",
+      "icon": "/static/assets/images/chatboticon.png",
+      "divider": false,
+      "schema": {
+      "table_name": "usa_oee",
+      "columns": [
+        { "name": "timestamp", "type": "STRING", "primary_key": true },
+        { "name": "device_name", "type": "STRING" },
+        { "name": "Quality", "type": "FLOAT" },
+        { "name": "Performance", "type": "FLOAT" },
+        { "name": "Availability", "type": "FLOAT" },
+        { "name": "OEE", "type": "FLOAT" }
+      ],
+    "foreign_keys": [],
+    "primary_key": "timestamp"
+    }
+    },
+    "Button3": {
       "name": "Reports",
       "type": "report",
       "icon": "/static/assets/images/Reports.png",
       "divider": false
     },
-    "Button3": {
+    "Button4": {
       "name": "Alerts",
       "type": "alert",
       "icon": "/static/assets/images/Alerts.png",
       "divider": false
     },
-    "Button4": {
+    "Button5": {
       "name": "Art of Posibility",
       "type": "dashboard",
       "dashboardId": "27",
       "icon": "/static/assets/images/Analytics.png",
       "divider": false
     },
-    "Button5": {
+    "Button6": {
       "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",

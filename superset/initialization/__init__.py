@@ -267,7 +267,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_link(
             "Datasets",
             label=__("Datasets"),
-            href="/tablemodelview/list/",
+            href="/list/",
             icon="fa-table",
             category="",
             category_icon="",

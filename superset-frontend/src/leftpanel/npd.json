@@ -1,31 +1,31 @@
 {
-    "Button5": {
+    "Button1": {
       "name": "Create Assessment",
       "type": "dashboard",
       "dashboardId": "Create_Assessment",
       "icon": "/static/assets/images/contactform.png",
       "divider": false
     },
-    "Button3": {
+    "Button2": {
       "name": "Analytics",
       "type": "dashboard",
       "dashboardId": "Npd_Analytics",
       "icon": "/static/assets/images/Analytics.png",
       "divider": false
     },
-    "Button1": {
+    "Button3": {
       "name": "Reports",
       "type": "report",
       "icon": "/static/assets/images/Reports.png",
       "divider": false
     },
-    "Button2": {
+    "Button4": {
       "name": "Alerts",
       "type": "alert",
       "icon": "/static/assets/images/Alerts.png",
       "divider": false
     },
-    "Button4": {
+    "Button5": {
       "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",

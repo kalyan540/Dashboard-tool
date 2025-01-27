@@ -10,53 +10,10 @@ model_path = 'gaussalgo/T5-LM-Large-text2sql-spider'
 model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
-# Database schema (for use with text-to-SQL model)
-schema = """
-"candidates" 
-  "Serial"
-  "Category" STRING, 
-  "Priority" STRING, 
-  "Order" INTEGER, 
-  "TechStack" STRING, 
-  "Technology" STRING, 
-  "Date_Order_was_opened" DATE, 
-  "Date_profile_was_uploaded" DATE, 
-  "Portfolio" STRING, 
-  "Manager" STRING, 
-  "Internal/External" STRING, 
-  "Candidate_Name" STRING, 
-  "Interview_Secured_Date" DATE, 
-  "Interview_Schedule_Date" DATE, 
-  "Status" STRING, 
-  "Comments" TEXT, 
-  "Selection_Date" DATE, 
-  "Selection_Month" STRING, 
-  foreign_key:  
-  primary key: "Serial"
-"""
 
 # Table names and column names
-table_names = ["candidates"]  # Table name in the schema
-column_names = [
-  "Serial"
-  "Category", 
-  "Priority", 
-  "Order", 
-  "TechStack", 
-  "Technology", 
-  "Date_Order_was_opened", 
-  "Date_profile_was_uploaded", 
-  "Portfolio", 
-  "Manager", 
-  "Internal/External", 
-  "Candidate_Name", 
-  "Interview_Secured_Date", 
-  "Interview_Schedule_Date", 
-  "Status", 
-  "Comments", 
-  "Selection_Date", 
-  "Selection_Month",
-]  # Column names in the schema
+table_names = []  # Table name in the schema
+column_names = []  # Column names in the schema
 
 # Function to add double quotations to table and column names in the SQL query
 def add_double_quotations(sql_query, table_names, column_names):
@@ -88,7 +45,7 @@ def add_double_quotations(sql_query, table_names, column_names):
     return formatted_query
 
 # Function to generate SQL query from the question using the transformer model
-def generate_sql_query(question):
+def generate_sql_query(question, table_names, column_names):
     # Combine question with schema
     input_text = " ".join(["Question: ", question, "Schema:", schema])
 
@@ -119,17 +76,57 @@ def generate_sql_query(question):
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
-# WebSocket handler that processes questions and returns SQL
 async def echo(websocket):
     logging.info(f"New connection from {websocket.remote_address}")
     try:
         async for message in websocket:
             logging.info(f"Received message: {message}")
-            # Call the function to generate SQL query from the question
-            sql_query = generate_sql_query(message)
-            await websocket.send(sql_query)
+            
+            # Parse the received message (schema and query are expected)
+            try:
+                data = json.loads(message)  # Parse JSON
+                schema = data.get("schema")  # Extract schema
+                query = data.get("query")  # Extract query
+                
+                if not schema or not query:
+                    await websocket.send(json.dumps({"error": "Missing schema or query in the message"}))
+                    continue
+
+                # Extract table names and column names from the schema
+                global table_names, column_names
+
+                # Extract table name
+                table_names = [schema.get("table_name", "")]
+
+                # Extract column names
+                column_names = [column["name"] for column in schema.get("columns", [])]
+                
+                logging.info(f"Extracted table name: {table_names}")
+                logging.info(f"Extracted column names: {column_names}")
+
+                # Pass the query, table names, and column names to generate_sql_query
+                sql_query = generate_sql_query(query, table_names, column_names)
+                await websocket.send(sql_query)
+            except json.JSONDecodeError:
+                logging.error("Invalid JSON format received")
+                await websocket.send(json.dumps({"error": "Invalid JSON format"}))
+            except Exception as e:
+                logging.error(f"Error processing message: {e}")
+                await websocket.send(json.dumps({"error": str(e)}))
     except websockets.exceptions.ConnectionClosed as e:
         logging.error(f"Connection closed: {e}")
+
+# WebSocket handler that processes questions and returns SQL
+# async def echo(websocket):
+#     logging.info(f"New connection from {websocket.remote_address}")
+#     try:
+#         async for message in websocket:
+#             logging.info(f"Received message: {message}")
+#             # Call the function to generate SQL query from the question
+#             sql_query = generate_sql_query(message)
+#             await websocket.send(sql_query)
+#     except websockets.exceptions.ConnectionClosed as e:
+#         logging.error(f"Connection closed: {e}")
 
 # WebSocket server function
 async def main():

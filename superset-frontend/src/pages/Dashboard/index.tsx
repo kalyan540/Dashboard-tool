@@ -23,7 +23,7 @@ import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
 import { t } from '@superset-ui/core';
 import './index.css';
 import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
-//import ChatBOT from './bot';
+import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
 
@@ -157,6 +157,10 @@ const DashboardRoute: FC = () => {
           addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
           isReportEnabled={true}
           user={currentUser}
+        />;
+      case 'chatbot':
+        return <ChatBOT
+          schema={activeButtonConfig.schema}
         />;
       default:
         return <div style={{ textAlign: 'center', marginTop: '20px' }}>Unknown type: {activeButtonConfig.type}</div>;

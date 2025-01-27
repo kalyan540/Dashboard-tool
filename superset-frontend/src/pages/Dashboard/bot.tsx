@@ -16,8 +16,8 @@ interface SQLQuery {
     ctas: boolean;
     ctas_method: string;
 }
-
-const BioreactorBOT = () => {
+const ChatBOT = ({ schema }: { schema: any }) => {
+// const ChatBOT = () => {
     const [query, setQuery] = useState(""); // State to hold input value
     const [tableData, setTableData] = useState<any[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
@@ -156,8 +156,12 @@ const BioreactorBOT = () => {
     const handleSubmit = () => {
         // Send the query input to the WebSocket server
         if (socket.current && socket.current.readyState === WebSocket.OPEN) {
-            socket.current.send(query); // Send the query to the WebSocket server
-            console.log("Sent query to WebSocket:", query);
+            const dataToSend = {
+                schema: schema, // Include schema
+                query: query,   // Include query
+            };
+            socket.current.send(JSON.stringify(dataToSend)); // Send the query to the WebSocket server
+            console.log("Sent schema and query to WebSocket:", dataToSend);
         } else {
             console.log("WebSocket not open yet.");
         }
@@ -330,4 +334,4 @@ const BioreactorBOT = () => {
     );
 };
 
-export default BioreactorBOT;
+export default ChatBOT;

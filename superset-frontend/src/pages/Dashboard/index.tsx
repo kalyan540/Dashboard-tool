@@ -86,13 +86,13 @@ const DashboardRoute: FC = () => {
 
   // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
-    Tech_Park: techparkJson,
-    ford: fordJson,
-    lonza: lonzaJson,
-    npd: npdJson,
+    Tech_Park: Object.values(techparkJson),
+    ford: Object.values(fordJson),
+    lonza: Object.values(lonzaJson),
+    npd: Object.values(npdJson),
   };
 
-  const buttons: ButtonConfig[] = Object.values(jsonFileMap[idOrSlug || ''] || {});
+  const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || {};
 
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);

@@ -1191,7 +1191,7 @@ class SqlaTable(
     normalize_columns = Column(Boolean, default=False)
     always_filter_main_dttm = Column(Boolean, default=False)
 
-    baselink = "tablemodelview"
+    baselink = "kalyan"
 
     export_fields = [
         "table_name",

@@ -1,62 +1,31 @@
 {
-    "Button5": {
+    "Button1": {
       "name": "Create Assessment",
       "type": "dashboard",
       "dashboardId": "Create_Assessment",
       "icon": "/static/assets/images/contactform.png",
       "divider": false
     },
-    "Button3": {
+    "Button2": {
       "name": "Analytics",
       "type": "dashboard",
       "dashboardId": "Npd_Analytics",
       "icon": "/static/assets/images/Analytics.png",
       "divider": false
     },
-    "Button6": {
-      "name": "Chat BOT",
-      "type": "chatbot",
-      "icon": "/static/assets/images/chatboticon.png",
-      "divider": false,
-      "schema": {
-      "table_name": "candidates",
-      "columns": [
-        { "name": "Serial", "type": "STRING", "primary_key": true },
-        { "name": "Category", "type": "STRING" },
-        { "name": "Priority", "type": "STRING" },
-        { "name": "Order", "type": "INTEGER" },
-        { "name": "TechStack", "type": "STRING" },
-        { "name": "Technology", "type": "STRING" },
-        { "name": "Date_Order_was_opened", "type": "DATE" },
-        { "name": "Date_profile_was_uploaded", "type": "DATE" },
-        { "name": "Portfolio", "type": "STRING" },
-        { "name": "Manager", "type": "STRING" },
-        { "name": "Internal/External", "type": "STRING" },
-        { "name": "Candidate_Name", "type": "STRING" },
-        { "name": "Interview_Secured_Date", "type": "DATE" },
-        { "name": "Interview_Schedule_Date", "type": "DATE" },
-        { "name": "Status", "type": "STRING" },
-        { "name": "Comments", "type": "TEXT" },
-        { "name": "Selection_Date", "type": "DATE" },
-        { "name": "Selection_Month", "type": "STRING" }
-      ],
-      "foreign_keys": [],
-      "primary_key": "Serial"
-    }
-    },
-    "Button1": {
+    "Button3": {
       "name": "Reports",
       "type": "report",
       "icon": "/static/assets/images/Reports.png",
       "divider": false
     },
-    "Button2": {
+    "Button4": {
       "name": "Alerts",
       "type": "alert",
       "icon": "/static/assets/images/Alerts.png",
       "divider": false
     },
-    "Button4": {
+    "Button5": {
       "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",

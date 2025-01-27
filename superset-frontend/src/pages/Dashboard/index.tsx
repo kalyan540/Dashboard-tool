@@ -158,6 +158,10 @@ const DashboardRoute: FC = () => {
           isReportEnabled={true}
           user={currentUser}
         />;
+      case 'chatbot':
+        return <ChatBOT
+          schema={activeButtonConfig.schema}
+        />;
       default:
         return <div style={{ textAlign: 'center', marginTop: '20px' }}>Unknown type: {activeButtonConfig.type}</div>;
     }

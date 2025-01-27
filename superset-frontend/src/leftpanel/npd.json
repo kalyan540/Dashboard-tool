@@ -13,6 +13,37 @@
       "icon": "/static/assets/images/Analytics.png",
       "divider": false
     },
+    "Button6": {
+      "name": "Chat BOT",
+      "type": "chatbot",
+      "icon": "/static/assets/images/chatboticon.png",
+      "divider": false,
+      "schema": {
+      "table_name": "candidates",
+      "columns": [
+        { "name": "Serial", "type": "STRING", "primary_key": true },
+        { "name": "Category", "type": "STRING" },
+        { "name": "Priority", "type": "STRING" },
+        { "name": "Order", "type": "INTEGER" },
+        { "name": "TechStack", "type": "STRING" },
+        { "name": "Technology", "type": "STRING" },
+        { "name": "Date_Order_was_opened", "type": "DATE" },
+        { "name": "Date_profile_was_uploaded", "type": "DATE" },
+        { "name": "Portfolio", "type": "STRING" },
+        { "name": "Manager", "type": "STRING" },
+        { "name": "Internal/External", "type": "STRING" },
+        { "name": "Candidate_Name", "type": "STRING" },
+        { "name": "Interview_Secured_Date", "type": "DATE" },
+        { "name": "Interview_Schedule_Date", "type": "DATE" },
+        { "name": "Status", "type": "STRING" },
+        { "name": "Comments", "type": "TEXT" },
+        { "name": "Selection_Date", "type": "DATE" },
+        { "name": "Selection_Month", "type": "STRING" }
+      ],
+      "foreign_keys": [],
+      "primary_key": "Serial"
+    }
+    },
     "Button1": {
       "name": "Reports",
       "type": "report",

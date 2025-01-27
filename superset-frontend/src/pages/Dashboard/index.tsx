@@ -73,38 +73,31 @@ const DashboardRoute: FC = () => {
     </style>
   );
 
-  const jsonFileMap: { [key: string]: any } = {
+  // Define the interface for button configuration
+  interface ButtonConfig {
+    name: string;
+    type: string;
+    dashboardId?: string;
+    src?: string;
+    schema?: any;
+    icon?: string;
+    divider?: boolean;
+  }
+
+  // Define the type for jsonFileMap
+  const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: techparkJson,
     ford: fordJson,
     lonza: lonzaJson,
     npd: npdJson,
   };
 
-  const buttons = Object.values(jsonFileMap[idOrSlug || ''] || {});
+  const buttons: ButtonConfig[] = Object.values(jsonFileMap[idOrSlug || ''] || {});
 
-  /*useEffect(() => {
-    const fetchButtons = async () => {
-      try {
-        const response = await fetch(jsonPath);
-        if (response.ok) {
-          const data = await response.json();
-          setButtons(Object.values(data));
-        } else {
-          console.error('Failed to load JSON configuration.');
-        }
-      } catch (error) {
-        console.error('Error fetching JSON:', error);
-      }
-    };
-
-    fetchButtons();
-  }, [jsonPath]);*/
-
-  const handleButtonClick = (button: any) => {
+  const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);
   };
 
-  //return <DashboardPage idOrSlug={idOrSlug} />;
 
   const renderContent = () => {
     if (activeButton === 'Dashboard') {

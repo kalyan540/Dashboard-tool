@@ -156,21 +156,21 @@ const ChatBOT = ({ schema }: { schema: any }) => {
     const handleSubmit = () => {
 
          // Format schema data to match the exact required format
-        const formattedSchema = `"""
-        "${schema.table_name}"
-        "${schema.columns[0].name}" ${schema.columns[0].type},
-        "${schema.columns[1].name}" ${schema.columns[1].type},
-        "${schema.columns[2].name}" ${schema.columns[2].type},
-        "${schema.columns[3].name}" ${schema.columns[3].type},
-        "${schema.columns[4].name}" ${schema.columns[4].type},
-        "${schema.columns[5].name}" ${schema.columns[5].type},
-        foreign_key:  
-        primary key: "${schema.primary_key}"
-        """`;
+        // const formattedSchema = `"""
+        // "${schema.table_name}"
+        // "${schema.columns[0].name}" ${schema.columns[0].type},
+        // "${schema.columns[1].name}" ${schema.columns[1].type},
+        // "${schema.columns[2].name}" ${schema.columns[2].type},
+        // "${schema.columns[3].name}" ${schema.columns[3].type},
+        // "${schema.columns[4].name}" ${schema.columns[4].type},
+        // "${schema.columns[5].name}" ${schema.columns[5].type},
+        // foreign_key:  
+        // primary key: "${schema.primary_key}"
+        // """`;
         // Send the query input to the WebSocket server
         if (socket.current && socket.current.readyState === WebSocket.OPEN) {
             const dataToSend = {
-                schema: formattedSchema, // Include schema
+                schema: schema, // Include schema
                 query: query,   // Include query
             };
             console.log("dataToSend", dataToSend);

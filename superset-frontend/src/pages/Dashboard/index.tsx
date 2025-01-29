@@ -92,8 +92,9 @@ const DashboardRoute: FC = () => {
     npd: Object.values(npdJson),
   };
 
-  const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || {};
-
+  const buttons: ButtonConfig[] = Array.isArray(jsonFileMap[idOrSlug || ''])
+    ? jsonFileMap[idOrSlug || '']
+    : [];
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);
   };

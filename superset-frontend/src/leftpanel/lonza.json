@@ -16,10 +16,10 @@
       "columns": [
         { "name": "timestamp", "type": "STRING", "primary_key": true },
         { "name": "device_name", "type": "STRING" },
-        { "name": "Quality", "type": "FLOAT" },
-        { "name": "Performance", "type": "FLOAT" },
-        { "name": "Availability", "type": "FLOAT" },
-        { "name": "OEE", "type": "FLOAT" }
+        { "name": "quality", "type": "FLOAT" },
+        { "name": "performance", "type": "FLOAT" },
+        { "name": "availability", "type": "FLOAT" },
+        { "name": "oee", "type": "FLOAT" }
       ],
     "foreign_keys": [],
     "primary_key": "timestamp"

@@ -19,7 +19,7 @@
       "icon": "/static/assets/images/chatboticon.png",
       "divider": false,
       "schema": {
-      "table_name": "npd_data",
+      "table_name": "npd_bot",
       "columns": [
         { "name": "business_unit", "type": "STRING" },
         { "name": "npd_name", "type": "STRING" },

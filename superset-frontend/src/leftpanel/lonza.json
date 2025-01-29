@@ -12,7 +12,7 @@
       "icon": "/static/assets/images/chatboticon.png",
       "divider": false,
       "schema": {
-      "table_name": "usa_oee",
+      "table_name": "lonza_bot",
       "columns": [
         { "name": "timestamp", "type": "STRING", "primary_key": true },
         { "name": "device_name", "type": "STRING" },

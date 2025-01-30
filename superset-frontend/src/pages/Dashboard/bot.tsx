@@ -41,7 +41,7 @@ const ChatBOT = ({ schema }: { schema: any }) => {
 
     useEffect(() => {
         // Open WebSocket connection
-        socket.current = new WebSocket('ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765');
+        socket.current = new WebSocket('ws://ec2-54-152-143-184.compute-1.amazonaws.com:8765');
 
         socket.current.onopen = () => {
             console.log("Connected to WebSocket server");
@@ -154,12 +154,26 @@ const ChatBOT = ({ schema }: { schema: any }) => {
     };
 
     const handleSubmit = () => {
+
+         // Format schema data to match the exact required format
+        // const formattedSchema = `"""
+        // "${schema.table_name}"
+        // "${schema.columns[0].name}" ${schema.columns[0].type},
+        // "${schema.columns[1].name}" ${schema.columns[1].type},
+        // "${schema.columns[2].name}" ${schema.columns[2].type},
+        // "${schema.columns[3].name}" ${schema.columns[3].type},
+        // "${schema.columns[4].name}" ${schema.columns[4].type},
+        // "${schema.columns[5].name}" ${schema.columns[5].type},
+        // foreign_key:  
+        // primary key: "${schema.primary_key}"
+        // """`;
         // Send the query input to the WebSocket server
         if (socket.current && socket.current.readyState === WebSocket.OPEN) {
             const dataToSend = {
                 schema: schema, // Include schema
                 query: query,   // Include query
             };
+            console.log("dataToSend", dataToSend);
             socket.current.send(JSON.stringify(dataToSend)); // Send the query to the WebSocket server
             console.log("Sent schema and query to WebSocket:", dataToSend);
         } else {

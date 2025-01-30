@@ -1,5 +1,6 @@
 import re
 import time
+import json
 import asyncio
 import websockets
 import logging
@@ -75,6 +76,7 @@ def generate_sql_query(question, table_names, column_names):
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
+
 
 async def echo(websocket):
     logging.info(f"New connection from {websocket.remote_address}")

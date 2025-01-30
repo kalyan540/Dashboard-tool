@@ -77,7 +77,6 @@ def generate_sql_query(question, table_names, column_names):
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
-
 async def echo(websocket):
     logging.info(f"New connection from {websocket.remote_address}")
     try:
@@ -93,21 +92,24 @@ async def echo(websocket):
                 if not schema or not query:
                     await websocket.send(json.dumps({"error": "Missing schema or query in the message"}))
                     continue
-
-                # Extract table names and column names from the schema
-                global table_names, column_names
-
-                # Extract table name
-                table_names = [schema.get("table_name", "")]
-
-                # Extract column names
-                column_names = [column["name"] for column in schema.get("columns", [])]
                 
-                logging.info(f"Extracted table name: {table_names}")
+                # Parse the schema to extract the table name and column names
+                # Remove leading/trailing whitespace and the triple quotes
+                schema_str = schema.strip().strip('"""')
+
+                # Extract the table name using regex (assuming it's the first line)
+                table_name_match = re.search(r'\"([^\"]+)\"', schema_str)
+                table_name = table_name_match.group(1) if table_name_match else "Unknown_Table"
+                
+                # Extract column names using regex (find the patterns that look like column definitions)
+                column_names = re.findall(r'\"([^\"]+)\" (\w+)', schema_str)
+                column_names = [col[0] for col in column_names]  # Extract just the column names
+                
+                logging.info(f"Extracted table name: {table_name}")
                 logging.info(f"Extracted column names: {column_names}")
 
                 # Pass the query, table names, and column names to generate_sql_query
-                sql_query = generate_sql_query(query, table_names, column_names)
+                sql_query = generate_sql_query(query, [table_name], column_names)
                 await websocket.send(sql_query)
             except json.JSONDecodeError:
                 logging.error("Invalid JSON format received")
@@ -117,6 +119,47 @@ async def echo(websocket):
                 await websocket.send(json.dumps({"error": str(e)}))
     except websockets.exceptions.ConnectionClosed as e:
         logging.error(f"Connection closed: {e}")
+
+
+# async def echo(websocket):
+#     logging.info(f"New connection from {websocket.remote_address}")
+#     try:
+#         async for message in websocket:
+#             logging.info(f"Received message: {message}")
+            
+#             # Parse the received message (schema and query are expected)
+#             try:
+#                 data = json.loads(message)  # Parse JSON
+#                 schema = data.get("schema")  # Extract schema
+#                 query = data.get("query")  # Extract query
+                
+#                 if not schema or not query:
+#                     await websocket.send(json.dumps({"error": "Missing schema or query in the message"}))
+#                     continue
+
+#                 # Extract table names and column names from the schema
+#                 global table_names, column_names
+
+#                 # Extract table name
+#                 table_names = [schema.get("table_name", "")]
+
+#                 # Extract column names
+#                 column_names = [column["name"] for column in schema.get("columns", [])]
+                
+#                 logging.info(f"Extracted table name: {table_names}")
+#                 logging.info(f"Extracted column names: {column_names}")
+
+#                 # Pass the query, table names, and column names to generate_sql_query
+#                 sql_query = generate_sql_query(query, table_names, column_names)
+#                 await websocket.send(sql_query)
+#             except json.JSONDecodeError:
+#                 logging.error("Invalid JSON format received")
+#                 await websocket.send(json.dumps({"error": "Invalid JSON format"}))
+#             except Exception as e:
+#                 logging.error(f"Error processing message: {e}")
+#                 await websocket.send(json.dumps({"error": str(e)}))
+#     except websockets.exceptions.ConnectionClosed as e:
+#         logging.error(f"Connection closed: {e}")
 
 # WebSocket handler that processes questions and returns SQL
 # async def echo(websocket):

@@ -167,7 +167,7 @@ const ChatBOT = ({ schema }: { schema: any }) => {
             const primaryKey = schema.primary_key ? `  primary key: "${schema.primary_key}"` : "";
     
             // Construct the formatted schema string with triple quotes (without extra "schema =")
-            const formattedSchema = `"""\n${tableName}\n${formattedColumns},\n  foreign_key:  \n${primaryKey}\n"""`;
+            const formattedSchema = `""\n${tableName}\n${formattedColumns},\n  foreign_key:  \n${primaryKey}\n""`;
     
             const dataToSend = {
                 schema: formattedSchema, // Use the properly formatted schema

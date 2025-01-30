@@ -88,6 +88,7 @@ async def echo(websocket):
                 data = json.loads(message)  # Parse JSON
                 schema = data.get("schema")  # Extract schema
                 query = data.get("query")  # Extract query
+                logging.info(f"schema: {schema}")
                 
                 if not schema or not query:
                     await websocket.send(json.dumps({"error": "Missing schema or query in the message"}))
@@ -95,14 +96,14 @@ async def echo(websocket):
                 
                 # Parse the schema to extract the table name and column names
                 # Remove leading/trailing whitespace and the triple quotes
-                schema_str = schema.strip().strip('"""')
+                #schema_str = schema.strip().strip('"""')
 
                 # Extract the table name using regex (assuming it's the first line)
-                table_name_match = re.search(r'\"([^\"]+)\"', schema_str)
+                table_name_match = re.search(r'\"([^\"]+)\"', schema)
                 table_name = table_name_match.group(1) if table_name_match else "Unknown_Table"
                 
                 # Extract column names using regex (find the patterns that look like column definitions)
-                column_names = re.findall(r'\"([^\"]+)\" (\w+)', schema_str)
+                column_names = re.findall(r'\"([^\"]+)\" (\w+)', schema)
                 column_names = [col[0] for col in column_names]  # Extract just the column names
                 
                 logging.info(f"Extracted table name: {table_name}")

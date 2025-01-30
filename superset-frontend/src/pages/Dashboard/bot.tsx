@@ -160,7 +160,7 @@ const ChatBOT = ({ schema }: { schema: any }) => {
     
             // Format columns
             const formattedColumns = schema.columns
-                .map(col => `  "${col.name}" ${col.type.toUpperCase()}`)
+                .map((col: { name: string; type: string }) => `  "${col.name}" ${col.type.toUpperCase()}`)
                 .join(",\n");
     
             // Extract primary key

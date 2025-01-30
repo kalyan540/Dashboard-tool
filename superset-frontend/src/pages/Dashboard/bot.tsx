@@ -167,14 +167,14 @@ const ChatBOT = ({ schema }: { schema: any }) => {
             const primaryKey = schema.primary_key ? `  primary key: "${schema.primary_key}"` : "";
     
             // Construct the formatted schema string with triple quotes (without extra "schema =")
-            const formattedSchema = `"""${tableName}\n${formattedColumns},\n  foreign_key:  \n${primaryKey}\n"""`;
+            const formattedSchema = `"""\n${tableName}\n${formattedColumns},\n  foreign_key:  \n${primaryKey}\n"""`;
     
             const dataToSend = {
                 schema: formattedSchema, // Use the properly formatted schema
                 query: query,   // Include query
             };
     
-            console.log("Formatted dataToSend", dataToSend);
+            //console.log("Formatted dataToSend", dataToSend);
             socket.current.send(JSON.stringify(dataToSend)); // Send the query to the WebSocket server
             console.log("Sent formatted schema and query to WebSocket:", dataToSend);
         } else {

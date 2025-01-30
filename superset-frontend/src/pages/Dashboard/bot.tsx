@@ -154,33 +154,51 @@ const ChatBOT = ({ schema }: { schema: any }) => {
     };
 
     const handleSubmit = () => {
-
-         // Format schema data to match the exact required format
-        // const formattedSchema = `"""
-        // "${schema.table_name}"
-        // "${schema.columns[0].name}" ${schema.columns[0].type},
-        // "${schema.columns[1].name}" ${schema.columns[1].type},
-        // "${schema.columns[2].name}" ${schema.columns[2].type},
-        // "${schema.columns[3].name}" ${schema.columns[3].type},
-        // "${schema.columns[4].name}" ${schema.columns[4].type},
-        // "${schema.columns[5].name}" ${schema.columns[5].type},
-        // foreign_key:  
-        // primary key: "${schema.primary_key}"
-        // """`;
-        // Send the query input to the WebSocket server
         if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+            // Extract table name
+            const tableName = schema.table_name ? `"${schema.table_name}"` : `"Unknown_Table"`;
+    
+            // Format columns
+            const formattedColumns = schema.columns
+                .map(col => `  "${col.name}" ${col.type.toUpperCase()}`)
+                .join(",\n");
+    
+            // Extract primary key
+            const primaryKey = schema.primary_key ? `  primary key: "${schema.primary_key}"` : "";
+    
+            // Construct the formatted schema string with triple quotes (without extra "schema =")
+            const formattedSchema = `"""\n${tableName}\n${formattedColumns},\n  foreign_key:  \n${primaryKey}\n"""`;
+    
             const dataToSend = {
-                schema: schema, // Include schema
+                schema: formattedSchema, // Use the properly formatted schema
                 query: query,   // Include query
             };
-            console.log("dataToSend", dataToSend);
+    
+            console.log("Formatted dataToSend", dataToSend);
             socket.current.send(JSON.stringify(dataToSend)); // Send the query to the WebSocket server
-            console.log("Sent schema and query to WebSocket:", dataToSend);
+            console.log("Sent formatted schema and query to WebSocket:", dataToSend);
         } else {
             console.log("WebSocket not open yet.");
         }
         setShowSuggestions(false);
     };
+    
+
+    // const handleSubmit = () => {
+    //     if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+    //         const dataToSend = {
+    //             schema: schema, // Include schema
+    //             query: query,   // Include query
+    //         };
+    //         console.log("dataToSend", dataToSend);
+
+    //         socket.current.send(JSON.stringify(dataToSend)); // Send the query to the WebSocket server
+    //         console.log("Sent schema and query to WebSocket:", dataToSend);
+    //     } else {
+    //         console.log("WebSocket not open yet.");
+    //     }
+    //     setShowSuggestions(false);
+    // };
 
     return (
         <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>

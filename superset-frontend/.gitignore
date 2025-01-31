@@ -4,3 +4,4 @@ cypress/videos
 src/temp
 .temp_cache/
 src/customviz
+src/Custom_Viz_Plugins

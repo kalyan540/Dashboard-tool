@@ -153,7 +153,11 @@ const DashboardRoute: FC = () => {
         />;
       case 'chatbot':
         return <ChatBOT
-          schema={activeButtonConfig.schema}
+          //schema={activeButtonConfig.schema}
+          tableName={activeButtonConfig.schema.table_name}
+          columns={activeButtonConfig.schema.columns}
+          primaryKey={activeButtonConfig.schema.primary_key}
+          foreignKeys={activeButtonConfig.schema.foreign_keys}
         />;
       default:
         return <div style={{ textAlign: 'center', marginTop: '20px' }}>Unknown type: {activeButtonConfig.type}</div>;

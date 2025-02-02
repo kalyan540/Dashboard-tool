@@ -85,6 +85,7 @@ const defaultProps = {
 class ChartRenderer extends Component {
   constructor(props) {
     super(props);
+    console.log('ChartRenderer props:', props);
     const suppressContextMenu = getChartMetadataRegistry().get(
       props.formData.viz_type ?? props.vizType,
     )?.suppressContextMenu;

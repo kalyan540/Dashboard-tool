@@ -165,6 +165,7 @@ function WorldMap(element, props) {
     const dataMask = getCrossFilterDataMask(source)?.dataMask;
     if (dataMask) {
       if (enableNavigation) {
+        console.log("Hello");
         dataMask.country = mapData[source.id || source.country]?.name;
       }
       setDataMask(dataMask);

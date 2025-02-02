@@ -123,9 +123,11 @@ class ChartRenderer extends Component {
       onFilterMenuClose: this.props.onFilterMenuClose,
       onLegendStateChanged: this.handleLegendStateChanged,
       setDataMask: dataMask => {
+        console.log('setDataMask called with:', dataMask);
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);
       },
     };
+    
 
     // TODO: queriesResponse comes from Redux store but it's being edited by
     // the plugins, hence we need to clone it to avoid state mutation

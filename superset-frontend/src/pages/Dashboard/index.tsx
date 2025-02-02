@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { FC, useState } from 'react';
+import { FC, useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
@@ -26,6 +26,7 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
+import IDContext from 'src/views/idOrSlugContext';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
@@ -34,6 +35,11 @@ const DashboardRoute: FC = () => {
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+  const {idState, updateidOrSlug} = useContext(IDContext);
+  useEffect(() => {
+    updateidOrSlug(idOrSlug);
+    console.log(idOrSlug);
+  }, []);
   const injectCustomStyles = () => (
     <style>
       {`
@@ -149,7 +155,7 @@ const DashboardRoute: FC = () => {
       <div className="right-panel">
         {activeButton === 'Dashboard' ? (
           <div className="dashboard-container">
-            <DashboardPage idOrSlug={idOrSlug} />
+            <DashboardPage idOrSlug={idState} />
           </div>
         ) : activeButton === 'User Management' ? (
           <>

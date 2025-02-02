@@ -30,6 +30,7 @@ import FlashProvider from '../components/FlashProvider';
 import { theme } from '../preamble';
 import { EmbeddedUiConfigProvider } from '../components/UiConfigContext';
 import { DynamicPluginProvider } from '../components/DynamicPlugins';
+import { IDProvider } from './idOrSlugContext';
 
 const { common } = getBootstrapData();
 
@@ -48,18 +49,20 @@ export const RootContextProviders: React.FC = ({ children }) => {
             <FlashProvider messages={common.flash_messages}>
               <EmbeddedUiConfigProvider>
                 <DynamicPluginProvider>
-                  <QueryParamProvider
-                    ReactRouterRoute={Route}
-                    stringifyOptions={{ encode: false }}
-                  >
-                    {RootContextProviderExtension ? (
-                      <RootContextProviderExtension>
-                        {children}
-                      </RootContextProviderExtension>
-                    ) : (
-                      children
-                    )}
-                  </QueryParamProvider>
+                  <IDProvider>
+                    <QueryParamProvider
+                      ReactRouterRoute={Route}
+                      stringifyOptions={{ encode: false }}
+                    >
+                      {RootContextProviderExtension ? (
+                        <RootContextProviderExtension>
+                          {children}
+                        </RootContextProviderExtension>
+                      ) : (
+                        children
+                      )}
+                    </QueryParamProvider>
+                  </IDProvider>
                 </DynamicPluginProvider>
               </EmbeddedUiConfigProvider>
             </FlashProvider>

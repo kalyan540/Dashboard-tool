@@ -40,6 +40,7 @@ const propTypes = {
   ),
   height: PropTypes.number,
   maxBubbleSize: PropTypes.number,
+  enableNavigation: PropTypes.bool,
   showBubbles: PropTypes.bool,
   linearColorScheme: PropTypes.string,
   color: PropTypes.string,
@@ -58,6 +59,7 @@ function WorldMap(element, props) {
     width,
     height,
     maxBubbleSize,
+    enableNavigation,
     showBubbles,
     linearColorScheme,
     color,
@@ -131,7 +133,7 @@ function WorldMap(element, props) {
 
     return {
       dataMask: {
-        country: mapData[key]?.name,
+        country: null,
         extraFormData: {
           filters: values.length
             ? [
@@ -162,7 +164,9 @@ function WorldMap(element, props) {
 
     const dataMask = getCrossFilterDataMask(source)?.dataMask;
     if (dataMask) {
-      dataMask.country = mapData[source.id || source.country]?.name;
+      if (enableNavigation) {
+        dataMask.country = mapData[source.id || source.country]?.name;
+      }
       setDataMask(dataMask);
     }
   };

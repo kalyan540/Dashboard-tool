@@ -46,7 +46,7 @@ const config: ControlPanelConfig = {
               ],
               description: t(
                 'The country code standard that Superset should expect ' +
-                  'to find in the [country] column',
+                'to find in the [country] column',
               ),
             },
           },
@@ -56,6 +56,23 @@ const config: ControlPanelConfig = {
         ['row_limit'],
         ['sort_by_metric'],
       ],
+    },
+    {
+      label: t('Dashboard Navigation'),
+      expanded: true,
+      controlSetRows: [
+        [{
+          name: 'enable_navigation',
+          config: {
+            type: 'CheckboxControl',
+            label: t('Enable navigation'),
+            default: false,
+            renderTrigger: true,
+            description: t('Whether to display bubbles on top of countries'),
+          },
+        },
+        ]
+      ]
     },
     {
       label: t('Options'),

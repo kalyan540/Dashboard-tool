@@ -131,7 +131,7 @@ function WorldMap(element, props) {
 
     return {
       dataMask: {
-        hi: 1,
+        country: mapData[key]?.name,
         extraFormData: {
           filters: values.length
             ? [
@@ -162,6 +162,7 @@ function WorldMap(element, props) {
 
     const dataMask = getCrossFilterDataMask(source)?.dataMask;
     if (dataMask) {
+      dataMask.country = mapData[source.id || source.country]?.name;
       setDataMask(dataMask);
     }
   };

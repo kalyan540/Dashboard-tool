@@ -298,6 +298,7 @@ class Chart extends PureComponent<ChartProps, {}> {
   renderChartContainer() {
     return (
       <div className="slice_container" data-test="slice-container">
+        {console.log(this.props)}
         {this.props.isInView ||
         !isFeatureEnabled(FeatureFlag.DashboardVirtualization) ||
         isCurrentUserBot() ? (

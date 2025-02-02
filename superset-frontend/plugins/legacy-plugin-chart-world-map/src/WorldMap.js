@@ -131,6 +131,7 @@ function WorldMap(element, props) {
 
     return {
       dataMask: {
+        hi: 1,
         extraFormData: {
           filters: values.length
             ? [

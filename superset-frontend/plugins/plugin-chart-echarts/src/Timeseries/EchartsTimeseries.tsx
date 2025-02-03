@@ -136,6 +136,7 @@ export default function EchartsTimeseries({
       }
       const dataMask = getCrossFilterDataMask(value).dataMask;
       dataMask.navigate = 'test';
+      console.log(value);
       setDataMask(dataMask);
     },
     [emitCrossFilters, setDataMask, getCrossFilterDataMask],

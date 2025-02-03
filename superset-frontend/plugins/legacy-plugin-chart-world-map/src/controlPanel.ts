@@ -64,7 +64,7 @@ const config: ControlPanelConfig = {
         [{
           name: 'enable_navigation',
           config: {
-            type: 'CheckboxControl',
+            type: 'SelectControl',
             label: t('Enable navigation'),
             default: false,
             renderTrigger: true,

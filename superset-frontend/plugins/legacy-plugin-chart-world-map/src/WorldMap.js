@@ -165,7 +165,7 @@ function WorldMap(element, props) {
     if (dataMask) {
       if (enableNavigation) {
         console.log("Hello");
-        dataMask.country = mapData[source.id || source.country]?.name;
+        dataMask.navigate = mapData[source.id || source.country]?.name;
       }
       setDataMask(dataMask);
     }

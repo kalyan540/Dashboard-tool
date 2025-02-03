@@ -174,7 +174,7 @@ const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys }: {
             socket.current.send(JSON.stringify(dataToSend)); // Send the query to the WebSocket server
             console.log("Sent schema and query to WebSocket:", dataToSend);
         } else {
-            console.log("WebSocket not open yet.");
+            console.log("WebSocket not open yet..");
         }
         setShowSuggestions(false);
     };

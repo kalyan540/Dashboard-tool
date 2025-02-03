@@ -156,7 +156,7 @@ const DashboardRoute: FC = () => {
       <div className="right-panel">
         {activeButton === 'Dashboard' ? (
           <div className="dashboard-container">
-            <DashboardPage idOrSlug={idState} />
+            <DashboardPage idOrSlug={idState[-1]} />
           </div>
         ) : activeButton === 'User Management' ? (
           <>

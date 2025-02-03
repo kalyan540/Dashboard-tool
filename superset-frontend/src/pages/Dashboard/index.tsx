@@ -40,6 +40,7 @@ const DashboardRoute: FC = () => {
     updateidOrSlug(idOrSlug);
     console.log(idOrSlug);
   }, []);
+  console.log(idState);
   const injectCustomStyles = () => (
     <style>
       {`

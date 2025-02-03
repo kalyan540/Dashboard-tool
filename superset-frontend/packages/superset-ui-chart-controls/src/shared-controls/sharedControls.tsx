@@ -403,7 +403,6 @@ export default {
   order_desc,
   series: dndSeriesControl,
   entity: dndEntityControl,
-  column:dndEntityControl,
   x: dndXControl,
   y: dndYControl,
   size: dndSizeControl,

@@ -61,8 +61,6 @@ const config: ControlPanelConfig = {
       label: t('Dashboard Navigation'),
       expanded: true,
       controlSetRows: [
-        ['column'],
-        ['columns'],
         [{
           name: 'enable_navigation',
           config: {

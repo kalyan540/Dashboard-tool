@@ -134,7 +134,9 @@ export default function EchartsTimeseries({
       if (!emitCrossFilters) {
         return;
       }
-      setDataMask(getCrossFilterDataMask(value).dataMask);
+      const dataMask = getCrossFilterDataMask(value).dataMask;
+      dataMask.navigate = 'test';
+      setDataMask(dataMask);
     },
     [emitCrossFilters, setDataMask, getCrossFilterDataMask],
   );

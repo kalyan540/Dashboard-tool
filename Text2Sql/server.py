@@ -106,25 +106,37 @@ async def echo(websocket):
             foreign_keys = data.get("foreignKeys", [])
             query = data.get("query", "")
 
-            # Format the schema exactly as expected
-            schema = f'"""\n"{table_name}"\n'
+            # Start building the schema in the expected format
+            schema = f'schema = """\n"{table_name}"\n'
+            
+            # Add columns to schema
             for col in columns:
-                schema += f'  "{col["name"]}" {col["type"].replace("LONGINTEGER", "INTEGER")},\n'  # Adjust LONGINTEGER -> INTEGER
+                col_type = col["type"].replace("LONGINTEGER", "INTEGER")  # Adjust LONGINTEGER to INTEGER
+                schema += f'  "{col["name"]}" {col_type},\n'
 
-            schema += "  foreign_key: " + (", ".join(f'"{fk}"' for fk in foreign_keys) if foreign_keys else "") + "\n"
-            schema += f'  primary key: "{primary_key}"\n"""'
+            # Handle foreign keys (if any)
+            if foreign_keys:
+                schema += f'  foreign_key: {", ".join(f\'"{fk}"\' for fk in foreign_keys)}\n'
 
-            # Create a single variable to send
+            # Handle primary key
+            if primary_key:
+                schema += f'  primary key: "{primary_key}"\n'
+
+            # Close the schema string
+            schema += '"""'
+
+            # Create a single variable to send the schema and query
             formatted_input = f"{schema}\n\n{query}"
 
-            # Generate SQL query with only one argument
-            sql_query = generate_sql_query(formatted_input)
+            # Generate SQL query with only one argument (the formatted schema and query)
+            sql_query = generate_sql_query(formatted_input, table_names, column_names)
 
             # Send the SQL query back to the client
             await websocket.send(sql_query)
 
     except websockets.exceptions.ConnectionClosed as e:
         logging.error(f"Connection closed: {e}")
+
 
 
 

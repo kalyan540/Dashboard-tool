@@ -124,6 +124,9 @@ class ChartRenderer extends Component {
       onLegendStateChanged: this.handleLegendStateChanged,
       setDataMask: dataMask => {
         console.log('setDataMask called with:', dataMask);
+        if (dataMask?.navigate && this.props.updateidOrSlug) {
+          this.props.updateidOrSlug(dataMask.navigate); // Update ID or Slug
+        }
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);
       },
     };

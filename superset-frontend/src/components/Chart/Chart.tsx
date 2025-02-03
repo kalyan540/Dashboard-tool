@@ -41,7 +41,7 @@ import { ChartSource } from 'src/types/ChartSource';
 import { ResourceStatus } from 'src/hooks/apiResources/apiResources';
 import { Dispatch } from 'redux';
 import { Annotation } from 'src/explore/components/controls/AnnotationLayerControl';
-import ChartRenderer from './ChartRenderer';
+import ChartRendererWrapper from './ChartRendererWrapper';
 import { ChartErrorMessage } from './ChartErrorMessage';
 import { getChartRequiredFieldsMissingMessage } from '../../utils/getChartRequiredFieldsMissingMessage';
 
@@ -301,7 +301,7 @@ class Chart extends PureComponent<ChartProps, {}> {
         {this.props.isInView ||
         !isFeatureEnabled(FeatureFlag.DashboardVirtualization) ||
         isCurrentUserBot() ? (
-          <ChartRenderer
+          <ChartRendererWrapper
             {...this.props}
             source={this.props.dashboardId ? 'dashboard' : 'explore'}
             data-test={this.props.vizType}

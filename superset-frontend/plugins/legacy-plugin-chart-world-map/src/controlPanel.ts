@@ -71,6 +71,17 @@ const config: ControlPanelConfig = {
             description: t('Whether to display bubbles on top of countries'),
           },
         },
+        ],
+        [{
+          name: 'enable_navigationtest',
+          config: {
+            type: 'NavigateControl',
+            label: t('Enable navigation'),
+            default: false,
+            renderTrigger: true,
+            description: t('Whether to display bubbles on top of countries'),
+          },
+        },
         ]
       ]
     },

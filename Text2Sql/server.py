@@ -109,8 +109,9 @@ async def echo(websocket):
             # Format the schema exactly as expected
             schema = f'"""\n"{table_name}"\n'
             for col in columns:
-                schema += f'  "{col["name"]}" {col["type"]},\n'
-            schema += f'  foreign_key: {", ".join(fk for fk in foreign_keys) if foreign_keys else ""}\n'
+                schema += f'  "{col["name"]}" {col["type"].replace("LONGINTEGER", "INTEGER")},\n'  # Adjust LONGINTEGER -> INTEGER
+
+            schema += "  foreign_key: " + (", ".join(f'"{fk}"' for fk in foreign_keys) if foreign_keys else "") + "\n"
             schema += f'  primary key: "{primary_key}"\n"""'
 
             # Create a single variable to send
@@ -124,6 +125,7 @@ async def echo(websocket):
 
     except websockets.exceptions.ConnectionClosed as e:
         logging.error(f"Connection closed: {e}")
+
 
 
 # WebSocket server function

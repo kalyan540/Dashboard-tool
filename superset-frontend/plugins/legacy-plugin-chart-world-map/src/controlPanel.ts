@@ -61,6 +61,7 @@ const config: ControlPanelConfig = {
       label: t('Dashboard Navigation'),
       expanded: true,
       controlSetRows: [
+        ['column'],
         [{
           name: 'enable_navigation',
           config: {
@@ -154,6 +155,10 @@ const config: ControlPanelConfig = {
     entity: {
       label: t('Country Column'),
       description: t('3 letter code of the country'),
+    },
+    column: {
+      label: t('Country Column'),
+      description: t('Select column for navigate'),
     },
     secondary_metric: {
       label: t('Bubble Size'),

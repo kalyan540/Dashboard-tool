@@ -91,6 +91,7 @@ logging.basicConfig(level=logging.INFO)
 #     except websockets.exceptions.ConnectionClosed as e:
 #         logging.error(f"Connection closed: {e}")
 
+
 # WebSocket handler that processes questions and returns SQL
 async def echo(websocket):
     logging.info(f"New connection from {websocket.remote_address}")
@@ -123,21 +124,19 @@ async def echo(websocket):
                 schema += f'  primary key: "{primary_key}"\n'
 
             # Close the schema string
-            schema += '"""'
+            schema += '"""\n'
 
-            # Create a single variable to send the schema and query
-            formatted_input = f"{schema}\n\n{query}"
+            # Create the formatted input (schema + query)
+            formatted_input = f"{schema}{query}"
 
-            # Generate SQL query with only one argument (the formatted schema and query)
-            sql_query = generate_sql_query(formatted_input, table_names, column_names)
+            # Generate SQL query with only the formatted input
+            sql_query = generate_sql_query(formatted_input)
 
             # Send the SQL query back to the client
             await websocket.send(sql_query)
 
     except websockets.exceptions.ConnectionClosed as e:
         logging.error(f"Connection closed: {e}")
-
-
 
 
 # WebSocket server function

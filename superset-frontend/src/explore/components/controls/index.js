@@ -48,6 +48,7 @@ import DndColumnSelectControl, {
 } from './DndColumnSelectControl';
 import XAxisSortControl from './XAxisSortControl';
 import CurrencyControl from './CurrencyControl';
+import NavigateControl from './Navigate';
 import ColumnConfigControl from './ColumnConfigControl';
 import { ComparisonRangeLabel } from './ComparisonRangeLabel';
 
@@ -60,6 +61,7 @@ const controlMap = {
   ColorSchemeControl,
   ColumnConfigControl,
   CurrencyControl,
+  NavigateControl
   DatasourceControl,
   DateFilterControl,
   DndColumnSelectControl,

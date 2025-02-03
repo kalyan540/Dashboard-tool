@@ -62,6 +62,7 @@ const config: ControlPanelConfig = {
       expanded: true,
       controlSetRows: [
         ['column'],
+        ['columns'],
         [{
           name: 'enable_navigation',
           config: {

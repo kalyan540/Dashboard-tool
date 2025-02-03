@@ -61,7 +61,7 @@ const controlMap = {
   ColorSchemeControl,
   ColumnConfigControl,
   CurrencyControl,
-  NavigateControl
+  NavigateControl,
   DatasourceControl,
   DateFilterControl,
   DndColumnSelectControl,

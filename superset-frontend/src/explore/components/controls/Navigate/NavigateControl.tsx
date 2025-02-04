@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
     css,
@@ -31,11 +31,6 @@ import { Select } from 'src/components';
 import { ViewState } from 'src/views/types';
 import { SelectProps } from 'src/components/Select/types';
 import ControlHeader from '../../ControlHeader';
-import {
-    AddControlLabel,
-    LabelsContainer,
-} from 'src/explore/components/controls/OptionControls';
-import Icons from 'src/components/Icons';
 
 export interface NavigateControlProps {
     onChange: (currency: Partial<Currency>) => void;
@@ -44,14 +39,6 @@ export interface NavigateControlProps {
     currencySelectOverrideProps?: Partial<SelectProps>;
     symbolSelectAdditionalStyles?: CSSObject;
     currencySelectAdditionalStyles?: CSSObject;
-    theme: {
-        colors: {
-            grayscale: {
-                light1: string;
-            };
-        };
-        gridUnit: number;
-    };
 }
 
 const NavigateControlContainer = styled.div`
@@ -99,7 +86,6 @@ export const NavigateControl = ({
             })),
         [currencies],
     );
-    const { theme } = props;
     return (
         <>
             <ControlHeader {...props} />
@@ -139,12 +125,6 @@ export const NavigateControl = ({
                     allowNewOptions
                     {...currencySelectOverrideProps}
                 />
-                <LabelsContainer>
-                    <AddControlLabel>
-                        <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
-                        {t('Add filter')}
-                    </AddControlLabel>
-                </LabelsContainer>
             </NavigateControlContainer>
         </>
     );

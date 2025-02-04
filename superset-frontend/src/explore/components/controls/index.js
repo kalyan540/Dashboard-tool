@@ -48,7 +48,7 @@ import DndColumnSelectControl, {
 } from './DndColumnSelectControl';
 import XAxisSortControl from './XAxisSortControl';
 import CurrencyControl from './CurrencyControl';
-import NavigateControl from './MappingSelectionControl';
+import MappingSelectionControl from './MappingSelectionControl';
 import ColumnConfigControl from './ColumnConfigControl';
 import { ComparisonRangeLabel } from './ComparisonRangeLabel';
 

@@ -54,14 +54,15 @@ const NavigateControl = ({ label, controlLabel }) => {
         <div
           style={{
             width: '200px',
-            height: '100px',
-            backgroundColor: '#007bff',
-            color: '#fff',
+            height: '40px',
+            backgroundColor: '#f0f0f0',
+            color: '#000',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             cursor: 'pointer',
             borderRadius: '5px',
+            padding: '0 10px',
             marginTop: '10px', // Adding some margin for spacing
           }}
           onClick={handleOpenPopover}

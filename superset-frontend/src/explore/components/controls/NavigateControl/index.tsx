@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
-import Popover from 'src/components/Popover'; // Importing Popover
+import { Popover } from 'antd';
 import PropTypes from 'prop-types';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Importing ControlHeader
 

@@ -40,7 +40,7 @@ import VizTypeControl from './VizTypeControl';
 import NavigateControl from './NavigateControl';
 import AdhocFilterControl from './FilterControl/AdhocFilterControl';
 import ConditionalFormattingControl from './ConditionalFormattingControl';
-import MetricsControl from './MetricsControl';
+import MetricsControl from './MetricControl/MetricsControl';
 import ContourControl from './ContourControl';
 import DndColumnSelectControl, {
   DndColumnSelect,

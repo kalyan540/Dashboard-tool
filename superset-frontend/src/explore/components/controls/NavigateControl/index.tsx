@@ -8,9 +8,11 @@ import Button from 'src/components/Button'; // Assuming you have a Popover and B
 import { Popover } from 'antd';
 import PropTypes from 'prop-types';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Importing ControlHeader
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons'; // Assuming you are using Ant Design icons
 
 const NavigateControl = ({ label, controlLabel }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const handleOpenPopover = () => {
     setPopoverVisible(true);
@@ -20,10 +22,21 @@ const NavigateControl = ({ label, controlLabel }) => {
     setPopoverVisible(false);
   };
 
+  const handleAddItem = (item) => {
+    setSelectedItems([...selectedItems, item]);
+  };
+
+  const handleRemoveItem = (itemToRemove) => {
+    setSelectedItems(selectedItems.filter(item => item !== itemToRemove));
+  };
+
   const popoverContent = (
     <div>
-      <p>This is the Navigate Control popover!</p>
-      <Button onClick={handleClosePopover}>Close</Button>
+      {/* Placeholder for popover content */}
+      <p>Select items to add...</p>
+      {/* Example buttons for adding items */}
+      <Button onClick={() => handleAddItem('Item 1')}>Add Item 1</Button>
+      <Button onClick={() => handleAddItem('Item 2')}>Add Item 2</Button>
     </div>
   );
 
@@ -31,7 +44,6 @@ const NavigateControl = ({ label, controlLabel }) => {
     <div>
       {/* Control Header */}
       <ControlHeader label={controlLabel} />
-
       <Popover
         content={popoverContent}
         title="Navigate Control"
@@ -52,8 +64,22 @@ const NavigateControl = ({ label, controlLabel }) => {
             borderRadius: '5px',
             marginTop: '10px', // Adding some margin for spacing
           }}
+          onClick={handleOpenPopover}
         >
-          {label || 'Click Me'}
+          {selectedItems.length > 0 ? (
+            selectedItems.map((item, index) => (
+              <span key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                {item}
+                <CloseOutlined 
+                  style={{ marginLeft: '5px', cursor: 'pointer' }} 
+                  onClick={() => handleRemoveItem(item)} 
+                />
+              </span>
+            ))
+          ) : (
+            <span>Add</span>
+          )}
+          <PlusOutlined style={{ marginLeft: 'auto' }} />
         </div>
       </Popover>
     </div>

@@ -75,8 +75,8 @@ const config: ControlPanelConfig = {
         [{
           name: 'enable_navigationtest',
           config: {
-            type: 'MappingSelectionControl',
-            label: t('Enable navigation'),
+            type: 'NavigateControl',
+            label: t('Navigation Selection'),
             default: false,
             renderTrigger: true,
             description: t('Whether to display bubbles on top of countries'),

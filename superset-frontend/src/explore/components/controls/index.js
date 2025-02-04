@@ -37,7 +37,7 @@ import TimeSeriesColumnControl from './TimeSeriesColumnControl';
 import TimeOffsetControl from './TimeOffsetControl';
 import ViewportControl from './ViewportControl';
 import VizTypeControl from './VizTypeControl';
-import MetricsControl from './MetricControl/MetricsControl';
+import NavigateControl from './NavigateControl';
 import AdhocFilterControl from './FilterControl/AdhocFilterControl';
 import ConditionalFormattingControl from './ConditionalFormattingControl';
 import ContourControl from './ContourControl';
@@ -48,7 +48,7 @@ import DndColumnSelectControl, {
 } from './DndColumnSelectControl';
 import XAxisSortControl from './XAxisSortControl';
 import CurrencyControl from './CurrencyControl';
-import MappingSelectionControl from './MappingSelectionControl';
+import MappingSelectionControl from './NavigateControl';
 import ColumnConfigControl from './ColumnConfigControl';
 import { ComparisonRangeLabel } from './ComparisonRangeLabel';
 
@@ -61,7 +61,7 @@ const controlMap = {
   ColorSchemeControl,
   ColumnConfigControl,
   CurrencyControl,
-  MappingSelectionControl,
+  NavigateControl,
   DatasourceControl,
   DateFilterControl,
   DndColumnSelectControl,

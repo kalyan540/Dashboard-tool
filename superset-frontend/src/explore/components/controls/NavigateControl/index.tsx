@@ -6,13 +6,17 @@
 import React, { useState } from 'react';
 import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
 import { Popover } from 'antd';
+import { Select } from 'src/components';
 import PropTypes from 'prop-types';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Importing ControlHeader
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons'; // Assuming you are using Ant Design icons
 
-const NavigateControl = ({ label, controlLabel }) => {
+const NavigateControl = ({ label, controlLabel, columnOptions }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedColumn, setSelectedColumn] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [selections, setSelections] = useState({}); // To store selections
 
   const handleOpenPopover = () => {
     setPopoverVisible(true);
@@ -22,21 +26,57 @@ const NavigateControl = ({ label, controlLabel }) => {
     setPopoverVisible(false);
   };
 
-  const handleAddItem = (item) => {
-    setSelectedItems([...selectedItems, item]);
-  };
-
-  const handleRemoveItem = (itemToRemove) => {
-    setSelectedItems(selectedItems.filter(item => item !== itemToRemove));
+  const handleAddItem = () => {
+    if (selectedColumn && inputValue) {
+      setSelections({
+        ...selections,
+        [selectedColumn]: inputValue,
+      });
+      setSelectedItems([...selectedItems, selectedColumn]);
+      setInputValue(''); // Clear input after adding
+    }
   };
 
   const popoverContent = (
     <div>
-      {/* Placeholder for popover content */}
-      <p>Select items to add...</p>
-      {/* Example buttons for adding items */}
-      <Button onClick={() => handleAddItem('Item 1')}>Add Item 1</Button>
-      <Button onClick={() => handleAddItem('Item 2')}>Add Item 2</Button>
+      <Select
+        placeholder="Select Column"
+        style={{ width: '100%', marginBottom: '10px' }}
+        onChange={setSelectedColumn}
+      >
+        {columnOptions.map((option) => (
+          <Select.Option key={option.value} value={option.value}>
+            {option.label}
+          </Select.Option>
+        ))}
+      </Select>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Select
+          placeholder="Select Value"
+          style={{ width: '48%' }}
+          onChange={setSelectedColumn}
+        >
+          {selectedColumn && columnOptions.find(col => col.value === selectedColumn)?.values.map((value) => (
+            <Select.Option key={value} value={value}>
+              {value}
+            </Select.Option>
+          ))}
+        </Select>
+
+        <input
+          type="text"
+          placeholder="Enter corresponding value"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          style={{ width: '48%' }}
+        />
+      </div>
+
+      <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
+        <Button onClick={handleClosePopover} placement="top">Close</Button>
+        <Button type="primary" onClick={handleAddItem} placement="top">Save</Button>
+      </div>
     </div>
   );
 
@@ -44,12 +84,14 @@ const NavigateControl = ({ label, controlLabel }) => {
     <div>
       {/* Control Header */}
       <ControlHeader label={controlLabel} />
+
       <Popover
         content={popoverContent}
         title="Navigate Control"
         trigger="click"
         visible={popoverVisible}
         onVisibleChange={setPopoverVisible}
+        forceRender={true} // Optional: Use if you want to render the popover even when not visible
       >
         <div
           style={{
@@ -73,7 +115,7 @@ const NavigateControl = ({ label, controlLabel }) => {
                 {item}
                 <CloseOutlined 
                   style={{ marginLeft: '5px', cursor: 'pointer' }} 
-                  onClick={() => handleRemoveItem(item)} 
+                  onClick={() => setSelectedItems(selectedItems.filter(i => i !== item))} 
                 />
               </span>
             ))
@@ -89,8 +131,12 @@ const NavigateControl = ({ label, controlLabel }) => {
 
 // PropTypes for NavigateControl
 NavigateControl.propTypes = {
-  label: PropTypes.string,
   controlLabel: PropTypes.string.isRequired, // Control label is required
+  columnOptions: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    values: PropTypes.arrayOf(PropTypes.string).isRequired, // Values for the selected column
+  })).isRequired, // Column options are required
 };
 
 export default NavigateControl;

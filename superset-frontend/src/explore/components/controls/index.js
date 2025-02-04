@@ -40,6 +40,7 @@ import VizTypeControl from './VizTypeControl';
 import NavigateControl from './NavigateControl';
 import AdhocFilterControl from './FilterControl/AdhocFilterControl';
 import ConditionalFormattingControl from './ConditionalFormattingControl';
+import MetricsControl from './MetricsControl';
 import ContourControl from './ContourControl';
 import DndColumnSelectControl, {
   DndColumnSelect,
@@ -48,7 +49,6 @@ import DndColumnSelectControl, {
 } from './DndColumnSelectControl';
 import XAxisSortControl from './XAxisSortControl';
 import CurrencyControl from './CurrencyControl';
-import MappingSelectionControl from './NavigateControl';
 import ColumnConfigControl from './ColumnConfigControl';
 import { ComparisonRangeLabel } from './ComparisonRangeLabel';
 

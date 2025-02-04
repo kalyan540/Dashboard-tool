@@ -169,7 +169,7 @@ const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys }: {
                 foreignKeys: foreignKeys, // Sending foreign keys
                 query: query, 
             };
-            console.log("dataToSend", dataToSend);
+            //console.log("dataToSend", dataToSend);
 
             socket.current.send(JSON.stringify(dataToSend)); // Send the query to the WebSocket server
             console.log("Sent schema and query to WebSocket:", dataToSend);

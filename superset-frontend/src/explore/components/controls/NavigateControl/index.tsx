@@ -11,12 +11,16 @@ import PropTypes from 'prop-types';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Importing ControlHeader
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons'; // Assuming you are using Ant Design icons
 
-const NavigateControl = ({ label, controlLabel, columnOptions }) => {
+const NavigateControl = ({ label, controlLabel }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [selections, setSelections] = useState({}); // To store selections
+  const columnOptions = [
+    { value: 'country', label: 'Country', values: ['India', 'USA', 'Canada'] },
+    { value: 'city', label: 'City', values: ['New York', 'Toronto', 'Mumbai'] },
+  ];
 
   const handleOpenPopover = () => {
     setPopoverVisible(true);
@@ -74,8 +78,8 @@ const NavigateControl = ({ label, controlLabel, columnOptions }) => {
       </div>
 
       <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
-        <Button onClick={handleClosePopover} placement="top">Close</Button>
-        <Button type="primary" onClick={handleAddItem} placement="top">Save</Button>
+        <Button onClick={handleClosePopover}>Close</Button>
+        <Button type="primary" onClick={handleAddItem}>Save</Button>
       </div>
     </div>
   );

@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
-import { Tooltip } from 'src/components/Tooltip'; // Ensure this is correctly imported
 import Button from 'src/components/Button'; // Using your custom Button component
-import { t } from '@superset-ui/core';
+import ControlPopover from '../ControlPopover/ControlPopover';
 
 const MappingSelectionControl: React.FC = () => {
-  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 
-  // Function to toggle tooltip visibility
-  const toggleTooltip = () => {
-    setIsTooltipVisible(!isTooltipVisible);
+  // Function to toggle popover visibility
+  const togglePopover = () => {
+    setIsPopoverVisible(!isPopoverVisible);
   };
 
   return (
     <div>
-      {/* Tooltip wrapper with a 'placement' prop */}
-      <Tooltip title={t('This is a basic tooltip message!')} placement="top">
-        {/* Button to trigger tooltip */}
+      {/* ControlPopover with visibility toggle */}
+      <ControlPopover
+        visible={isPopoverVisible} // Controls visibility of the popover
+        onVisibleChange={(visible) => setIsPopoverVisible(visible)} // Toggle visibility
+        trigger="click" // Trigger the popover on button click
+        placement="right" // Position of the popover
+        destroyTooltipOnHide={true} // Optionally destroy on hide for performance
+        getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
+      >
+        {/* Button that will trigger the popover */}
         <Button 
-          onClick={toggleTooltip} 
-          buttonSize="small" // Assuming buttonSize is a required prop for your Button component
-          buttonStyle="default" // Assuming buttonStyle is required too
-          cta={true} // Assuming cta is a boolean prop expected by Button
-          placement="top" // Adding the required placement prop
+          onClick={togglePopover} 
+          buttonSize="small" 
+          buttonStyle="default" 
+          cta={true}
+          placement="right"
         >
-          {t('Open Tooltip')}
+          Open Popover
         </Button>
-      </Tooltip>
+
+        {/* Content inside the ControlPopover */}
+        <div>
+          This is a custom ControlPopover message! You can add more controls here.
+        </div>
+      </ControlPopover>
     </div>
   );
 };

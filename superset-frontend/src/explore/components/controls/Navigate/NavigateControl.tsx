@@ -16,29 +16,42 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  css,
-  Currency,
-  ensureIsArray,
-  getCurrencySymbol,
-  styled,
-  t,
+    css,
+    Currency,
+    ensureIsArray,
+    getCurrencySymbol,
+    styled,
+    t,
 } from '@superset-ui/core';
 import { CSSObject } from '@emotion/react';
 import { Select } from 'src/components';
 import { ViewState } from 'src/views/types';
 import { SelectProps } from 'src/components/Select/types';
 import ControlHeader from '../../ControlHeader';
+import {
+    AddControlLabel,
+    LabelsContainer,
+} from 'src/explore/components/controls/OptionControls';
+import Icons from 'src/components/Icons';
 
 export interface NavigateControlProps {
-  onChange: (currency: Partial<Currency>) => void;
-  value?: Partial<Currency>;
-  symbolSelectOverrideProps?: Partial<SelectProps>;
-  currencySelectOverrideProps?: Partial<SelectProps>;
-  symbolSelectAdditionalStyles?: CSSObject;
-  currencySelectAdditionalStyles?: CSSObject;
+    onChange: (currency: Partial<Currency>) => void;
+    value?: Partial<Currency>;
+    symbolSelectOverrideProps?: Partial<SelectProps>;
+    currencySelectOverrideProps?: Partial<SelectProps>;
+    symbolSelectAdditionalStyles?: CSSObject;
+    currencySelectAdditionalStyles?: CSSObject;
+    theme: {
+        colors: {
+            grayscale: {
+                light1: string;
+            };
+        };
+        gridUnit: number;
+    };
 }
 
 const NavigateControlContainer = styled.div`
@@ -60,37 +73,38 @@ const NavigateControlContainer = styled.div`
 `;
 
 export const CURRENCY_SYMBOL_POSITION_OPTIONS = [
-  { value: 'prefix', label: t('Prefix') },
-  { value: 'suffix', label: t('Suffix') },
+    { value: 'prefix', label: t('Prefix') },
+    { value: 'suffix', label: t('Suffix') },
 ];
 
 export const NavigateControl = ({
-  onChange,
-  value: currency = {},
-  symbolSelectOverrideProps = {},
-  currencySelectOverrideProps = {},
-  symbolSelectAdditionalStyles,
-  currencySelectAdditionalStyles,
-  ...props
+    onChange,
+    value: currency = {},
+    symbolSelectOverrideProps = {},
+    currencySelectOverrideProps = {},
+    symbolSelectAdditionalStyles,
+    currencySelectAdditionalStyles,
+    ...props
 }: NavigateControlProps) => {
-  const currencies = useSelector<ViewState, string[]>(
-    state => state.common?.currencies,
-  );
-  const currenciesOptions = useMemo(
-    () =>
-      ensureIsArray(currencies).map(currencyCode => ({
-        value: currencyCode,
-        label: `${getCurrencySymbol({
-          symbol: currencyCode,
-        })} (${currencyCode})`,
-      })),
-    [currencies],
-  );
-  return (
-    <>
-      <ControlHeader {...props} />
-      <NavigateControlContainer
-        css={css`
+    const currencies = useSelector<ViewState, string[]>(
+        state => state.common?.currencies,
+    );
+    const currenciesOptions = useMemo(
+        () =>
+            ensureIsArray(currencies).map(currencyCode => ({
+                value: currencyCode,
+                label: `${getCurrencySymbol({
+                    symbol: currencyCode,
+                })} (${currencyCode})`,
+            })),
+        [currencies],
+    );
+    const { theme } = props;
+    return (
+        <>
+            <ControlHeader {...props} />
+            <NavigateControlContainer
+                css={css`
           & > :first-child {
             ${symbolSelectAdditionalStyles};
           }
@@ -98,34 +112,40 @@ export const NavigateControl = ({
             ${currencySelectAdditionalStyles};
           }
         `}
-        className="currency-control-container"
-      >
-        <Select
-          ariaLabel={t('Navigate prefix or suffix')}
-          options={CURRENCY_SYMBOL_POSITION_OPTIONS}
-          placeholder={t('Prefix or suffix')}
-          onChange={(symbolPosition: string) => {
-            onChange({ ...currency, symbolPosition });
-          }}
-          onClear={() => onChange({ ...currency, symbolPosition: undefined })}
-          value={currency?.symbolPosition}
-          allowClear
-          {...symbolSelectOverrideProps}
-        />
-        <Select
-          ariaLabel={t('Currency symbol')}
-          options={currenciesOptions}
-          placeholder={t('Currency')}
-          onChange={(symbol: string) => {
-            onChange({ ...currency, symbol });
-          }}
-          onClear={() => onChange({ ...currency, symbol: undefined })}
-          value={currency?.symbol}
-          allowClear
-          allowNewOptions
-          {...currencySelectOverrideProps}
-        />
-      </NavigateControlContainer>
-    </>
-  );
+                className="currency-control-container"
+            >
+                <Select
+                    ariaLabel={t('Navigate prefix or suffix')}
+                    options={CURRENCY_SYMBOL_POSITION_OPTIONS}
+                    placeholder={t('Prefix or suffix')}
+                    onChange={(symbolPosition: string) => {
+                        onChange({ ...currency, symbolPosition });
+                    }}
+                    onClear={() => onChange({ ...currency, symbolPosition: undefined })}
+                    value={currency?.symbolPosition}
+                    allowClear
+                    {...symbolSelectOverrideProps}
+                />
+                <Select
+                    ariaLabel={t('Currency symbol')}
+                    options={currenciesOptions}
+                    placeholder={t('Currency')}
+                    onChange={(symbol: string) => {
+                        onChange({ ...currency, symbol });
+                    }}
+                    onClear={() => onChange({ ...currency, symbol: undefined })}
+                    value={currency?.symbol}
+                    allowClear
+                    allowNewOptions
+                    {...currencySelectOverrideProps}
+                />
+                <LabelsContainer>
+                    <AddControlLabel>
+                        <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
+                        {t('Add filter')}
+                    </AddControlLabel>
+                </LabelsContainer>
+            </NavigateControlContainer>
+        </>
+    );
 };

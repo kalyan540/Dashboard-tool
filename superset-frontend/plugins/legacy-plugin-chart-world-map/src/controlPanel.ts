@@ -75,7 +75,7 @@ const config: ControlPanelConfig = {
         [{
           name: 'enable_navigationtest',
           config: {
-            type: 'NavigateControl',
+            type: 'MappingSelectionControl',
             label: t('Enable navigation'),
             default: false,
             renderTrigger: true,

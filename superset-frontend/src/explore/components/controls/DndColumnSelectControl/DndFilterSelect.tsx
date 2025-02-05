@@ -156,6 +156,7 @@ const DndFilterSelect = (props: DndFilterSelectProps) => {
           ) ?? 0,
       );
   };
+  console.log(optionsForSelect(props.columns, props.formData));
   const [options, setOptions] = useState(
     optionsForSelect(props.columns, props.formData),
   );

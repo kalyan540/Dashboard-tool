@@ -35,6 +35,7 @@ const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
     { value: 'country', label: 'Country', values: ['India', 'USA', 'Canada'] },
     { value: 'city', label: 'City', values: ['New York', 'Toronto', 'Mumbai'] },
   ];
+  console.log(props);
   const ref = useRef<InputRef>(null);
   const theme = useTheme();
 

@@ -18,19 +18,49 @@ import {
 } from 'src/explore/components/controls/OptionControls';
 import AdhocMetric from 'src/explore/components/controls/MetricControl/AdhocMetric';
 import Icons from 'src/components/Icons';
-import { useTheme, css, t, styled, SupersetTheme, ensureIsArray } from '@superset-ui/core';
+import { useTheme, css, t,QueryFormMetric, styled,Metric, SupersetTheme, ensureIsArray } from '@superset-ui/core';
+import {
+  ColumnMeta,
+  isColumnMeta,
+  isTemporalColumn,
+} from '@superset-ui/chart-controls';
 import { InputRef } from 'antd-v5';
 import { Input } from 'src/components/Input';
+import { ControlComponentProps } from 'src/explore/components/Control';
+import { Datasource, OptionSortType } from 'src/explore/types';
+import { OptionValueType } from 'src/explore/components/controls/DndColumnSelectControl/types';
 
 
-const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
+export interface NavigateSelectProps
+  extends ControlComponentProps<OptionValueType[]> {
+  columns: ColumnMeta[];
+  savedMetrics: Metric[];
+  selectedMetrics: QueryFormMetric[];
+  datasource: Datasource;
+  canDelete?: (
+    valueToBeDeleted: OptionValueType,
+    values: OptionValueType[],
+  ) => true | string;
+}
+
+const NavigateControl = (props: NavigateSelectProps) => {
+  const {
+    datasource,
+    onChange = () => {},
+    name: controlName,
+    canDelete,
+  } = props;
+  console.log(datasource);
+  console.log(onChange);
+  console.log(controlName);
+  console.log(canDelete);
+
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [selections, setSelections] = useState({}); // To store selections
   const [options, setOptions] = useState([]);
-  console.log(columns);
   const columnOptions = [
     { value: 'country', label: 'Country', values: ['India', 'USA', 'Canada'] },
     { value: 'city', label: 'City', values: ['New York', 'Toronto', 'Mumbai'] },

@@ -17,6 +17,7 @@ import { InputRef } from 'antd-v5';
 import { Input } from 'src/components/Input';
 import { ExpressionTypes } from 'src/explore/components/controls/FilterControl/types';
 import {AGGREGATES} from 'src/explore/constants';
+import FilterDefinitionOption from 'src/explore/components/controls/MetricControl/FilterDefinitionOption';
 
 export interface SimpleExpressionType {
   expressionType: keyof typeof ExpressionTypes;
@@ -84,6 +85,9 @@ const NavigateControl = (props: NavigateSelectProps) => {
       setInputValue(''); // Clear input after adding
     }
   };
+  const renderSubjectOptionLabel = (option: ColumnType) => (
+      <FilterDefinitionOption option={option} />
+    );
 
 
   const popoverContent = (

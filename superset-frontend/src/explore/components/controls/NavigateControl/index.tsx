@@ -17,6 +17,7 @@ import {
   LabelsContainer,
 } from 'src/explore/components/controls/OptionControls';
 import Icons from 'src/components/Icons';
+import { useTheme } from '@superset-ui/core';
 
 const NavigateControl = ({...props }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
@@ -91,7 +92,8 @@ const NavigateControl = ({...props }) => {
       </div>
     </div>
   );
-  const { theme } = props;
+  //const { theme } = props;
+  const theme = useTheme();
   return (
     <div>
       {/* Control Header */}

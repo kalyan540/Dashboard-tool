@@ -94,6 +94,7 @@ const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
             </Select.Option>
           ))}
         </Select>
+         = 
         <StyledInput
             data-test="adhoc-filter-simple-value"
             name="dashboard-id"

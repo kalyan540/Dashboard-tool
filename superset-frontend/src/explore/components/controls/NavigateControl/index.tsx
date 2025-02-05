@@ -10,8 +10,15 @@ import { Select } from 'src/components';
 import PropTypes from 'prop-types';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Importing ControlHeader
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons'; // Assuming you are using Ant Design icons
+import {
+  AddControlLabel,
+  AddIconButton,
+  HeaderContainer,
+  LabelsContainer,
+} from 'src/explore/components/controls/OptionControls';
+import Icons from 'src/components/Icons';
 
-const NavigateControl = ({ label, controlLabel }) => {
+const NavigateControl = ({...props }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
@@ -43,6 +50,7 @@ const NavigateControl = ({ label, controlLabel }) => {
 
   const popoverContent = (
     <div>
+
       <Select
         placeholder="Select Column"
         style={{ width: '100%', marginBottom: '10px' }}
@@ -83,11 +91,21 @@ const NavigateControl = ({ label, controlLabel }) => {
       </div>
     </div>
   );
-
+  const { theme } = props;
   return (
     <div>
       {/* Control Header */}
-      <ControlHeader label={controlLabel} />
+      ;
+      <HeaderContainer>
+        <ControlHeader {...props} />
+        <AddIconButton data-test="add-filter-button">
+          <Icons.PlusLarge
+            iconSize="s"
+            iconColor={theme.colors.grayscale.light5}
+          />
+        </AddIconButton>,
+
+      </HeaderContainer>
 
       <Popover
         content={popoverContent}
@@ -117,9 +135,9 @@ const NavigateControl = ({ label, controlLabel }) => {
             selectedItems.map((item, index) => (
               <span key={index} style={{ display: 'flex', alignItems: 'center' }}>
                 {item}
-                <CloseOutlined 
-                  style={{ marginLeft: '5px', cursor: 'pointer' }} 
-                  onClick={() => setSelectedItems(selectedItems.filter(i => i !== item))} 
+                <CloseOutlined
+                  style={{ marginLeft: '5px', cursor: 'pointer' }}
+                  onClick={() => setSelectedItems(selectedItems.filter(i => i !== item))}
                 />
               </span>
             ))

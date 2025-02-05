@@ -357,6 +357,7 @@ class AdhocFilterControl extends Component {
   render() {
     const { theme } = this.props;
     console.log(this.props);
+    
     return (
       <div className="metrics-select" data-test="adhoc-filter-control">
         <HeaderContainer>

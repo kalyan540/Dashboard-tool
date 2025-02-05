@@ -3,7 +3,7 @@
  * This component renders a rectangle box that opens a popover with some text when clicked.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
 import { Popover } from 'antd';
 import { Select } from 'src/components';
@@ -17,9 +17,12 @@ import {
   LabelsContainer,
 } from 'src/explore/components/controls/OptionControls';
 import Icons from 'src/components/Icons';
-import { useTheme } from '@superset-ui/core';
+import { useTheme, css, t, styled } from '@superset-ui/core';
+import { InputRef } from 'antd-v5';
+import { Input } from 'src/components/Input';
 
-const NavigateControl = ({...props }) => {
+
+const NavigateControl = ({ ...props }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
@@ -29,6 +32,12 @@ const NavigateControl = ({...props }) => {
     { value: 'country', label: 'Country', values: ['India', 'USA', 'Canada'] },
     { value: 'city', label: 'City', values: ['New York', 'Toronto', 'Mumbai'] },
   ];
+  const ref = useRef<InputRef>(null);
+  const theme = useTheme();
+
+  const FilterActionsContainer = styled.div`
+    margin-top: ${theme.gridUnit * 2}px;
+  `;
 
   const handleOpenPopover = () => {
     setPopoverVisible(true);
@@ -48,6 +57,7 @@ const NavigateControl = ({...props }) => {
       setInputValue(''); // Clear input after adding
     }
   };
+
 
   const popoverContent = (
     <div>
@@ -77,36 +87,54 @@ const NavigateControl = ({...props }) => {
           ))}
         </Select>
 
-        <input
-          type="text"
-          placeholder="Enter corresponding value"
-          value={inputValue}
+        <Input
+          ref={ref}
+          prefix={
+            <Icons.Search
+              iconSize="l"
+              iconColor={theme.colors.grayscale.light1}
+            />
+          }
           onChange={(e) => setInputValue(e.target.value)}
-          style={{ width: '48%' }}
+          placeholder={t('Search columns')}
+          onClick={e => {
+            // prevent closing menu when clicking on input
+            e.nativeEvent.stopImmediatePropagation();
+          }}
+          allowClear
+          css={css`
+                width: auto;
+                max-width: 100%;
+                margin: ${theme.gridUnit * 2}px ${theme.gridUnit * 3}px;
+                box-shadow: none;
+              `}
+          value={inputValue}
         />
       </div>
-
-      <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
-        <Button onClick={handleClosePopover}>Close</Button>
-        <Button type="primary" onClick={handleAddItem}>Save</Button>
-      </div>
+      <FilterActionsContainer>
+        <Button buttonSize="small" onClick={handleClosePopover} cta>
+          {t('Close')}
+        </Button>
+        <Button
+          data-test="adhoc-filter-edit-popover-save-button"
+          buttonStyle="primary"
+          buttonSize="small"
+          className="m-r-5"
+          onClick={handleAddItem}
+          cta
+        >
+          {t('Save')}
+        </Button>
+      </FilterActionsContainer>
     </div>
   );
   //const { theme } = props;
-  const theme = useTheme();
+
   return (
     <div>
       {/* Control Header */}
-      ;
       <HeaderContainer>
         <ControlHeader {...props} />
-        <AddIconButton data-test="add-filter-button">
-          <Icons.PlusLarge
-            iconSize="s"
-            iconColor={theme.colors.grayscale.light5}
-          />
-        </AddIconButton>,
-
       </HeaderContainer>
 
       <Popover

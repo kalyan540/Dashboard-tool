@@ -51,12 +51,7 @@ const NavigateControl = (props: NavigateSelectProps) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const [selections, setSelections] = useState({}); // To store selections
-  //const [options, setOptions] = useState([]);
-  const columnOptions = [
-    { value: 'country', label: 'Country', values: ['India', 'USA', 'Canada'] },
-    { value: 'city', label: 'City', values: ['New York', 'Toronto', 'Mumbai'] },
-  ];
+  const [selections, setSelections] = useState({});
   console.log(props);
   const ref = useRef<InputRef>(null);
   const theme = useTheme();
@@ -98,13 +93,22 @@ const NavigateControl = (props: NavigateSelectProps) => {
         placeholder="Select Column"
         style={{ width: '100%', marginBottom: '10px' }}
         onChange={setSelectedColumn}
-      >
-        {columnOptions.map((option) => (
-          <Select.Option key={option.value} value={option.value}>
-            {option.label}
-          </Select.Option>
-        ))}
-      </Select>
+        options={props.options.map(column => ({
+          value:
+            ('column_name' in column && column.column_name) ||
+            ('optionName' in column && column.optionName) ||
+            '',
+          label:
+            ('saved_metric_name' in column && column.saved_metric_name) ||
+            ('column_name' in column && column.column_name) ||
+            ('label' in column && column.label),
+          key:
+            ('id' in column && column.id) ||
+            ('optionName' in column && column.optionName) ||
+            undefined,
+          customLabel: renderSubjectOptionLabel(column),
+        }))}
+      />
 
       <div style={{ display: 'flex' }}>
         <Select

@@ -43,6 +43,9 @@ const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
     display: flex;
     justify-content: space-evenly;
   `;
+  const StyledInput = styled(Input)`
+    margin-bottom: ${({ theme }) => theme.gridUnit * 4}px;
+  `;
 
   
   const handleOpenPopover = () => {
@@ -80,7 +83,7 @@ const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
         ))}
       </Select>
 
-      <div>
+      <div style=" display: flex; ">
         <Select
           placeholder="Select Value"
           onChange={setSelectedColumn}
@@ -91,24 +94,15 @@ const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
             </Select.Option>
           ))}
         </Select>
-
-        <Input
-          ref={ref}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder={t('Search columns')}
-          onClick={e => {
-            // prevent closing menu when clicking on input
-            e.nativeEvent.stopImmediatePropagation();
-          }}
-          allowClear
-          css={css`
-                width: auto;
-                max-width: 100%;
-                margin: 0px ${theme.gridUnit * 3}px;
-                box-shadow: none;
-              `}
-          value={inputValue}
-        />
+        <StyledInput
+            data-test="adhoc-filter-simple-value"
+            name="dashboard-id"
+            ref={ref}
+            allowClear
+            onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
+            placeholder={t('Dashboard ID or SlugID')}
+          />
       </div>
       <NavigateActionsContainer>
         <Button buttonSize="small" onClick={handleClosePopover} cta>

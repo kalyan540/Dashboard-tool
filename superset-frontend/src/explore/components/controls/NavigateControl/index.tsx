@@ -3,64 +3,56 @@
  * This component renders a rectangle box that opens a popover with some text when clicked.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
 import { Popover } from 'antd';
 import { Select } from 'src/components';
 import PropTypes from 'prop-types';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Importing ControlHeader
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons'; // Assuming you are using Ant Design icons
-import {
-  AddControlLabel,
-  AddIconButton,
-  HeaderContainer,
-  LabelsContainer,
-} from 'src/explore/components/controls/OptionControls';
-import AdhocMetric from 'src/explore/components/controls/MetricControl/AdhocMetric';
-import Icons from 'src/components/Icons';
-import { useTheme, css, t,QueryFormMetric, styled,Metric, SupersetTheme, ensureIsArray } from '@superset-ui/core';
-import {
-  ColumnMeta,
-  isColumnMeta,
-  isTemporalColumn,
-} from '@superset-ui/chart-controls';
+import {HeaderContainer,} from 'src/explore/components/controls/OptionControls';
+import { useTheme, styled } from '@superset-ui/core';
+import {ColumnMeta} from '@superset-ui/chart-controls';
 import { InputRef } from 'antd-v5';
 import { Input } from 'src/components/Input';
-import { ControlComponentProps } from 'src/explore/components/Control';
-import { Datasource, OptionSortType } from 'src/explore/types';
-import { OptionValueType } from 'src/explore/components/controls/DndColumnSelectControl/types';
+import { ExpressionTypes } from 'src/explore/components/controls/FilterControl/types';
+import {AGGREGATES} from 'src/explore/constants';
 
+export interface SimpleExpressionType {
+  expressionType: keyof typeof ExpressionTypes;
+  column: ColumnMeta;
+  aggregate: keyof typeof AGGREGATES;
+  label: string;
+}
+export interface SQLExpressionType {
+  expressionType: keyof typeof ExpressionTypes;
+  sqlExpression: string;
+  label: string;
+}
 
-export interface NavigateSelectProps
-  extends ControlComponentProps<OptionValueType[]> {
-  columns: ColumnMeta[];
-  savedMetrics: Metric[];
-  selectedMetrics: QueryFormMetric[];
-  datasource: Datasource;
-  canDelete?: (
-    valueToBeDeleted: OptionValueType,
-    values: OptionValueType[],
-  ) => true | string;
+export interface MetricColumnType {
+  saved_metric_name: string;
+}
+
+export type ColumnType =
+  | ColumnMeta
+  | SimpleExpressionType
+  | SQLExpressionType
+  | MetricColumnType;
+
+export interface NavigateSelectProps {
+  options: ColumnType[];
 }
 
 const NavigateControl = (props: NavigateSelectProps) => {
-  const {
-    datasource,
-    onChange = () => {},
-    name: controlName,
-    canDelete,
-  } = props;
-  console.log(datasource);
-  console.log(onChange);
-  console.log(controlName);
-  console.log(canDelete);
+  console.log(props.options);
 
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [selections, setSelections] = useState({}); // To store selections
-  const [options, setOptions] = useState([]);
+  //const [options, setOptions] = useState([]);
   const columnOptions = [
     { value: 'country', label: 'Country', values: ['India', 'USA', 'Canada'] },
     { value: 'city', label: 'City', values: ['New York', 'Toronto', 'Mumbai'] },

@@ -279,6 +279,7 @@ const AdhocFilterEditPopoverSimpleTabContent: FC<Props> = props => {
   const [suggestions, setSuggestions] = useState<
     Record<'label' | 'value', any>[]
   >([]);
+  
   const [comparator, setComparator] = useState(props.adhocFilter.comparator);
   const [loadingComparatorSuggestions, setLoadingComparatorSuggestions] =
     useState(false);
@@ -395,6 +396,9 @@ const AdhocFilterEditPopoverSimpleTabContent: FC<Props> = props => {
       const { datasource } = props;
       const col = props.adhocFilter.subject;
       const having = props.adhocFilter.clause === Clauses.Having;
+      console.log(col);
+      console.log(datasource);
+      console.log(props);
 
       if (col && datasource && datasource.filter_select && !having) {
         const controller = new AbortController();
@@ -499,6 +503,8 @@ const AdhocFilterEditPopoverSimpleTabContent: FC<Props> = props => {
             advancedDataTypesState.parsedAdvancedDataType
           }
         >
+          {console.log(labelText)}
+          {console.log(suggestions)}
           <SelectWithLabel
             labelText={labelText}
             options={suggestions}

@@ -205,20 +205,14 @@ const NavigateControl = (props: NavigateSelectProps) => {
             {...comparatorSelectProps}
             
           />
-         = 
-        <StyledInput
-            data-test="adhoc-filter-simple-value"
-            name="dashboard-id"
-            ref={ref}
-            allowClear
-            onChange={(e) => setInputValue(e.target.value)}
-            value={inputValue}
-            placeholder={t('ID or SlugID')}
-            onClick={e => {
-              // prevent closing menu when clicking on input
-              e.nativeEvent.stopImmediatePropagation();
-            }}
-          />
+         =
+         <input
+          type="text"
+          placeholder="Enter corresponding value"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          style={{ width: '48%' }}
+        />
       </div>
       <NavigateActionsContainer>
         <Button buttonSize="small" onClick={handleClosePopover} cta>

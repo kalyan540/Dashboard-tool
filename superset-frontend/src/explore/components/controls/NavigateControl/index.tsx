@@ -94,12 +94,6 @@ const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
 
         <Input
           ref={ref}
-          prefix={
-            <Icons.Search
-              iconSize="l"
-              iconColor={theme.colors.grayscale.light1}
-            />
-          }
           onChange={(e) => setInputValue(e.target.value)}
           placeholder={t('Search columns')}
           onClick={e => {

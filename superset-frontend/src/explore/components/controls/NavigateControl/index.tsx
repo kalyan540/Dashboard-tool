@@ -160,14 +160,15 @@ const NavigateControl = (props: NavigateSelectProps) => {
       });
       setSelectedItems([...selectedItems, selectedColumn]);
       setInputValue(''); // Clear input after adding
+      setSelectOption(null);
     }
   };
   const renderSubjectOptionLabel = (option: ColumnType) => (
       <FilterDefinitionOption option={option} />
     );
-    const handleInput = (e) => {
+    /*const handleInput = (e) => {
       setInputValue(e.target.value); // Directly updating input state
-    };
+    };*/
 
 
   const popoverContent = (
@@ -207,9 +208,13 @@ const NavigateControl = (props: NavigateSelectProps) => {
             name="dashboard-id"
             ref={ref}
             allowClear
-            onChange={handleInput}
+            onChange={(e) => setInputValue(e.target.value)}
             value={inputValue}
             placeholder={t('ID or SlugID')}
+            onClick={e => {
+              // prevent closing menu when clicking on input
+              e.nativeEvent.stopImmediatePropagation();
+            }}
           />
       </div>
       <NavigateActionsContainer>

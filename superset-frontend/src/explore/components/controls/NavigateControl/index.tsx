@@ -111,7 +111,7 @@ const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
         ))}
       </Select>
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div>
         <Select
           placeholder="Select Value"
           onChange={setSelectedColumn}

@@ -16,18 +16,21 @@ import {
   HeaderContainer,
   LabelsContainer,
 } from 'src/explore/components/controls/OptionControls';
+import AdhocMetric from 'src/explore/components/controls/MetricControl/AdhocMetric';
 import Icons from 'src/components/Icons';
 import { useTheme, css, t, styled, SupersetTheme } from '@superset-ui/core';
 import { InputRef } from 'antd-v5';
 import { Input } from 'src/components/Input';
+import { ensureIsArray } from 'src/utils';
 
 
-const NavigateControl = ({ ...props }) => {
+const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [selections, setSelections] = useState({}); // To store selections
+  const [options, setOptions] = useState([]);
   const columnOptions = [
     { value: 'country', label: 'Country', values: ['India', 'USA', 'Canada'] },
     { value: 'city', label: 'City', values: ['New York', 'Toronto', 'Mumbai'] },
@@ -38,6 +41,40 @@ const NavigateControl = ({ ...props }) => {
   const NavigateActionsContainer = styled.div`
     margin-top: ${theme.gridUnit * 2}px;
   `;
+
+  // Function to generate options list
+  const optionsForSelect = () => {
+    const combinedOptions = [
+      ...columns,
+      ...ensureIsArray(selectedMetrics).map(metric =>
+        metric && (typeof metric === 'string'
+          ? { saved_metric_name: metric }
+          : new AdhocMetric(metric))
+      ),
+    ].filter(option => option);
+
+    return combinedOptions
+      .map(option => ({
+        ...option,
+        filterOptionName: option.saved_metric_name
+          ? option.saved_metric_name
+          : option.column_name
+          ? `_col_${option.column_name}`
+          : `_adhocmetric_${option.label}`,
+      }))
+      .sort((a, b) =>
+        (a.saved_metric_name || a.column_name || a.label).localeCompare(
+          b.saved_metric_name || b.column_name || b.label
+        )
+      );
+  };
+
+  // Update options when columns change
+  useEffect(() => {
+    const newOptions = optionsForSelect();
+    setOptions(newOptions);
+    console.log('Generated Options:', newOptions);
+  }, [columns, selectedMetrics]);
 
   const handleOpenPopover = () => {
     setPopoverVisible(true);

@@ -105,6 +105,7 @@ import {
 } from './utils';
 import { FILTER_SUPPORTED_TYPES, INPUT_WIDTH } from './constants';
 import DependencyList from './DependencyList';
+import NavigateControl from 'src/explore/components/controls/NavigateControl';
 
 const FORM_ITEM_WIDTH = 260;
 
@@ -1048,6 +1049,13 @@ const FiltersConfigForm = (
                             <StyledLabel>{t('Pre-filter')}</StyledLabel>
                             {!hasTimeRange && <StyledAsterisk />}
                           </span>
+                        }
+                      />
+                      <NavigateControl
+                        columns={
+                          datasetDetails?.columns?.filter(
+                            (c: ColumnMeta) => c.filterable,
+                          ) || []
                         }
                       />
                     </StyledRowSubFormItem>

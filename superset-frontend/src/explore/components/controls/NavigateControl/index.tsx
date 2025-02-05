@@ -17,7 +17,7 @@ import {
   LabelsContainer,
 } from 'src/explore/components/controls/OptionControls';
 import Icons from 'src/components/Icons';
-import { useTheme, css, t, styled } from '@superset-ui/core';
+import { useTheme, css, t, styled, SupersetTheme } from '@superset-ui/core';
 import { InputRef } from 'antd-v5';
 import { Input } from 'src/components/Input';
 
@@ -35,7 +35,7 @@ const NavigateControl = ({ ...props }) => {
   const ref = useRef<InputRef>(null);
   const theme = useTheme();
 
-  const FilterActionsContainer = styled.div`
+  const NavigateActionsContainer = styled.div`
     margin-top: ${theme.gridUnit * 2}px;
   `;
 
@@ -74,10 +74,9 @@ const NavigateControl = ({ ...props }) => {
         ))}
       </Select>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Select
           placeholder="Select Value"
-          style={{ width: '48%' }}
           onChange={setSelectedColumn}
         >
           {selectedColumn && columnOptions.find(col => col.value === selectedColumn)?.values.map((value) => (
@@ -111,7 +110,7 @@ const NavigateControl = ({ ...props }) => {
           value={inputValue}
         />
       </div>
-      <FilterActionsContainer>
+      <NavigateActionsContainer>
         <Button buttonSize="small" onClick={handleClosePopover} cta>
           {t('Close')}
         </Button>
@@ -125,7 +124,7 @@ const NavigateControl = ({ ...props }) => {
         >
           {t('Save')}
         </Button>
-      </FilterActionsContainer>
+      </NavigateActionsContainer>
     </div>
   );
   //const { theme } = props;

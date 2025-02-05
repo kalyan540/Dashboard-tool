@@ -106,6 +106,8 @@ class AdhocFilterControl extends Component {
     );
 
     this.optionRenderer = option => <FilterDefinitionOption option={option} />;
+    console.log(this.props);
+    console.log(this.state);
     this.valueRenderer = (adhocFilter, index) => (
       <AdhocFilterOption
         key={index}

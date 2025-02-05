@@ -146,6 +146,9 @@ const NavigateControl = (props: NavigateSelectProps) => {
   
   const handleOpenPopover = () => {
     setPopoverVisible(true);
+    if (ref.current) {
+      ref.current.focus();
+    }
   };
 
   const handleClosePopover = () => {

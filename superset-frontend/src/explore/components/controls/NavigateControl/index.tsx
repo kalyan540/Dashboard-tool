@@ -91,13 +91,13 @@ const NavigateControl = (props: NavigateSelectProps) => {
   const createSuggestionsPlaceholder = () => {
     const optionsRemaining = getOptionsRemaining();
     const placeholder = t('%s option(s)', optionsRemaining);
-    return optionsRemaining ? placeholder : '';
+    return optionsRemaining ? placeholder : 'Value';
   };
 
   const comparatorSelectProps = {
       allowClear: true,
       allowNewOptions: true,
-      onChange: {setSelectOption},
+      onChange: setSelectOption,
       ariaLabel: t('Comparator option'),
       loading: loadingComparatorSuggestions,
       notFoundContent: t('Type a value here'),

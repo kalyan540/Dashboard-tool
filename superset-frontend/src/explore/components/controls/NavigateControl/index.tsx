@@ -209,7 +209,7 @@ const NavigateControl = (props: NavigateSelectProps) => {
          <Input
           ref={ref}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder={t('Search columns')}
+          placeholder={t(' id Or SlugId')}
           onClick={e => {
             // prevent closing menu when clicking on input
             e.nativeEvent.stopImmediatePropagation();

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Importing ControlHeader
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons'; // Assuming you are using Ant Design icons
 import {HeaderContainer,} from 'src/explore/components/controls/OptionControls';
-import { useTheme, styled } from '@superset-ui/core';
+import { useTheme, styled, t } from '@superset-ui/core';
 import {ColumnMeta} from '@superset-ui/chart-controls';
 import { InputRef } from 'antd-v5';
 import { Input } from 'src/components/Input';

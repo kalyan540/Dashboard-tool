@@ -18,10 +18,9 @@ import {
 } from 'src/explore/components/controls/OptionControls';
 import AdhocMetric from 'src/explore/components/controls/MetricControl/AdhocMetric';
 import Icons from 'src/components/Icons';
-import { useTheme, css, t, styled, SupersetTheme } from '@superset-ui/core';
+import { useTheme, css, t, styled, SupersetTheme, ensureIsArray } from '@superset-ui/core';
 import { InputRef } from 'antd-v5';
 import { Input } from 'src/components/Input';
-import { ensureIsArray } from 'src/utils';
 
 
 const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {

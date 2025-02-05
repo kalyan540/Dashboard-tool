@@ -46,7 +46,10 @@ export default function DndAdhocFilterOption({
   index,
 }: DndAdhocFilterOptionProps) {
   const { actualTimeRange, title } = useGetTimeRangeLabel(adhocFilter);
-
+  console.log(adhocFilter);
+  console.log(options);
+  console.log(datasource);
+  console.log(partitionColumn);
   return (
     <AdhocFilterPopoverTrigger
       key={index}

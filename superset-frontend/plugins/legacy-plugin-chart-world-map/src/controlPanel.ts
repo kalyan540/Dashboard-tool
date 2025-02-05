@@ -80,6 +80,10 @@ const config: ControlPanelConfig = {
             default: false,
             renderTrigger: true,
             description: t('Whether to display bubbles on top of countries'),
+            mapStateToProps: ({ datasource }) => ({
+              options: datasource?.columns || [],
+              
+            }),
           },
         },
         ]

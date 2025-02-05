@@ -166,6 +166,7 @@ export type InternalControlType =
   | 'ViewportControl'
   | 'VizTypeControl'
   | 'MetricsControl'
+  | 'NavigateControl'
   | 'AdhocFilterControl'
   | 'FilterBoxItemControl'
   | 'DndColumnSelect'

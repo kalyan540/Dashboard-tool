@@ -97,7 +97,7 @@ const NavigateControl = (props: NavigateSelectProps) => {
       <Select
         style={{ width: '100%', marginBottom: '10px' }}
         onChange={setSelectedColumn}
-        placeholder = {t('%s column(s)', props.options.length)},
+        placeholder = {t('%s column(s)', props.options.length)}
         options={props.options.map(column => ({
           value:
             ('column_name' in column && column.column_name) ||

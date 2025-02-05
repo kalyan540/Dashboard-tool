@@ -3,7 +3,7 @@
  * This component renders a rectangle box that opens a popover with some text when clicked.
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
 import { Popover } from 'antd';
 import { Select } from 'src/components';
@@ -11,13 +11,14 @@ import PropTypes from 'prop-types';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Importing ControlHeader
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons'; // Assuming you are using Ant Design icons
 import {HeaderContainer,} from 'src/explore/components/controls/OptionControls';
-import { useTheme, styled, t } from '@superset-ui/core';
-import {ColumnMeta} from '@superset-ui/chart-controls';
+import { useTheme, styled, t, SupersetClient } from '@superset-ui/core';
+import { ColumnMeta, Dataset} from '@superset-ui/chart-controls';
 import { InputRef } from 'antd-v5';
 import { Input } from 'src/components/Input';
 import { ExpressionTypes } from 'src/explore/components/controls/FilterControl/types';
 import {AGGREGATES} from 'src/explore/constants';
 import FilterDefinitionOption from 'src/explore/components/controls/MetricControl/FilterDefinitionOption';
+import { optionLabel } from 'src/utils/common';
 
 export interface SimpleExpressionType {
   expressionType: keyof typeof ExpressionTypes;
@@ -43,6 +44,7 @@ export type ColumnType =
 
 export interface NavigateSelectProps {
   options: ColumnType[];
+  datasource: Dataset;
 }
 
 const NavigateControl = (props: NavigateSelectProps) => {
@@ -53,6 +55,10 @@ const NavigateControl = (props: NavigateSelectProps) => {
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [selections, setSelections] = useState({});
+  const [loadingComparatorSuggestions, setLoadingComparatorSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState<
+    Record<'label' | 'value', any>[]
+  >([]);
   console.log(props);
   console.log(selectedColumn);
   const ref = useRef<InputRef>(null);
@@ -66,6 +72,74 @@ const NavigateControl = (props: NavigateSelectProps) => {
   const StyledInput = styled(Input)`
     margin-bottom: ${({ theme }) => theme.gridUnit * 4}px;
   `;
+  const SelectWithLabel = styled(Select)<{ labelText: string }>`
+    .ant-select-selector::after {
+      content: ${({ labelText }) => labelText || '\\A0'};
+      display: inline-block;
+      white-space: nowrap;
+      color: ${({ theme }) => theme.colors.grayscale.light1};
+      width: max-content;
+    }
+  `;
+
+  const getOptionsRemaining = () => {
+    // if select is multi/value is array, we show the options not selected
+    return suggestions?.length ?? 0;
+  };
+
+  const createSuggestionsPlaceholder = () => {
+    const optionsRemaining = getOptionsRemaining();
+    const placeholder = t('%s option(s)', optionsRemaining);
+    return optionsRemaining ? placeholder : '';
+  };
+
+  const comparatorSelectProps = {
+      allowClear: true,
+      allowNewOptions: true,
+      ariaLabel: t('Comparator option'),
+      loading: loadingComparatorSuggestions,
+      notFoundContent: t('Type a value here'),
+      placeholder: createSuggestionsPlaceholder()
+    };
+  
+    useEffect(() => {
+      const refreshComparatorSuggestions = () => {
+        const { datasource } = props;
+        const col = selectedColumn;
+        console.log(col);
+        console.log(datasource);
+        console.log(props);
+  
+        if (col && datasource && datasource.filter_select) {
+          const controller = new AbortController();
+          const { signal } = controller;
+          if (loadingComparatorSuggestions) {
+            controller.abort();
+          }
+          setLoadingComparatorSuggestions(true);
+          SupersetClient.get({
+            signal,
+            endpoint: `/api/v1/datasource/table/${datasource.id}/column/${col}/values/`,
+          })
+            .then(({ json }) => {
+              setSuggestions(
+                json.result.map(
+                  (suggestion: null | number | boolean | string) => ({
+                    value: suggestion,
+                    label: optionLabel(suggestion),
+                  }),
+                ),
+              );
+              setLoadingComparatorSuggestions(false);
+            })
+            .catch(() => {
+              setSuggestions([]);
+              setLoadingComparatorSuggestions(false);
+            });
+        }
+      };
+      refreshComparatorSuggestions();
+    }, [selectedColumn]);
 
   
   const handleOpenPopover = () => {
@@ -89,6 +163,9 @@ const NavigateControl = (props: NavigateSelectProps) => {
   const renderSubjectOptionLabel = (option: ColumnType) => (
       <FilterDefinitionOption option={option} />
     );
+  const handleInput = (value: string) => {
+    setInputValue(value);
+  };
 
 
   const popoverContent = (
@@ -116,18 +193,17 @@ const NavigateControl = (props: NavigateSelectProps) => {
       />
 
       <div style={{ display: 'flex' }}>
-        <Select
-          placeholder="Select Value"
-          onChange={setSelectedColumn}
-        >
-        </Select>
+        <SelectWithLabel
+            options={suggestions}
+            {...comparatorSelectProps}
+          />
          = 
         <StyledInput
             data-test="adhoc-filter-simple-value"
             name="dashboard-id"
             ref={ref}
             allowClear
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={e => {handleInput(e.target.value);}}
             value={inputValue}
             placeholder={t('Dashboard ID or SlugID')}
           />

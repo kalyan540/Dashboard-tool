@@ -40,6 +40,8 @@ const NavigateControl = ({ columns = [], selectedMetrics = [], ...props }) => {
 
   const NavigateActionsContainer = styled.div`
     margin-top: ${theme.gridUnit * 2}px;
+    display: flex;
+    justify-content: space-evenly;
   `;
 
   

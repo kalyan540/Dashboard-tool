@@ -53,6 +53,7 @@ const NavigateControl = (props: NavigateSelectProps) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
+  const [selectOption, setSelectOption] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [selections, setSelections] = useState({});
   const [loadingComparatorSuggestions, setLoadingComparatorSuggestions] = useState(false);
@@ -96,6 +97,7 @@ const NavigateControl = (props: NavigateSelectProps) => {
   const comparatorSelectProps = {
       allowClear: true,
       allowNewOptions: true,
+      onChange: {setSelectOption},
       ariaLabel: t('Comparator option'),
       loading: loadingComparatorSuggestions,
       notFoundContent: t('Type a value here'),
@@ -163,9 +165,9 @@ const NavigateControl = (props: NavigateSelectProps) => {
   const renderSubjectOptionLabel = (option: ColumnType) => (
       <FilterDefinitionOption option={option} />
     );
-  const handleInput = (value: string) => {
-    setInputValue(value);
-  };
+    const handleInput = (e) => {
+      setInputValue(e.target.value); // Directly updating input state
+    };
 
 
   const popoverContent = (
@@ -195,7 +197,9 @@ const NavigateControl = (props: NavigateSelectProps) => {
       <div style={{ display: 'flex' }}>
         <SelectWithLabel
             options={suggestions}
+            value={selectOption}
             {...comparatorSelectProps}
+            
           />
          = 
         <StyledInput
@@ -203,9 +207,9 @@ const NavigateControl = (props: NavigateSelectProps) => {
             name="dashboard-id"
             ref={ref}
             allowClear
-            onChange={e => {handleInput(e.target.value);}}
+            onChange={handleInput}
             value={inputValue}
-            placeholder={t('Dashboard ID or SlugID')}
+            placeholder={t('ID or SlugID')}
           />
       </div>
       <NavigateActionsContainer>

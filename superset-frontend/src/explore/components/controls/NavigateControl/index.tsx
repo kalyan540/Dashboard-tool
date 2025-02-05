@@ -206,12 +206,16 @@ const NavigateControl = (props: NavigateSelectProps) => {
             
           />
          =
-         <input
-          type="text"
-          placeholder="Enter corresponding value"
-          value={inputValue}
+         <Input
+          ref={ref}
           onChange={(e) => setInputValue(e.target.value)}
-          style={{ width: '48%' }}
+          placeholder={t('Search columns')}
+          onClick={e => {
+            // prevent closing menu when clicking on input
+            e.nativeEvent.stopImmediatePropagation();
+          }}
+          allowClear
+          value={inputValue}
         />
       </div>
       <NavigateActionsContainer>

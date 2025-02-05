@@ -94,7 +94,6 @@ const NavigateControl = (props: NavigateSelectProps) => {
     <div>
 
       <Select
-        placeholder="Select Column"
         style={{ width: '100%', marginBottom: '10px' }}
         onChange={setSelectedColumn}
         options={props.options.map(column => ({
@@ -119,11 +118,6 @@ const NavigateControl = (props: NavigateSelectProps) => {
           placeholder="Select Value"
           onChange={setSelectedColumn}
         >
-          {selectedColumn && columnOptions.find(col => col.value === selectedColumn)?.values.map((value) => (
-            <Select.Option key={value} value={value}>
-              {value}
-            </Select.Option>
-          ))}
         </Select>
          = 
         <StyledInput

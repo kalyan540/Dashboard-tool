@@ -441,6 +441,7 @@ const DndFilterSelect = (props: DndFilterSelectProps) => {
     [controlName, togglePopover],
   );
   console.log(props);
+  console.log(valuesRenderer)
   return (
     <>
       <DndSelectLabel

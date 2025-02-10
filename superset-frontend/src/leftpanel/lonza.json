@@ -23,7 +23,14 @@
       ],
     "foreign_keys": [],
     "primary_key": "timestamp"
-    }
+    },
+    "suggestions": ["Which device_name has the most consistent oee values?",
+      "What is the lowest performance value in the dataset.",
+      "Which device_name has the lowest quality score.",
+      "What is the maximum availability score recorded",
+      "How many records have quality value greater than 90.",
+      "What is the average OEE value"
+    ]
     },
     "Button3": {
       "name": "Reports",

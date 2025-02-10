@@ -18,27 +18,17 @@ interface SQLQuery {
 }
 //const ChatBOT = ({ schema }: { schema: any }) => {
 // const ChatBOT = () => {
-const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys }: { 
+const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys, suggestion }: { 
     tableName: string; 
     columns: any[]; 
     primaryKey: string; 
     foreignKeys: any[]; 
+    suggestion: any[];
 }) => {
     const [query, setQuery] = useState(""); // State to hold input value
     const [tableData, setTableData] = useState<any[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
-    const [suggestions] = useState([
-        "List all candidates with their names and status.",
-        "What is the selection month of candidate 'Moravaneni Sribhargavi'?",
-        "Show me the selection date and candidate name.",
-        "How many candidates are there in the database?",
-        "How many candidates have technology Networking",
-        "Who is the Manager for the candidate with Candidate Name as 'Vetrivel Subramanian'",
-        "How many candidates have technology Data Engineer",
-        "show me the selection month and candidate name.",
-        "Which candidates have Manager as 'Selvakumar G' in their records?",
-
-    ]); // Suggested questions
+    const [suggestions] = suggestion;
     const [currentIndex, setCurrentIndex] = useState<number | null>(null); // Track the current selected query index
 
     // WebSocket initialization

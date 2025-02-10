@@ -35,7 +35,8 @@
       ],
       "foreign_keys": [],
       "primary_key": "Serial"
-    }
+    },
+    "suggestions":[]
     },
   "Button3": {
     "name": "Reports",

@@ -46,7 +46,10 @@
       },
       "suggestions": ["Which npd has more score",
         "Show the npd name and status of all NPDs?",
-        "What are the available business units."
+        "What are the available business units.",
+        "List all NPD names and their maturity stage",
+        "Show all unique accessor leads in the database.",
+        "List all NPD names which have assessment score above 80"
       ]
     },
     "Button4": {

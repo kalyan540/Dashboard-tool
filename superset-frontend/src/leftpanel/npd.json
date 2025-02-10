@@ -41,7 +41,7 @@
         { "name": "score", "type": "FLOAT" }
       ],
       "foreign_keys": [],
-      "primary_key": "Assessment ID",
+      "primary_key": "Assessment ID"
       
     },
     "suggestions": []

@@ -45,6 +45,8 @@ const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys }: {
     const socket = useRef<WebSocket | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null); // Reference to the input field
 
+    console.log(columns);
+
     useEffect(() => {
         // Open WebSocket connection
         socket.current = new WebSocket('ws://ec2-54-152-143-184.compute-1.amazonaws.com:8765');

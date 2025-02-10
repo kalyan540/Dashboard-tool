@@ -152,6 +152,7 @@ const DashboardRoute: FC = () => {
           user={currentUser}
         />;
       case 'chatbot':
+        console.log(activeButtonConfig.schema.columns);
         return <ChatBOT
           //schema={activeButtonConfig.schema}
           tableName={activeButtonConfig.schema.table_name}

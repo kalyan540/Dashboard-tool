@@ -106,7 +106,7 @@ async def echo(websocket):
             primary_key = data.get("primaryKey", "")
             foreign_keys = data.get("foreignKeys", [])
             query = data.get("query", "")
-
+            logging.info(f"Received data: {columns}")
             # Start building the schema in the expected format
             schema = f'schema = """\n"{table_name}"\n'
             
@@ -114,10 +114,10 @@ async def echo(websocket):
             for col in columns:
                 col_type = col["type"].replace("LONGINTEGER", "INTEGER")  # Adjust LONGINTEGER to INTEGER
                 schema += f'  "{col["name"]}" {col_type},\n'
-
+            logging.info(f"Schema: {schema}")
             # Handle foreign keys (if any)
-            if foreign_keys:
-                schema += f'  foreign_key: {", ".join(f\'"{fk}"\' for fk in foreign_keys)}\n'
+            #if foreign_keys:
+            #    schema += f'  foreign_key: {", ".join(f\'"{fk}"\' for fk in foreign_keys)}\n'
 
             # Handle primary key
             if primary_key:
@@ -125,7 +125,7 @@ async def echo(websocket):
 
             # Close the schema string
             schema += '"""\n'
-
+            logging.info(f"Schema: {schema}")
             # Create the formatted input (schema + query)
             formatted_input = f"{schema}{query}"
 

@@ -3,7 +3,129 @@
  * This component renders a rectangle box that opens a popover with some text when clicked.
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { t, withTheme } from '@superset-ui/core';
+import ControlHeader from 'src/explore/components/ControlHeader';
+import { AddControlLabel, AddIconButton, HeaderContainer, LabelsContainer } from 'src/explore/components/controls/OptionControls';
+import Icons from 'src/components/Icons';
+
+const propTypes = {
+  label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      selectedColumn: PropTypes.string.isRequired,
+      inputValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      selectionOption: PropTypes.string.isRequired,
+    })
+  ),
+  columns: PropTypes.arrayOf(PropTypes.object),
+  isLoading: PropTypes.bool,
+};
+
+const defaultProps = {
+  name: '',
+  onChange: () => {},
+  columns: [],
+  value: [],
+};
+
+class NavigateControl extends Component {
+  constructor(props) {
+    super(props);
+    this.onAddMapping = this.onAddMapping.bind(this);
+    this.onRemoveMapping = this.onRemoveMapping.bind(this);
+    this.onChangeMapping = this.onChangeMapping.bind(this);
+    
+    this.state = {
+      values: this.props.value || [],
+    };
+  }
+
+  onAddMapping() {
+    this.setState(
+      prevState => ({
+        values: [...prevState.values, { selectedColumn: '', inputValue: '', selectionOption: '' }],
+      }),
+      () => this.props.onChange(this.state.values)
+    );
+  }
+
+  onRemoveMapping(index) {
+    this.setState(
+      prevState => {
+        const values = [...prevState.values];
+        values.splice(index, 1);
+        return { values };
+      },
+      () => this.props.onChange(this.state.values)
+    );
+  }
+
+  onChangeMapping(index, field, value) {
+    this.setState(
+      prevState => {
+        const values = [...prevState.values];
+        values[index][field] = value;
+        return { values };
+      },
+      () => this.props.onChange(this.state.values)
+    );
+  }
+
+  render() {
+    const { theme } = this.props;
+    return (
+      <div className="navigate-control" data-test="navigate-control">
+        <HeaderContainer>
+          <ControlHeader {...this.props} />
+          <AddIconButton onClick={this.onAddMapping} data-test="add-mapping-button">
+            <Icons.PlusLarge iconSize="s" iconColor={theme.colors.grayscale.light5} />
+          </AddIconButton>
+        </HeaderContainer>
+        <LabelsContainer>
+          {this.state.values.length > 0
+            ? this.state.values.map((mapping, index) => (
+                <div key={index} className="mapping-row">
+                  <input
+                    type="text"
+                    value={mapping.selectedColumn}
+                    onChange={e => this.onChangeMapping(index, 'selectedColumn', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={mapping.inputValue}
+                    onChange={e => this.onChangeMapping(index, 'inputValue', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={mapping.selectionOption}
+                    onChange={e => this.onChangeMapping(index, 'selectionOption', e.target.value)}
+                  />
+                  <button onClick={() => this.onRemoveMapping(index)}>{t('Remove')}</button>
+                </div>
+              ))
+            : (
+                <AddControlLabel onClick={this.onAddMapping}>
+                  <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
+                  {t('Add mapping')}
+                </AddControlLabel>
+              )}
+        </LabelsContainer>
+      </div>
+    );
+  }
+}
+
+NavigateControl.propTypes = propTypes;
+NavigateControl.defaultProps = defaultProps;
+
+export default withTheme(NavigateControl);
+
+
+/*import React, { useState, useRef, useEffect } from 'react';
 import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
 import { Popover } from 'antd';
 import { Select } from 'src/components';
@@ -171,7 +293,7 @@ const NavigateControl = (props: NavigateSelectProps) => {
     );
     /*const handleInput = (e) => {
       setInputValue(e.target.value); // Directly updating input state
-    };*/
+    };
 
 
   const popoverContent = (
@@ -239,7 +361,7 @@ const NavigateControl = (props: NavigateSelectProps) => {
 
   return (
     <div>
-      {/* Control Header */}
+      {/* Control Header }
       <HeaderContainer>
         <ControlHeader {...props} />
       </HeaderContainer>
@@ -298,4 +420,4 @@ NavigateControl.propTypes = {
   })).isRequired, // Column options are required
 };
 
-export default NavigateControl;
+export default NavigateControl;*/

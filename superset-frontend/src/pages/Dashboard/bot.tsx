@@ -16,32 +16,31 @@ interface SQLQuery {
     ctas: boolean;
     ctas_method: string;
 }
-
-const BioreactorBOT = () => {
+//const ChatBOT = ({ schema }: { schema: any }) => {
+// const ChatBOT = () => {
+const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys, queries }: { 
+    tableName: string; 
+    columns: any[]; 
+    primaryKey: string; 
+    foreignKeys: any[]; 
+    queries: any[];
+}) => {
     const [query, setQuery] = useState(""); // State to hold input value
     const [tableData, setTableData] = useState<any[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
-    const [suggestions] = useState([
-        "List all candidates with their names and status.",
-        "What is the selection month of candidate 'Moravaneni Sribhargavi'?",
-        "Show me the selection date and candidate name.",
-        "How many candidates are there in the database?",
-        "How many candidates have technology Networking",
-        "Who is the Manager for the candidate with Candidate Name as 'Vetrivel Subramanian'",
-        "How many candidates have technology Data Engineer",
-        "show me the selection month and candidate name.",
-        "Which candidates have Manager as 'Selvakumar G' in their records?",
-
-    ]); // Suggested questions
+    const suggestions = queries;
     const [currentIndex, setCurrentIndex] = useState<number | null>(null); // Track the current selected query index
-
+    
+    console.log(suggestions);
     // WebSocket initialization
     const socket = useRef<WebSocket | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null); // Reference to the input field
 
+    console.log(columns);
+
     useEffect(() => {
         // Open WebSocket connection
-        socket.current = new WebSocket('ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765');
+        socket.current = new WebSocket('ws://ec2-54-152-143-184.compute-1.amazonaws.com:8765');
 
         socket.current.onopen = () => {
             console.log("Connected to WebSocket server");
@@ -152,14 +151,23 @@ const BioreactorBOT = () => {
         inputRef.current?.focus(); // Refocus the input field
 
     };
+    
 
     const handleSubmit = () => {
-        // Send the query input to the WebSocket server
         if (socket.current && socket.current.readyState === WebSocket.OPEN) {
-            socket.current.send(query); // Send the query to the WebSocket server
-            console.log("Sent query to WebSocket:", query);
+            const dataToSend = {
+                tableName: tableName,   // Sending table name
+                columns: columns,       // Sending column list
+                primaryKey: primaryKey, // Sending primary key
+                foreignKeys: foreignKeys, // Sending foreign keys
+                query: query, 
+            };
+            //console.log("dataToSend", dataToSend);
+
+            socket.current.send(JSON.stringify(dataToSend)); // Send the query to the WebSocket server
+            console.log("Sent schema and query to WebSocket:", dataToSend);
         } else {
-            console.log("WebSocket not open yet.");
+            console.log("WebSocket not open yet..");
         }
         setShowSuggestions(false);
     };
@@ -330,4 +338,4 @@ const BioreactorBOT = () => {
     );
 };
 
-export default BioreactorBOT;
+export default ChatBOT;

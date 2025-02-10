@@ -1,0 +1,71 @@
+{
+    "Button1": {
+      "name": "Create Assessment",
+      "type": "dashboard",
+      "dashboardId": "Create_Assessment",
+      "icon": "/static/assets/images/contactform.png",
+      "divider": false
+    },
+    "Button2": {
+      "name": "Analytics",
+      "type": "dashboard",
+      "dashboardId": "Npd_Analytics",
+      "icon": "/static/assets/images/Analytics.png",
+      "divider": false
+    },
+    "Button3": {
+      "name": "Chat BOT",
+      "type": "chatbot",
+      "icon": "/static/assets/images/chatboticon.png",
+      "divider": false,
+      "schema": {
+        "table_name": ["npd_bot"],
+        "columns": [
+          { "name": "business_unit", "type": "STRING" },
+          { "name": "npd_name", "type": "STRING" },
+          { "name": "npd_id", "type": "STRING" },
+          { "name": "maturity_stage", "type": "STRING" },
+          { "name": "status", "type": "STRING" },
+          { "name": "accessor_lead", "type": "STRING" },
+          { "name": "date", "type": "STRING" },
+          { "name": "assessor_1", "type": "STRING" },
+          { "name": "assessor_2", "type": "STRING" },
+          { "name": "assessor_3", "type": "STRING" },
+          { "name": "assessment_id", "type": "STRING", "primary_key": true },
+          { "name": "assessment_score", "type": "LONGINTEGER" },
+          { "name": "remarks", "type": "STRING" },
+          { "name": "npd_cost_(USD)", "type": "LONGINTEGER" },
+          { "name": "npd_budget_(USD)", "type": "LONGINTEGER" },
+          { "name": "npd_%_cost_used", "type": "FLOAT" },
+          { "name": "market_size_(USD)", "type": "LONGINTEGER" },
+          { "name": "score", "type": "FLOAT" }
+        ],
+        "foreign_keys": [],
+        "primary_key": "assessment_id"
+        
+      },
+      "suggestions": ["Which npd has more score",
+        "Show the npd name and status of all NPDs?",
+        "What are the available business units."
+      ]
+    },
+    "Button4": {
+      "name": "Reports",
+      "type": "report",
+      "icon": "/static/assets/images/Reports.png",
+      "divider": false
+    },
+    "Button5": {
+      "name": "Alerts",
+      "type": "alert",
+      "icon": "/static/assets/images/Alerts.png",
+      "divider": false
+    },
+    "Button6": {
+      "name": "Manage Users",
+      "type": "iframe",
+      "src": "/users/list",
+      "icon": "/static/assets/images/user.png",
+      "divider": true
+    }
+  }

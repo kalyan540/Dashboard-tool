@@ -1,3 +1,4 @@
+import json
 import re
 import time
 import asyncio
@@ -11,7 +12,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 # Database schema (for use with text-to-SQL model)
-schema = """
+'''schema = """
 "candidates" 
   "Serial"
   "Category" STRING, 
@@ -56,7 +57,7 @@ column_names = [
   "Comments", 
   "Selection_Date", 
   "Selection_Month",
-]  # Column names in the schema
+]  # Column names in the schema'''
 
 # Function to add double quotations to table and column names in the SQL query
 def add_double_quotations(sql_query, table_names, column_names):
@@ -88,7 +89,7 @@ def add_double_quotations(sql_query, table_names, column_names):
     return formatted_query
 
 # Function to generate SQL query from the question using the transformer model
-def generate_sql_query(question):
+def generate_sql_query(question, schema, table_names, column_names):
     # Combine question with schema
     input_text = " ".join(["Question: ", question, "Schema:", schema])
 
@@ -126,7 +127,38 @@ async def echo(websocket):
         async for message in websocket:
             logging.info(f"Received message: {message}")
             # Call the function to generate SQL query from the question
-            sql_query = generate_sql_query(message)
+
+            data = json.loads(message)
+            table_name = data.get("tableName", [])
+            columns = data.get("columns", [])
+            primary_key = data.get("primaryKey", "")
+            foreign_keys = data.get("foreignKeys", [])
+            query = data.get("query", "")
+            logging.info(f"Received data: {columns}")
+            # Start building the schema in the expected format
+            schema = f'schema = """\n"{table_name[0]}"\n'
+            
+            # Add columns to schema
+            for col in columns:
+                col_type = col["type"].replace("LONGINTEGER", "INTEGER")  # Adjust LONGINTEGER to INTEGER
+                schema += f'  "{col["name"]}" {col_type},\n'
+            logging.info(f"Schema: {schema}")
+            # Handle foreign keys (if any)
+            schema += f'  foreign_key: \n'
+
+            # Handle primary key
+            if primary_key:
+                schema += f'  primary key: "{primary_key}"\n'
+
+            # Close the schema string
+            schema += '"""\n'
+            logging.info(f"Schema: {schema}")
+            # Create the formatted input (schema + query)
+            formatted_input = f"{schema}{query}"
+
+            column_names = [col["name"] for col in columns]
+
+            sql_query = generate_sql_query(query, formatted_input, table_name, column_names)
             await websocket.send(sql_query)
     except websockets.exceptions.ConnectionClosed as e:
         logging.error(f"Connection closed: {e}")

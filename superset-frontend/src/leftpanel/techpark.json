@@ -1,0 +1,24 @@
+{
+    "Button1": {
+      "name": "Analytics",
+      "type": "dashboard",
+      "dashboardId": "Energy_Analytics",
+      "icon": "/static/assets/images/Analytics.png",
+      "divider": false
+    },
+    "Button3": {
+      "name": "Asset Model",
+      "type": "dashboard",
+      "dashboardId": "",
+      "icon": "/static/assets/images/asset.png",
+      "divider": false
+    },
+    "Button2": {
+      "name": "Manage Users",
+      "type": "iframe",
+      "src": "/users/list",
+      "icon": "/static/assets/images/user.png",
+      "divider": true
+    }
+  }
+  

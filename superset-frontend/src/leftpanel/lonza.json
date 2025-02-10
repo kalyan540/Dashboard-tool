@@ -1,0 +1,61 @@
+{
+    "Button1": {
+      "name": "Analytics",
+      "type": "dashboard",
+      "dashboardId": "Lonza_Analytics",
+      "icon": "/static/assets/images/Analytics.png",
+      "divider": false
+    },
+    "Button2": {
+      "name": "Chat BOT",
+      "type": "chatbot",
+      "icon": "/static/assets/images/chatboticon.png",
+      "divider": false,
+      "schema": {
+      "table_name": ["lonza_bot"],
+      "columns": [
+        { "name": "timestamp", "type": "STRING", "primary_key": true },
+        { "name": "device_name", "type": "STRING" },
+        { "name": "quality", "type": "FLOAT" },
+        { "name": "performance", "type": "FLOAT" },
+        { "name": "availability", "type": "FLOAT" },
+        { "name": "oee", "type": "FLOAT" }
+      ],
+    "foreign_keys": [],
+    "primary_key": "timestamp"
+    },
+    "suggestions": ["Which device_name has the most consistent oee values?",
+      "What is the lowest performance value in the dataset.",
+      "Which device_name has the lowest quality score.",
+      "What is the maximum availability score recorded",
+      "How many records have quality value greater than 90.",
+      "What is the average OEE value"
+    ]
+    },
+    "Button3": {
+      "name": "Reports",
+      "type": "report",
+      "icon": "/static/assets/images/Reports.png",
+      "divider": false
+    },
+    "Button4": {
+      "name": "Alerts",
+      "type": "alert",
+      "icon": "/static/assets/images/Alerts.png",
+      "divider": false
+    },
+    "Button5": {
+      "name": "Art of Posibility",
+      "type": "dashboard",
+      "dashboardId": "27",
+      "icon": "/static/assets/images/Analytics.png",
+      "divider": false
+    },
+    "Button6": {
+      "name": "Manage Users",
+      "type": "iframe",
+      "src": "/users/list",
+      "icon": "/static/assets/images/user.png",
+      "divider": true
+    }
+  }

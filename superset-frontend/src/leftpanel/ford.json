@@ -34,7 +34,7 @@
         { "name": "selection_month", "type": "STRING" }
       ],
       "foreign_keys": [],
-      "primary_key": "Serial"
+      "primary_key": "serial"
     },
     "suggestions":["List all candidates with their names and status.",
         "What is the selection month of candidate 'Moravaneni Sribhargavi'?",

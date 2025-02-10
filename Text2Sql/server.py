@@ -144,8 +144,7 @@ async def echo(websocket):
                 schema += f'  "{col["name"]}" {col_type},\n'
             logging.info(f"Schema: {schema}")
             # Handle foreign keys (if any)
-            #if foreign_keys:
-            #    schema += f'  foreign_key: {", ".join(f\'"{fk}"\' for fk in foreign_keys)}\n'
+            schema += f'  foreign_key: \n'
 
             # Handle primary key
             if primary_key:

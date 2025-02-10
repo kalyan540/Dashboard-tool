@@ -136,7 +136,7 @@ async def echo(websocket):
             query = data.get("query", "")
             logging.info(f"Received data: {columns}")
             # Start building the schema in the expected format
-            schema = f'schema = """\n"{table_name}"\n'
+            schema = f'schema = """\n"{table_name[0]}"\n'
             
             # Add columns to schema
             for col in columns:

@@ -28,7 +28,7 @@ const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys, queries }: {
     const [query, setQuery] = useState(""); // State to hold input value
     const [tableData, setTableData] = useState<any[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
-    const [suggestions] = queries;
+    const suggestions = queries;
     const [currentIndex, setCurrentIndex] = useState<number | null>(null); // Track the current selected query index
     console.log(queries);
     console.log(suggestions);

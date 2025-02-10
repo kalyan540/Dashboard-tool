@@ -130,7 +130,7 @@ async def echo(websocket):
             formatted_input = f"{schema}{query}"
 
             # Generate SQL query with only the formatted input
-            sql_query = generate_sql_query(formatted_input)
+            sql_query = generate_sql_query(formatted_input, table_names, column_names)
 
             # Send the SQL query back to the client
             await websocket.send(sql_query)

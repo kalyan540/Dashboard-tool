@@ -30,7 +30,7 @@ const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys, queries }: {
     const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
     const suggestions = queries;
     const [currentIndex, setCurrentIndex] = useState<number | null>(null); // Track the current selected query index
-    console.log(queries);
+    
     console.log(suggestions);
     // WebSocket initialization
     const socket = useRef<WebSocket | null>(null);

@@ -36,7 +36,15 @@
       "foreign_keys": [],
       "primary_key": "Serial"
     },
-    "suggestions":[]
+    "suggestions":["List all candidates with their names and status.",
+        "What is the selection month of candidate 'Moravaneni Sribhargavi'?",
+        "Show me the selection date and candidate name.",
+        "How many candidates are there in the database?",
+        "How many candidates have technology Networking",
+        "Who is the Manager for the candidate with Candidate Name as 'Vetrivel Subramanian'",
+        "How many candidates have technology Data Engineer",
+        "show me the selection month and candidate name.",
+        "Which candidates have Manager as 'Selvakumar G' in their records?"]
     },
   "Button3": {
     "name": "Reports",

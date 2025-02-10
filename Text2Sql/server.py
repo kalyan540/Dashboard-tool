@@ -1,6 +1,6 @@
+import json
 import re
 import time
-import json
 import asyncio
 import websockets
 import logging
@@ -11,10 +11,53 @@ model_path = 'gaussalgo/T5-LM-Large-text2sql-spider'
 model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
+# Database schema (for use with text-to-SQL model)
+'''schema = """
+"candidates" 
+  "Serial"
+  "Category" STRING, 
+  "Priority" STRING, 
+  "Order" INTEGER, 
+  "TechStack" STRING, 
+  "Technology" STRING, 
+  "Date_Order_was_opened" DATE, 
+  "Date_profile_was_uploaded" DATE, 
+  "Portfolio" STRING, 
+  "Manager" STRING, 
+  "Internal/External" STRING, 
+  "Candidate_Name" STRING, 
+  "Interview_Secured_Date" DATE, 
+  "Interview_Schedule_Date" DATE, 
+  "Status" STRING, 
+  "Comments" TEXT, 
+  "Selection_Date" DATE, 
+  "Selection_Month" STRING, 
+  foreign_key:  
+  primary key: "Serial"
+"""
 
 # Table names and column names
-table_names = []  # Table name in the schema
-column_names = []  # Column names in the schema
+table_names = ["candidates"]  # Table name in the schema
+column_names = [
+  "Serial"
+  "Category", 
+  "Priority", 
+  "Order", 
+  "TechStack", 
+  "Technology", 
+  "Date_Order_was_opened", 
+  "Date_profile_was_uploaded", 
+  "Portfolio", 
+  "Manager", 
+  "Internal/External", 
+  "Candidate_Name", 
+  "Interview_Secured_Date", 
+  "Interview_Schedule_Date", 
+  "Status", 
+  "Comments", 
+  "Selection_Date", 
+  "Selection_Month",
+]  # Column names in the schema'''
 
 # Function to add double quotations to table and column names in the SQL query
 def add_double_quotations(sql_query, table_names, column_names):
@@ -46,7 +89,7 @@ def add_double_quotations(sql_query, table_names, column_names):
     return formatted_query
 
 # Function to generate SQL query from the question using the transformer model
-def generate_sql_query(question, table_names, column_names):
+def generate_sql_query(question, schema, table_names, column_names):
     # Combine question with schema
     input_text = " ".join(["Question: ", question, "Schema:", schema])
 
@@ -77,31 +120,16 @@ def generate_sql_query(question, table_names, column_names):
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
-
-
-#WebSocket handler that processes questions and returns SQL
-# async def echo(websocket):
-#     logging.info(f"New connection from {websocket.remote_address}")
-#     try:
-#         async for message in websocket:
-#             logging.info(f"Received message: {message}")
-#             # Call the function to generate SQL query from the question
-#             sql_query = generate_sql_query(message)
-#             await websocket.send(sql_query)
-#     except websockets.exceptions.ConnectionClosed as e:
-#         logging.error(f"Connection closed: {e}")
-
-
 # WebSocket handler that processes questions and returns SQL
 async def echo(websocket):
     logging.info(f"New connection from {websocket.remote_address}")
     try:
         async for message in websocket:
             logging.info(f"Received message: {message}")
+            # Call the function to generate SQL query from the question
 
-            # Parse the received JSON
             data = json.loads(message)
-            table_name = data.get("tableName", "")
+            table_name = data.get("tableName", [])
             columns = data.get("columns", [])
             primary_key = data.get("primaryKey", "")
             foreign_keys = data.get("foreignKeys", [])
@@ -129,15 +157,12 @@ async def echo(websocket):
             # Create the formatted input (schema + query)
             formatted_input = f"{schema}{query}"
 
-            # Generate SQL query with only the formatted input
-            sql_query = generate_sql_query(formatted_input, table_names, column_names)
+            column_names = [col["name"] for col in columns]
 
-            # Send the SQL query back to the client
+            sql_query = generate_sql_query(query, formatted_input, table_name, column_names)
             await websocket.send(sql_query)
-
     except websockets.exceptions.ConnectionClosed as e:
         logging.error(f"Connection closed: {e}")
-
 
 # WebSocket server function
 async def main():

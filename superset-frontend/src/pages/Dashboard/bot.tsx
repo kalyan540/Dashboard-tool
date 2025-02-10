@@ -18,19 +18,19 @@ interface SQLQuery {
 }
 //const ChatBOT = ({ schema }: { schema: any }) => {
 // const ChatBOT = () => {
-const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys, suggestion }: { 
+const ChatBOT = ({ tableName, columns, primaryKey, foreignKeys, queries }: { 
     tableName: string; 
     columns: any[]; 
     primaryKey: string; 
     foreignKeys: any[]; 
-    suggestion: any[];
+    queries: any[];
 }) => {
     const [query, setQuery] = useState(""); // State to hold input value
     const [tableData, setTableData] = useState<any[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false); // State to show/hide suggestions
-    const [suggestions] = suggestion;
+    const [suggestions] = queries;
     const [currentIndex, setCurrentIndex] = useState<number | null>(null); // Track the current selected query index
-
+    console.log(suggestions);
     // WebSocket initialization
     const socket = useRef<WebSocket | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null); // Reference to the input field

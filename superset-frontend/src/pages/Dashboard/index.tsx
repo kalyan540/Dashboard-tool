@@ -160,7 +160,7 @@ const DashboardRoute: FC = () => {
           columns={activeButtonConfig.schema.columns}
           primaryKey={activeButtonConfig.schema.primary_key}
           foreignKeys={activeButtonConfig.schema.foreign_keys}
-          suggestion={activeButtonConfig.suggestions}
+          queries={activeButtonConfig.suggestions}
         />;
       default:
         return <div style={{ textAlign: 'center', marginTop: '20px' }}>Unknown type: {activeButtonConfig.type}</div>;

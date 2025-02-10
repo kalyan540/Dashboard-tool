@@ -44,7 +44,9 @@
       "primary_key": "Assessment ID"
       
     },
-    "suggestions": []
+    "suggestions": ["Which npd has more score",
+      "Show the npd name and status of all NPDs?",
+      "What are the available business units."]
     },
     "Button4": {
       "name": "Reports",

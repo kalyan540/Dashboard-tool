@@ -187,6 +187,8 @@ class NavigateControl extends Component {
             {t('Add mapping')}
           </AddControlLabel>
         </LabelsContainer>
+        {/* Render Popover */}
+        {this.renderPopoverContent()}
       </div>
     );
   }

@@ -10,6 +10,12 @@ import ControlHeader from 'src/explore/components/ControlHeader';
 import { AddControlLabel, AddIconButton, HeaderContainer, LabelsContainer } from 'src/explore/components/controls/OptionControls';
 import Icons from 'src/components/Icons';
 
+import React, { useState, useRef, useEffect } from 'react';
+import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
+import { Popover } from 'antd';
+import { Select } from 'src/components';
+import { Input } from 'src/components/Input';
+
 const propTypes = {
   label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   name: PropTypes.string,
@@ -27,7 +33,7 @@ const propTypes = {
 
 const defaultProps = {
   name: '',
-  onChange: () => {},
+  onChange: () => { },
   columns: [],
   value: [],
 };
@@ -38,19 +44,26 @@ class NavigateControl extends Component {
     this.onAddMapping = this.onAddMapping.bind(this);
     this.onRemoveMapping = this.onRemoveMapping.bind(this);
     this.onChangeMapping = this.onChangeMapping.bind(this);
-    
+    this.handleClosePopover = this.handleClosePopover.bind(this);
+    this.handleAddItem = this.handleAddItem.bind(this);
+
     this.state = {
       values: this.props.value || [],
+      isPopoverVisible: false,
+      selectedColumn: '', // State for selected column in popover
+      inputValue: '', // State for input value in popover
+      selectionOption: '', // State for selection option in popover 
     };
   }
 
   onAddMapping() {
-    this.setState(
+    /*this.setState(
       prevState => ({
         values: [...prevState.values, { selectedColumn: '', inputValue: '', selectionOption: '' }],
       }),
       () => this.props.onChange(this.state.values)
-    );
+    );*/
+    this.setState({ isPopoverVisible: true });
   }
 
   onRemoveMapping(index) {
@@ -76,8 +89,69 @@ class NavigateControl extends Component {
     );
   }
 
+  handleClosePopover = () => {
+    this.setState({ isPopoverVisible: false });
+  }
+
+  handleAddItem() {
+    const { selectedColumn, inputValue, selectionOption } = this.state;
+    this.setState(
+      (prevState) => ({
+        values: [...prevState.values, { selectedColumn, inputValue, selectionOption }],
+        isPopoverVisible: false, // Close popover after adding
+        selectedColumn: '', // Reset selected column
+        inputValue: '', // Reset input value
+        selectionOption: '', // Reset selection option
+      }),
+      () => this.props.onChange(this.state.values)
+    );
+  }
+
+  renderPopoverContent() {
+    const { isPopoverVisible, selectedColumn, inputValue, selectionOption } = this.state;
+    const { columns } = this.props;
+
+    if (!isPopoverVisible) return null;
+
+    return (
+      <div className="popover-content" style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff' }}>
+        <Select
+          style={{ width: '100%', marginBottom: '10px' }}
+          onChange={(value) => this.setState({ selectedColumn: value })}
+          placeholder={t('%s column(s)', columns.length)}
+          options={columns.map((column) => ({
+            value: column.column_name || column.optionName || '',
+            label: column.saved_metric_name || column.column_name || column.label,
+            key: column.id || column.optionName || undefined,
+          }))}
+        />
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Input
+            placeholder={t('Input Value')}
+            value={inputValue}
+            onChange={(e) => this.setState({ inputValue: e.target.value })}
+          />
+          <Input
+            placeholder={t('Selection Option')}
+            value={selectionOption}
+            onChange={(e) => this.setState({ selectionOption: e.target.value })}
+          />
+        </div>
+
+        <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+          <Button onClick={this.handleClosePopover}>{t('Close')}</Button>
+          <Button type="primary" onClick={this.handleAddItem}>
+            {t('Save')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { theme } = this.props;
+    const { values } = this.state;
     return (
       <div className="navigate-control" data-test="navigate-control">
         <HeaderContainer>
@@ -86,8 +160,46 @@ class NavigateControl extends Component {
             <Icons.PlusLarge iconSize="s" iconColor={theme.colors.grayscale.light5} />
           </AddIconButton>
         </HeaderContainer>
+        {/* Render existing mappings */}
+        {values.map((mapping, index) => (
+          <div key={index} className="mapping-row" style={{ marginBottom: '10px' }}>
+            <input
+              type="text"
+              value={mapping.selectedColumn}
+              onChange={(e) => this.onChangeMapping(index, 'selectedColumn', e.target.value)}
+            />
+            <input
+              type="text"
+              value={mapping.inputValue}
+              onChange={(e) => this.onChangeMapping(index, 'inputValue', e.target.value)}
+            />
+            <input
+              type="text"
+              value={mapping.selectionOption}
+              onChange={(e) => this.onChangeMapping(index, 'selectionOption', e.target.value)}
+            />
+            <button onClick={() => this.onRemoveMapping(index)}>{t('Remove')}</button>
+          </div>
+        ))}
         <LabelsContainer>
-          {this.state.values.length > 0
+          <AddControlLabel onClick={this.onAddMapping}>
+            <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
+            {t('Add mapping')}
+          </AddControlLabel>
+        </LabelsContainer>
+      </div>
+    );
+  }
+}
+console.log();
+NavigateControl.propTypes = propTypes;
+NavigateControl.defaultProps = defaultProps;
+
+export default withTheme(NavigateControl);
+
+
+/*
+{this.state.values.length > 0
             ? this.state.values.map((mapping, index) => (
                 <div key={index} className="mapping-row">
                   <input
@@ -114,19 +226,10 @@ class NavigateControl extends Component {
                   {t('Add mapping')}
                 </AddControlLabel>
               )}
-        </LabelsContainer>
-      </div>
-    );
-  }
-}
-console.log();
-NavigateControl.propTypes = propTypes;
-NavigateControl.defaultProps = defaultProps;
-
-export default withTheme(NavigateControl);
 
 
-/*import React, { useState, useRef, useEffect } from 'react';
+
+import React, { useState, useRef, useEffect } from 'react';
 import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
 import { Popover } from 'antd';
 import { Select } from 'src/components';

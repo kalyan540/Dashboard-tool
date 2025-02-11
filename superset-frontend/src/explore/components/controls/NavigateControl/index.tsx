@@ -33,7 +33,7 @@ const defaultProps = {
 };
 
 class NavigateControl extends Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.onAddMapping = this.onAddMapping.bind(this);
     this.onRemoveMapping = this.onRemoveMapping.bind(this);
@@ -69,6 +69,7 @@ class NavigateControl extends Component {
       prevState => {
         const values = [...prevState.values];
         values[index][field] = value;
+        console.log(values);
         return { values };
       },
       () => this.props.onChange(this.state.values)
@@ -118,7 +119,7 @@ class NavigateControl extends Component {
     );
   }
 }
-
+console.log();
 NavigateControl.propTypes = propTypes;
 NavigateControl.defaultProps = defaultProps;
 

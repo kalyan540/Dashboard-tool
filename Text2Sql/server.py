@@ -107,6 +107,7 @@ def generate_sql_query(question, schema, table_names, column_names):
         # Decode and return the SQL query
         output_text = tokenizer.batch_decode(outputs, skip_special_tokens=True)
         generated_sql = output_text[0]
+        print(output_text)
 
         # Add double quotations to table and column names
         formatted_sql = add_double_quotations(generated_sql, table_names, column_names)

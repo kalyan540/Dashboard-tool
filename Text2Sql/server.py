@@ -150,13 +150,13 @@ async def echo(websocket):
 
             # Handle primary key
             if primary_key:
-                schema += f'  primary key: "{primary_key}"\n'
+                schema += f'  primary key: \n'
 
             # Close the schema string
             schema += '"""\n'
             logging.info(f"Schema: {schema}")
             # Create the formatted input (schema + query)
-            formatted_input = f"{schema}{query}"
+            formatted_input = f"{schema}"
 
             column_names = [col["name"] for col in columns]
 

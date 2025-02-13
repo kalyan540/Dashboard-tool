@@ -503,8 +503,8 @@ const AdhocFilterEditPopoverSimpleTabContent: FC<Props> = props => {
             advancedDataTypesState.parsedAdvancedDataType
           }
         >
-          {console.log(labelText)}
-          {console.log(suggestions)}
+          {/*console.log(labelText)*/}
+          {/*console.log(suggestions)*/}
           <SelectWithLabel
             labelText={labelText}
             options={suggestions}

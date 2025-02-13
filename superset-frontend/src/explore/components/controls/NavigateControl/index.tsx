@@ -190,6 +190,7 @@ class NavigateControl extends Component {
               key={index}
               index={index}
               label={mapping.selectionOption}
+              type = "no-dnd"
             />
             ))}
           <AddControlLabel onClick={this.onAddMapping}>

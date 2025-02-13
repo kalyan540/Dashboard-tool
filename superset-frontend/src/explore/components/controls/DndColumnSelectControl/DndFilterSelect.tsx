@@ -156,7 +156,7 @@ const DndFilterSelect = (props: DndFilterSelectProps) => {
           ) ?? 0,
       );
   };
-  console.log(optionsForSelect(props.columns, props.formData));
+  //console.log(optionsForSelect(props.columns, props.formData));
   const [options, setOptions] = useState(
     optionsForSelect(props.columns, props.formData),
   );
@@ -349,7 +349,7 @@ const DndFilterSelect = (props: DndFilterSelectProps) => {
   const closePopover = useCallback(() => {
     togglePopover(false);
   }, [togglePopover]);
-  console.log(options);
+  //console.log(options);
   const valuesRenderer = useCallback(
     () =>
       values.map((adhocFilter: AdhocFilter, index: number) => (
@@ -440,8 +440,8 @@ const DndFilterSelect = (props: DndFilterSelectProps) => {
     },
     [controlName, togglePopover],
   );
-  console.log(props);
-  console.log(valuesRenderer)
+  //console.log(props);
+  //console.log(valuesRenderer)
   return (
     <>
       <DndSelectLabel

@@ -396,9 +396,9 @@ const AdhocFilterEditPopoverSimpleTabContent: FC<Props> = props => {
       const { datasource } = props;
       const col = props.adhocFilter.subject;
       const having = props.adhocFilter.clause === Clauses.Having;
-      console.log(col);
-      console.log(datasource);
-      console.log(props);
+      //console.log(col);
+      //console.log(datasource);
+      //console.log(props);
 
       if (col && datasource && datasource.filter_select && !having) {
         const controller = new AbortController();

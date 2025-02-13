@@ -52,6 +52,7 @@ export default function AdhocFilterOption({
   operators,
 }: AdhocFilterOptionProps) {
   const { actualTimeRange, title } = useGetTimeRangeLabel(adhocFilter);
+  console.log('AdhocFilterOption', adhocFilter, actualTimeRange, title, sections, operators, options, datasource, onFilterEdit, partitionColumn, onRemoveFilter, onMoveLabel, onDropLabel, index);
 
   return (
     <AdhocFilterPopoverTrigger
@@ -73,6 +74,7 @@ export default function AdhocFilterOption({
         type={DndItemType.FilterOption}
         withCaret
         isExtra={adhocFilter.isExtra}
+        
       />
     </AdhocFilterPopoverTrigger>
   );

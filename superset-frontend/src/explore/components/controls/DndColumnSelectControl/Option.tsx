@@ -61,6 +61,7 @@ export default function Option({
         </CloseContainer>
       )}
       <Label data-test="control-label">{children}</Label>
+      {console.log(children)}
       {(!!datasourceWarningMessage || isExtra) && (
         <StyledInfoTooltipWithTrigger
           icon="exclamation-triangle"

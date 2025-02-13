@@ -119,6 +119,7 @@ export default function DndSelectLabel({
         isLoading={isLoading}
       >
         {values}
+        {console.log('DndSelectLabel', props, values)}
         {displayGhostButton && renderGhostButton()}
       </DndLabelsContainer>
     </div>

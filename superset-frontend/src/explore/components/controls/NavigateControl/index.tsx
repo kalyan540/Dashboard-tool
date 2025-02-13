@@ -164,7 +164,7 @@ class NavigateControl extends Component {
           </AddIconButton>
         </HeaderContainer>
         {/* Render existing mappings */}
-        {values.map((mapping, index) => (
+        {/*values.map((mapping, index) => (
           <div key={index} className="mapping-row" style={{ marginBottom: '10px' }}>
             <input
               type="text"
@@ -183,7 +183,7 @@ class NavigateControl extends Component {
             />
             <button onClick={() => this.onRemoveMapping(index)}>{t('Remove')}</button>
           </div>
-        ))}
+        ))*/}
         <LabelsContainer>
           {values.map((mapping: { selectedColumn: string; inputValue: string; selectionOption: string }, index: number) => (
             <OptionWrapper

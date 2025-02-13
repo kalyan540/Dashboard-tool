@@ -10,11 +10,12 @@ import ControlHeader from 'src/explore/components/ControlHeader';
 import { AddControlLabel, AddIconButton, HeaderContainer, LabelsContainer } from 'src/explore/components/controls/OptionControls';
 import Icons from 'src/components/Icons';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Button from 'src/components/Button'; // Assuming you have a Popover and Button component
 import { Popover } from 'antd';
 import { Select } from 'src/components';
 import { Input } from 'src/components/Input';
+import OptionWrapper from 'src/explore/components/controls/DndColumnSelectControl/OptionWrapper';
 
 const propTypes = {
   label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -107,6 +108,8 @@ class NavigateControl extends Component {
     );
   }
 
+  //label.length < 43 ? label : `${label.substring(0, 40)}...`;
+
   renderPopoverContent() {
     const { isPopoverVisible, selectedColumn, inputValue, selectionOption } = this.state;
     const { columns } = this.props;
@@ -182,6 +185,13 @@ class NavigateControl extends Component {
           </div>
         ))}
         <LabelsContainer>
+          {values.map((mapping: { selectedColumn: string; inputValue: string; selectionOption: string }, index: number) => (
+            <OptionWrapper
+              key={index}
+              index={index}
+              label={mapping.selectionOption}
+            />
+            ))}
           <AddControlLabel onClick={this.onAddMapping}>
             <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
             {t('Add mapping')}

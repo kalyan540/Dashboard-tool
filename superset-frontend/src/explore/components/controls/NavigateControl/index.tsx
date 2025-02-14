@@ -181,7 +181,7 @@ class NavigateControl extends Component {
   };
 
   handleSelectChange = (value) => {
-    this.setState({ selectOption: value });
+    this.setState({ selectionOption: value });
   };
 
   // Create the placeholder text for the select input
@@ -223,8 +223,8 @@ class NavigateControl extends Component {
             placeholder={this.createSuggestionsPlaceholder()}
           />
           <Input
-            placeholder={t('Selection Option')}
-            value={selectionOption}
+            placeholder={t('ID or SlugId')}
+            value={inputValue}
             onChange={(e) => this.setState({ inputValue: e.target.value })}
           />
         </div>

@@ -90,9 +90,13 @@ class NavigateControl extends Component {
     );
   }
 
+  handleOpenPopover = () => {
+    this.setState({ isPopoverVisible: true });
+  };
+
   handleClosePopover = () => {
     this.setState({ isPopoverVisible: false });
-  }
+  };
 
   handleAddItem() {
     const { selectedColumn, inputValue, selectionOption } = this.state;
@@ -160,41 +164,29 @@ class NavigateControl extends Component {
         <HeaderContainer>
           <ControlHeader {...this.props} />
         </HeaderContainer>
-        {/* Render existing mappings */}
-        {/*values.map((mapping, index) => (
-          <div key={index} className="mapping-row" style={{ marginBottom: '10px' }}>
-            <input
-              type="text"
-              value={mapping.selectedColumn}
-              onChange={(e) => this.onChangeMapping(index, 'selectedColumn', e.target.value)}
-            />
-            <input
-              type="text"
-              value={mapping.inputValue}
-              onChange={(e) => this.onChangeMapping(index, 'inputValue', e.target.value)}
-            />
-            <input
-              type="text"
-              value={mapping.selectionOption}
-              onChange={(e) => this.onChangeMapping(index, 'selectionOption', e.target.value)}
-            />
-            <button onClick={() => this.onRemoveMapping(index)}>{t('Remove')}</button>
-          </div>
-        ))*/}
         <LabelsContainer>
           {values.map((mapping: { selectedColumn: string; inputValue: string; selectionOption: string }, index: number) => (
             <OptionWrapper
               key={index}
               index={index}
               label={mapping.selectionOption}
-              type = "no-dnd"
+              type="no-dnd"
               clickClose={() => this.onRemoveMapping(index)}
             />
-            ))}
-          <AddControlLabel onClick={this.onAddMapping}>
-            <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
-            {t('Add mapping')}
-          </AddControlLabel>
+          ))}
+          <Popover
+            content={this.renderPopoverContent()}
+            title="Navigate Control"
+            trigger="click"
+            open={this.state.isPopoverVisible}
+            onOpenChange={this.handleOpenPopover}
+          >
+            <AddControlLabel onClick={this.onAddMapping}>
+              <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
+              {t('Add mapping')}
+            </AddControlLabel>
+          </Popover>
+
         </LabelsContainer>
         {/* Render Popover */}
         {this.renderPopoverContent()}

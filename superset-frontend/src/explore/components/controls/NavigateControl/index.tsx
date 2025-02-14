@@ -164,6 +164,7 @@ class NavigateControl extends Component {
         endpoint: `/api/v1/datasource/table/${datasource.id}/column/${selectedColumn}/values/`,
       })
         .then(({ json }) => {
+          console.log(json);
           this.setState({
             suggestions: json.result.map(suggestion => ({
               value: suggestion,

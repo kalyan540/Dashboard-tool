@@ -216,7 +216,7 @@ class NavigateControl extends Component {
           <SelectWithLabel
             labelText="Comparator"
             options={suggestions}
-            value={this.state.selectionOption}
+            value={this.state.selectOption}
             onChange={this.handleSelectChange}
             loading={this.state.loadingComparatorSuggestions}
             notFoundContent={t('Type a value here')}
@@ -225,7 +225,7 @@ class NavigateControl extends Component {
           <Input
             placeholder={t('Selection Option')}
             value={selectionOption}
-            onChange={(e) => this.setState({ inputValue: e.target.value })}
+            onChange={(e) => this.setState({ selectionOption: e.target.value })}
           />
         </div>
 
@@ -262,7 +262,6 @@ class NavigateControl extends Component {
             title="Navigate Control"
             trigger="click"
             visible={this.state.isPopoverVisible}
-            placement="right"
             onOpenChange={this.handleOpenPopover}
           >
             <AddControlLabel onClick={this.onAddMapping}>

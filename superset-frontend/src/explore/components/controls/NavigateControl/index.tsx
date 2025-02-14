@@ -16,6 +16,7 @@ import { Popover } from 'antd';
 import { Select } from 'src/components';
 import { Input } from 'src/components/Input';
 import OptionWrapper from 'src/explore/components/controls/DndColumnSelectControl/OptionWrapper';
+import { optionLabel } from 'src/utils/common';
 
 const propTypes = {
   label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -133,11 +134,14 @@ class NavigateControl extends Component {
     );
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  /*componentDidUpdate(prevProps, prevState) {
     // Only run refreshComparatorSuggestions if selectedColumn has changed
     if (prevState.selectedColumn !== this.state.selectedColumn && this.state.selectedColumn) {
       this.refreshComparatorSuggestions();
     }
+  }*/
+  componentDidMount() {
+    this.refreshComparatorSuggestions();
   }
 
 
@@ -163,7 +167,7 @@ class NavigateControl extends Component {
           this.setState({
             suggestions: json.result.map(suggestion => ({
               value: suggestion,
-              label: this.optionLabel(suggestion),
+              label: optionLabel(suggestion),
             })),
             loadingComparatorSuggestions: false,
           });
@@ -184,7 +188,6 @@ class NavigateControl extends Component {
 
   renderPopoverContent() {
     const { isPopoverVisible, selectedColumn, inputValue, selectionOption, suggestions } = this.state;
-    const { columns } = this.props;
 
     if (!isPopoverVisible) return null;
 

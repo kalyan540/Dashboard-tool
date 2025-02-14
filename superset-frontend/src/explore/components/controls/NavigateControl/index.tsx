@@ -159,9 +159,6 @@ class NavigateControl extends Component {
       <div className="navigate-control" data-test="navigate-control">
         <HeaderContainer>
           <ControlHeader {...this.props} />
-          <AddIconButton onClick={this.onAddMapping} data-test="add-mapping-button">
-            <Icons.PlusLarge iconSize="s" iconColor={theme.colors.grayscale.light5} />
-          </AddIconButton>
         </HeaderContainer>
         {/* Render existing mappings */}
         {/*values.map((mapping, index) => (
@@ -191,6 +188,7 @@ class NavigateControl extends Component {
               index={index}
               label={mapping.selectionOption}
               type = "no-dnd"
+              clickClose={() => this.onRemoveMapping(index)}
             />
             ))}
           <AddControlLabel onClick={this.onAddMapping}>

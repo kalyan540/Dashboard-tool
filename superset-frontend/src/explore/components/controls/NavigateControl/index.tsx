@@ -67,7 +67,12 @@ class NavigateControl extends Component {
       selectionOption: '', // State for selection option in popover 
     };
   }
-
+  
+  createSuggestionsPlaceholder = () => {
+    const optionsRemaining = this.state.suggestions.length;
+    const placeholder = t('%s option(s)', optionsRemaining);
+    return optionsRemaining ? placeholder : 'Value';
+  };
   
 
   onAddMapping() {
@@ -171,11 +176,7 @@ class NavigateControl extends Component {
   };
 
   // Create the placeholder text for the select input
-  createSuggestionsPlaceholder = () => {
-    const optionsRemaining = this.state.suggestions.length;
-    const placeholder = t('%s option(s)', optionsRemaining);
-    return optionsRemaining ? placeholder : 'Value';
-  };
+  
 
   renderPopoverContent() {
     const { isPopoverVisible, selectedColumn, inputValue, selectionOption, suggestions } = this.state;

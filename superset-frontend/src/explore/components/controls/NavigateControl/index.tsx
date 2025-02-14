@@ -42,6 +42,7 @@ const defaultProps = {
 class NavigateControl extends Component {
   constructor(props: any) {
     super(props);
+    console.log(props);
     this.onAddMapping = this.onAddMapping.bind(this);
     this.onRemoveMapping = this.onRemoveMapping.bind(this);
     this.onChangeMapping = this.onChangeMapping.bind(this);
@@ -56,6 +57,8 @@ class NavigateControl extends Component {
       selectionOption: '', // State for selection option in popover 
     };
   }
+
+  
 
   onAddMapping() {
     /*this.setState(
@@ -112,6 +115,30 @@ class NavigateControl extends Component {
     );
   }
 
+  componentDidMount() {
+    this.fetchColumns();
+  }
+
+  fetchColumns = () => {
+    const { datasource } = this.props;
+
+    if (!datasource || !datasource.id) {
+      console.warn("Datasource ID is missing");
+      return;
+    }
+
+    SupersetClient.get({
+      endpoint: `/api/v1/dataset/${datasource.id}/columns/`,
+    })
+      .then(({ json }) => {
+        this.setState({ columns: json.result });
+      })
+      .catch(error => {
+        console.error("Error fetching columns:", error);
+      });
+  };
+
+
   //label.length < 43 ? label : `${label.substring(0, 40)}...`;
 
   renderPopoverContent() {
@@ -126,12 +153,13 @@ class NavigateControl extends Component {
           style={{ width: '100%', marginBottom: '10px' }}
           onChange={(value) => this.setState({ selectedColumn: value })}
           placeholder={t('%s column(s)', columns.length)}
-          options={columns.map((column) => ({
+          options={this.props.columns.map((column) => ({
             value: column.column_name || column.optionName || '',
             label: column.saved_metric_name || column.column_name || column.label,
             key: column.id || column.optionName || undefined,
           }))}
         />
+        
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Input
@@ -188,8 +216,6 @@ class NavigateControl extends Component {
           </Popover>
 
         </LabelsContainer>
-        {/* Render Popover */}
-        {this.renderPopoverContent()}
       </div>
     );
   }

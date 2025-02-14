@@ -5,7 +5,7 @@
 
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { t, withTheme } from '@superset-ui/core';
+import { t, withTheme, SupersetClient } from '@superset-ui/core';
 import ControlHeader from 'src/explore/components/ControlHeader';
 import { AddControlLabel, AddIconButton, HeaderContainer, LabelsContainer } from 'src/explore/components/controls/OptionControls';
 import Icons from 'src/components/Icons';

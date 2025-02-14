@@ -65,7 +65,7 @@ class NavigateControl extends Component {
       isPopoverVisible: false,
       selectedColumn: '', // State for selected column in popover
       inputValue: '', // State for input value in popover
-      selectionOption: '', // State for selection option in popover 
+      selectionOption: null, // State for selection option in popover 
     };
   }
 
@@ -125,7 +125,7 @@ class NavigateControl extends Component {
         isPopoverVisible: false, // Close popover after adding
         selectedColumn: '', // Reset selected column
         inputValue: '', // Reset input value
-        selectionOption: '', // Reset selection option
+        selectionOption: null, // Reset selection option
         suggestions: [], // Suggestions for select control
         selectOption: null,
         loadingComparatorSuggestions: false,
@@ -216,7 +216,7 @@ class NavigateControl extends Component {
           <SelectWithLabel
             labelText="Comparator"
             options={suggestions}
-            value={this.state.selectOption}
+            value={this.state.selectionOption}
             onChange={this.handleSelectChange}
             loading={this.state.loadingComparatorSuggestions}
             notFoundContent={t('Type a value here')}
@@ -225,7 +225,7 @@ class NavigateControl extends Component {
           <Input
             placeholder={t('Selection Option')}
             value={selectionOption}
-            onChange={(e) => this.setState({ selectionOption: e.target.value })}
+            onChange={(e) => this.setState({ inputValue: e.target.value })}
           />
         </div>
 

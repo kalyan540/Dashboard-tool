@@ -134,15 +134,15 @@ class NavigateControl extends Component {
     );
   }
 
-  /*componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     // Only run refreshComparatorSuggestions if selectedColumn has changed
     if (prevState.selectedColumn !== this.state.selectedColumn && this.state.selectedColumn) {
       this.refreshComparatorSuggestions();
     }
-  }*/
-  componentDidMount() {
-    this.refreshComparatorSuggestions();
   }
+  /*componentDidMount() {
+    this.refreshComparatorSuggestions();
+  }*/
 
 
   //label.length < 43 ? label : `${label.substring(0, 40)}...`;

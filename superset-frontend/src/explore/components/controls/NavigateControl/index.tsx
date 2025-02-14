@@ -5,7 +5,7 @@
 
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { t, withTheme, SupersetClient } from '@superset-ui/core';
+import { t, withTheme, SupersetClient, styled } from '@superset-ui/core';
 import ControlHeader from 'src/explore/components/ControlHeader';
 import { AddControlLabel, AddIconButton, HeaderContainer, LabelsContainer } from 'src/explore/components/controls/OptionControls';
 import Icons from 'src/components/Icons';
@@ -38,6 +38,16 @@ const defaultProps = {
   columns: [],
   value: [],
 };
+
+const SelectWithLabel = styled(Select)<{ labelText: string }>`
+    .ant-select-selector::after {
+      content: ${({ labelText }) => labelText || '\\A0'};
+      display: inline-block;
+      white-space: nowrap;
+      color: ${({ theme }) => theme.colors.grayscale.light1};
+      width: max-content;
+    }
+  `;
 
 class NavigateControl extends Component {
   constructor(props: any) {
@@ -110,39 +120,65 @@ class NavigateControl extends Component {
         selectedColumn: '', // Reset selected column
         inputValue: '', // Reset input value
         selectionOption: '', // Reset selection option
+        suggestions: [], // Suggestions for select control
+        selectOption: null,
+        loadingComparatorSuggestions: false,
       }),
       () => this.props.onChange(this.state.values)
     );
   }
 
   componentDidMount() {
-    this.fetchColumns();
+    this.refreshComparatorSuggestions();
   }
-
-  fetchColumns = () => {
-    const { datasource } = this.props;
-
-    if (!datasource || !datasource.id) {
-      console.warn("Datasource ID is missing");
-      return;
-    }
-
-    SupersetClient.get({
-      endpoint: `/api/v1/dataset/${datasource.id}/columns/`,
-    })
-      .then(({ json }) => {
-        this.setState({ columns: json.result });
-      })
-      .catch(error => {
-        console.error("Error fetching columns:", error);
-      });
-  };
 
 
   //label.length < 43 ? label : `${label.substring(0, 40)}...`;
+  
+  refreshComparatorSuggestions = () => {
+    const { datasource } = this.props;
+    const { selectedColumn } = this.state;
+
+    if (selectedColumn && datasource && datasource.filter_select) {
+      const controller = new AbortController();
+      const { signal } = controller;
+      if (this.state.loadingComparatorSuggestions) {
+        controller.abort();
+      }
+
+      this.setState({ loadingComparatorSuggestions: true });
+      SupersetClient.get({
+        signal,
+        endpoint: `/api/v1/datasource/table/${datasource.id}/column/${selectedColumn}/values/`,
+      })
+        .then(({ json }) => {
+          this.setState({
+            suggestions: json.result.map(suggestion => ({
+              value: suggestion,
+              label: this.optionLabel(suggestion),
+            })),
+            loadingComparatorSuggestions: false,
+          });
+        })
+        .catch(() => {
+          this.setState({ suggestions: [], loadingComparatorSuggestions: false });
+        });
+    }
+  };
+
+  handleSelectChange = (value) => {
+    this.setState({ selectOption: value });
+  };
+
+  // Create the placeholder text for the select input
+  createSuggestionsPlaceholder = () => {
+    const optionsRemaining = this.state.suggestions.length;
+    const placeholder = t('%s option(s)', optionsRemaining);
+    return optionsRemaining ? placeholder : 'Value';
+  };
 
   renderPopoverContent() {
-    const { isPopoverVisible, selectedColumn, inputValue, selectionOption } = this.state;
+    const { isPopoverVisible, selectedColumn, inputValue, selectionOption, suggestions } = this.state;
     const { columns } = this.props;
 
     if (!isPopoverVisible) return null;
@@ -153,19 +189,28 @@ class NavigateControl extends Component {
           style={{ width: '100%', marginBottom: '10px' }}
           onChange={(value) => this.setState({ selectedColumn: value })}
           placeholder={t('%s column(s)', columns.length)}
-          options={this.props.columns.map((column) => ({
+          options={this.props.options.map((column) => ({
             value: column.column_name || column.optionName || '',
             label: column.saved_metric_name || column.column_name || column.label,
             key: column.id || column.optionName || undefined,
           }))}
         />
-        
+        {console.log(selectedColumn)}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Input
+          {/*<Input
             placeholder={t('Input Value')}
             value={inputValue}
             onChange={(e) => this.setState({ inputValue: e.target.value })}
+          />*/}
+          <SelectWithLabel
+            labelText="Comparator"
+            options={suggestions}
+            value={this.state.selectOption}
+            onChange={this.handleSelectChange}
+            loading={this.state.loadingComparatorSuggestions}
+            notFoundContent={t('Type a value here')}
+            placeholder={this.createSuggestionsPlaceholder()}
           />
           <Input
             placeholder={t('Selection Option')}

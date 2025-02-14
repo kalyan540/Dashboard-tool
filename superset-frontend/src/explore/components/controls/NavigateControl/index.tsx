@@ -249,7 +249,7 @@ class NavigateControl extends Component {
         </HeaderContainer>
         <LabelsContainer>
           {values.map((mapping: { selectedColumn: string; inputValue: string; selectionOption: string }, index: number) => {
-            const formattedLabel = `${mapping.selectionOption}=${mapping.inputValue}`;
+            const formattedLabel = `${mapping.selectionOption} -> ${mapping.inputValue}`;
             const trimmedLabel = formattedLabel.length < 43 ? formattedLabel : `${formattedLabel.substring(0, 40)}...`;
 
             return (

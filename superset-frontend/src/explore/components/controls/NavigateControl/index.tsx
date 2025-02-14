@@ -263,7 +263,7 @@ class NavigateControl extends Component {
             trigger="click"
             visible={this.state.isPopoverVisible}
             placement="right"
-            //onOpenChange={this.handleOpenPopover}
+            onOpenChange={this.handleOpenPopover}
           >
             <AddControlLabel onClick={this.onAddMapping}>
               <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />

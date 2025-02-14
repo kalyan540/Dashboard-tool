@@ -221,8 +221,6 @@ class NavigateControl extends Component {
             loading={this.state.loadingComparatorSuggestions}
             notFoundContent={t('Type a value here')}
             placeholder={this.createSuggestionsPlaceholder()}
-            allowClear={true}
-            ariaLabel={t('Comparator option')}
           />
           <Input
             placeholder={t('Selection Option')}

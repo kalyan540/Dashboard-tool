@@ -40,7 +40,7 @@ const defaultProps = {
   value: [],
 };
 
-const SelectWithLabel = styled(Select)<{ labelText: string }>`
+const SelectWithLabel = styled(Select) <{ labelText: string }>`
     .ant-select-selector::after {
       content: ${({ labelText }) => labelText || '\\A0'};
       display: inline-block;
@@ -74,7 +74,7 @@ class NavigateControl extends Component {
     const placeholder = t('%s option(s)', optionsRemaining);
     return optionsRemaining ? placeholder : 'Value';
   };
-  
+
 
   onAddMapping() {
     /*this.setState(
@@ -146,7 +146,7 @@ class NavigateControl extends Component {
 
 
   //label.length < 43 ? label : `${label.substring(0, 40)}...`;
-  
+
   refreshComparatorSuggestions = () => {
     const { datasource } = this.props;
     const { selectedColumn } = this.state;
@@ -185,7 +185,7 @@ class NavigateControl extends Component {
   };
 
   // Create the placeholder text for the select input
-  
+
 
   renderPopoverContent() {
     const { isPopoverVisible, selectedColumn, inputValue, selectionOption, suggestions } = this.state;
@@ -248,15 +248,20 @@ class NavigateControl extends Component {
           <ControlHeader {...this.props} />
         </HeaderContainer>
         <LabelsContainer>
-          {values.map((mapping: { selectedColumn: string; inputValue: string; selectionOption: string }, index: number) => (
-            <OptionWrapper
-              key={index}
-              index={index}
-              label={mapping.selectionOption}
-              type="no-dnd"
-              clickClose={() => this.onRemoveMapping(index)}
-            />
-          ))}
+          {values.map((mapping: { selectedColumn: string; inputValue: string; selectionOption: string }, index: number) => {
+            const formattedLabel = `${mapping.selectionOption}=${mapping.inputValue}`;
+            const trimmedLabel = formattedLabel.length < 43 ? formattedLabel : `${formattedLabel.substring(0, 40)}...`;
+
+            return (
+              <OptionWrapper
+                key={index}
+                index={index}
+                label={trimmedLabel}
+                type="no-dnd"
+                clickClose={() => this.onRemoveMapping(index)}
+              />
+            );
+          })}
           <Popover
             content={this.renderPopoverContent()}
             title="Navigate Control"

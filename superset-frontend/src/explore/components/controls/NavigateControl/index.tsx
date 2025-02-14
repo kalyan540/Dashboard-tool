@@ -169,6 +169,7 @@ class NavigateControl extends Component {
           this.setState({ suggestions: [], loadingComparatorSuggestions: false });
         });
     }
+    console.log(this.state.suggestions);
   };
 
   handleSelectChange = (value) => {
@@ -189,7 +190,7 @@ class NavigateControl extends Component {
         <Select
           style={{ width: '100%', marginBottom: '10px' }}
           onChange={(value) => this.setState({ selectedColumn: value })}
-          placeholder={t('%s column(s)', columns.length)}
+          placeholder={t('%s column(s)', this.props.options.length)}
           options={this.props.options.map((column) => ({
             value: column.column_name || column.optionName || '',
             label: column.saved_metric_name || column.column_name || column.label,
@@ -197,6 +198,7 @@ class NavigateControl extends Component {
           }))}
         />
         {console.log(selectedColumn)}
+        {console.log(suggestions)}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {/*<Input

@@ -73,13 +73,13 @@ const config: ControlPanelConfig = {
         },
         ],
         [{
-          name: 'enable_navigationtest',
+          name: 'navigation_config',
           config: {
             type: 'NavigateControl',
-            label: t('Navigation Selection'),
+            label: t('Navigation Config'),
             default: false,
             renderTrigger: true,
-            description: t('Whether to display bubbles on top of countries'),
+            description: t('Navigation Config for the dashboard navigation'),
             mapStateToProps: ({ datasource }) => ({
               options: datasource?.columns || [],
               datasource,

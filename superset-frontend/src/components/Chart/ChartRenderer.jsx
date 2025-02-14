@@ -124,13 +124,22 @@ class ChartRenderer extends Component {
       onLegendStateChanged: this.handleLegendStateChanged,
       setDataMask: dataMask => {
         console.log('setDataMask called with:', dataMask);
-        if (dataMask?.navigate && this.props.updateidOrSlug) {
-          this.props.updateidOrSlug(dataMask.navigate); // Update ID or Slug
+        if (this.props.formData?.enable_navigation) {
+          const { navigation_config } = this.props.formData;
+          const { navigate } = this.props.dataMask;
+
+          // Find the matching entry where selectionOption matches navigate
+          const matchingEntry = navigation_config.find(item => item.selectionOption === navigate);
+
+          // If a match is found, update with inputValue
+          if (matchingEntry) {
+            this.props.updateidOrSlug(matchingEntry.inputValue);
+          }
         }
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);
       },
     };
-    
+
 
     // TODO: queriesResponse comes from Redux store but it's being edited by
     // the plugins, hence we need to clone it to avoid state mutation

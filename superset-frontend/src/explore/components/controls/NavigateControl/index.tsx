@@ -133,8 +133,11 @@ class NavigateControl extends Component {
     );
   }
 
-  componentDidMount() {
-    this.refreshComparatorSuggestions();
+  componentDidUpdate(prevProps, prevState) {
+    // Only run refreshComparatorSuggestions if selectedColumn has changed
+    if (prevState.selectedColumn !== this.state.selectedColumn && this.state.selectedColumn) {
+      this.refreshComparatorSuggestions();
+    }
   }
 
 

@@ -67,9 +67,9 @@ class NavigateControl extends Component {
       selectionOption: '', // State for selection option in popover 
     };
   }
-  
+
   createSuggestionsPlaceholder = () => {
-    const optionsRemaining = this.state.suggestions.length;
+    const optionsRemaining = this.state.suggestions?.length || 0;
     const placeholder = t('%s option(s)', optionsRemaining);
     return optionsRemaining ? placeholder : 'Value';
   };

@@ -158,6 +158,7 @@ class NavigateControl extends Component {
         }
         console.log(response);
         const data = response.json;
+        console.log('API Response Data:', data);
         //allDashboards = [...allDashboards, ...data.result];
 
         // Break the loop if we've fetched all items

@@ -129,7 +129,7 @@ export default function OptionWrapper(
 
   const LabelContent = () => {
     if (!shouldShowTooltip) {
-      console.log('OptionWrapper', label);
+      //console.log('OptionWrapper', label);
       return <span>{label}</span>;
     }
     if (tooltipOverlay) {

@@ -58,7 +58,7 @@ export default function EchartsTimeseries({
   emitCrossFilters,
   coltypeMapping,
 }: TimeseriesChartTransformedProps) {
-  const { stack, enable_navigation } = formData;
+  const { stack, enableNavigation } = formData;
   const echartRef = useRef<EchartsHandler | null>(null);
   // eslint-disable-next-line no-param-reassign
   refs.echartRef = echartRef;
@@ -136,11 +136,8 @@ export default function EchartsTimeseries({
       }
       const dataMask = getCrossFilterDataMask(value).dataMask;
       if (dataMask) {
-        console.log(formData);
-        dataMask.navigate = value;
-        if (enable_navigation) {
-          console.log("Hello");
-          
+        if (enableNavigation) {
+          dataMask.navigate = value;
         }
       console.log(value);
       setDataMask(dataMask);

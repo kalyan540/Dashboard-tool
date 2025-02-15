@@ -129,7 +129,7 @@ class ChartRenderer extends Component {
         if (dataMask?.navigate && this.props.updateidOrSlug) {
   
           const { navigation_config } = this.props.formData;
-          const { navigate } = dataMask?.navigate;
+          const { navigate } = dataMask;
 
           // Find the matching entry where selectionOption matches navigate
           const matchingEntry = navigation_config.find(item => item.selectionOption === navigate);

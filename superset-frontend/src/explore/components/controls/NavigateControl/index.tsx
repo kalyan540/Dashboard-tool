@@ -73,19 +73,6 @@ class NavigateControl extends Component {
     };
   }
 
-  createSuggestionsPlaceholder = () => {
-    const optionsRemaining = this.state.suggestions?.length || 0;
-    const placeholder = t('%s option(s)', optionsRemaining);
-    return optionsRemaining ? placeholder : 'Value';
-  };
-
-  createDashboardsPlaceholder = () => {
-    const optionsRemaining = this.state.dashboard?.length || 0;
-    const placeholder = t('%s dashboard(s)', optionsRemaining);
-    return optionsRemaining ? placeholder : 'Value';
-  };
-
-
   onAddMapping() {
     /*this.setState(
       prevState => ({
@@ -248,6 +235,18 @@ class NavigateControl extends Component {
     this.setState({ dashboard: { value: option.value, label: option.label } });
   };
 
+  createSuggestionsPlaceholder = () => {
+    const optionsRemaining = this.state.suggestions?.length || 0;
+    const placeholder = t('%s option(s)', optionsRemaining);
+    return optionsRemaining ? placeholder : 'Value';
+  };
+
+  createDashboardsPlaceholder = () => {
+    const optionsRemaining = this.state.dashboards?.length || 0;
+    const placeholder = t('%s dashboard(s)', optionsRemaining);
+    return optionsRemaining ? placeholder : 'Value';
+  };
+
 
   // Create the placeholder text for the select input
 
@@ -269,8 +268,6 @@ class NavigateControl extends Component {
             key: column.id || column.optionName || undefined,
           }))}
         />
-        {console.log(selectedColumn)}
-        {console.log(suggestions)}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <SelectWithLabel

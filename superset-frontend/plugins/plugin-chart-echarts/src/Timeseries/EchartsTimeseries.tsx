@@ -136,7 +136,7 @@ export default function EchartsTimeseries({
       }
       const dataMask = getCrossFilterDataMask(value).dataMask;
       if (dataMask) {
-        console.log(enable_navigation);
+        console.log(formData);
         dataMask.navigate = value;
         if (enable_navigation) {
           console.log("Hello");

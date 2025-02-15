@@ -17,6 +17,8 @@ import { Select } from 'src/components';
 import { Input } from 'src/components/Input';
 import OptionWrapper from 'src/explore/components/controls/DndColumnSelectControl/OptionWrapper';
 import { optionLabel } from 'src/utils/common';
+import { FilterOperator } from 'src/components/ListView';
+import rison from 'rison';
 
 const propTypes = {
   label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -116,21 +118,39 @@ class NavigateControl extends Component {
       this.fetchAllDashboards();
     }
   }
-  
+
   fetchAllDashboards = async () => {
     this.setState({ loadingDashboards: true });
     try {
-      let allDashboards = [];
+      //let allDashboards = [];
       let page = 0;
+      const filterValue = '';
       const pageSize = 100; // Adjust based on API's max limit
+      const filters = filterValue
+        ? {
+          filters: [
+            {
+              col: 'dashboard_title',
+              opr: FilterOperator.StartsWith,
+              value: filterValue,
+            },
+          ],
+        }
+        : {};
+
+      const queryParams = rison.encode({
+        columns: ['dashboard_title', 'id'],
+        keys: ['none'],
+        order_column: 'dashboard_title',
+        order_direction: 'asc',
+        page,
+        page_size: pageSize,
+        ...filters,
+      });
 
       while (true) {
         const response = await SupersetClient.get({
-          endpoint: `/api/v1/dashboardlist`,
-          params: {
-            page,
-            page_size: pageSize,
-          },
+          endpoint: `/api/v1/dashboard/?q=${queryParams}`,
         });
 
         if (response.status !== 200) {
@@ -138,20 +158,29 @@ class NavigateControl extends Component {
         }
         console.log(response);
         const data = response.json;
-        allDashboards = [...allDashboards, ...data.result];
+        //allDashboards = [...allDashboards, ...data.result];
 
         // Break the loop if we've fetched all items
         if (data.result.length < pageSize) {
           break;
         }
+        const dashboards = response.json.result.map(
+          ({ dashboard_title: dashboardTitle, id }) => ({
+            label: dashboardTitle,
+            value: id,
+          }),
+        );
+        console.log(dashboards);
 
         page++;
       }
+      
+      
 
-      this.setState({ dashboards: allDashboards, loadingDashboards: false });
+      //this.setState({ dashboards: allDashboards, loadingDashboards: false });
     } catch (err) {
       console.error('Error fetching dashboards:', err);
-      this.setState({ dashboards: [], loadingDashboards: false });
+      this.setState({ loadingDashboards: false });
     }
   };
 

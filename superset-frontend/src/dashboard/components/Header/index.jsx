@@ -98,6 +98,10 @@ const editButtonStyle = theme => css`
   color: ${theme.colors.primary.dark2};
 `;
 
+const backButtonStyle = theme => css`
+  color: ${theme.colors.error.dark1};
+`;
+
 const actionButtonsStyle = theme => css`
   display: flex;
   align-items: center;
@@ -658,6 +662,16 @@ const Header = () => {
                 {t('Edit dashboard')}
               </Button>
             )}
+            <Button
+              buttonStyle="secondary"
+              onClick={toggleEditMode}
+              data-test="back-dashboard-button"
+              className="action-button"
+              css={editButtonStyle}
+              aria-label={t('Back')}
+            >
+              {t('Edit dashboard')}
+            </Button>
           </div>
         )}
       </div>

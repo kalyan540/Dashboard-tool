@@ -125,18 +125,18 @@ class ChartRenderer extends Component {
       setDataMask: dataMask => {
         console.log('setDataMask called with:', dataMask);
         console.log('navigation_config:', this.props.formData?.navigation_config);
-        console.log('navigate:', this.props.dataMask?.navigate);
+        console.log('navigate:', dataMask?.navigate);
         if (dataMask?.navigate && this.props.updateidOrSlug) {
   
             // Find the matching entry where selectionOption matches navigate
             //console.log( 'matchingEntry:', this.props.dataMask.matchingEntry);
-            console.log('navigation_config:', this.props.formData.navigation_config);
-            console.log('navigate:', this.props.dataMask.navigate);
+            console.log('navigation_config:', this.props.formData?.navigation_config);
+            console.log('navigate:', dataMask?.navigate);
   
             // If a match is found, update with inputValue
-            if (this.props.formData.navigation_config.find(item => item.selectionOption === navigate)) {
-              this.props.updateidOrSlug(this.props.formData.navigation_config.find(item => item.selectionOption === navigate));
-              console.log('matchingEntry.inputValue:', this.props.formData.navigation_config.find(item => item.selectionOption === navigate));
+            if (this.props.formData?.navigation_config.find(item => item.selectionOption === dataMask?.navigate)) {
+              this.props.updateidOrSlug(this.props.formData?.navigation_config.find(item => item.selectionOption === dataMask?.navigate));
+              console.log('matchingEntry.inputValue:', this.props.formData?.navigation_config.find(item => item.selectionOption === dataMask?.navigate));
             }
         }
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);

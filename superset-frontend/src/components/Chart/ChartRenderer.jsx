@@ -125,7 +125,20 @@ class ChartRenderer extends Component {
       setDataMask: dataMask => {
         console.log('setDataMask called with:', dataMask);
         if (dataMask?.navigate && this.props.updateidOrSlug) {
-          this.props.updateidOrSlug(dataMask.navigate); // Update ID or Slug
+            const { navigation_config } = this.props.formData;
+            const { navigate } = this.props.dataMask;
+  
+            // Find the matching entry where selectionOption matches navigate
+            const matchingEntry = navigation_config.find(item => item.selectionOption === navigate);
+            console.log( 'matchingEntry:', matchingEntry);
+            console.log('navigation_config:', navigation_config);
+            console.log('navigate:', navigate);
+  
+            // If a match is found, update with inputValue
+            if (matchingEntry) {
+              this.props.updateidOrSlug(matchingEntry.inputValue);
+              console.log('matchingEntry.inputValue:', matchingEntry.inputValue);
+            }
         }
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);
       },

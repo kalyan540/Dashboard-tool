@@ -67,7 +67,7 @@ class NavigateControl extends Component {
       values: this.props.value || [],
       isPopoverVisible: false,
       selectedColumn: '', // State for selected column in popover
-      inputValue: '', // State for input value in popover
+      //inputValue: '', // State for input value in popover
       selectionOption: null, // State for selection option in popover 
       dashboard: null, // State for dashboard in popover
     };
@@ -222,7 +222,7 @@ class NavigateControl extends Component {
         ],
         isPopoverVisible: false, // Close popover after adding
         selectedColumn: '', // Reset selected column
-        inputValue: '', // Reset input value
+        //inputValue: '', // Reset input value
         selectionOption: null, // Reset selection option
         suggestions: [], // Suggestions for select control
         selectOption: null,
@@ -247,12 +247,12 @@ class NavigateControl extends Component {
 
 
   renderPopoverContent() {
-    const { isPopoverVisible, selectedColumn, inputValue, dashboards, suggestions } = this.state;
+    const { isPopoverVisible, selectedColumn, dashboards, suggestions } = this.state;
 
     if (!isPopoverVisible) return null;
 
     return (
-      <div className="popover-content" style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff' }}>
+      <div className="popover-content" style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff', width: '100px' }}>
         <Select
           style={{ width: '100%', marginBottom: '10px' }}
           onChange={(value) => this.setState({ selectedColumn: value })}
@@ -267,11 +267,6 @@ class NavigateControl extends Component {
         {console.log(suggestions)}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {/*<Input
-            placeholder={t('Input Value')}
-            value={inputValue}
-            onChange={(e) => this.setState({ inputValue: e.target.value })}
-          />*/}
           <SelectWithLabel
             labelText="Comparator"
             options={suggestions}
@@ -281,11 +276,6 @@ class NavigateControl extends Component {
             notFoundContent={t('Type a value here')}
             placeholder={this.createSuggestionsPlaceholder()}
           />
-          {/*<Input
-            placeholder={t('ID or SlugId')}
-            value={inputValue}
-            onChange={(e) => this.setState({ inputValue: e.target.value })}
-          />*/}
           <SelectWithLabel
             labelText="Dashboard"
             options={dashboards}
@@ -316,8 +306,8 @@ class NavigateControl extends Component {
           <ControlHeader {...this.props} />
         </HeaderContainer>
         <LabelsContainer>
-          {values.map((mapping: { selectedColumn: string; inputValue: string; selectionOption: string }, index: number) => {
-            const formattedLabel = `${mapping.selectionOption} -> ${mapping.inputValue}`;
+          {values.map((mapping: { selectedColumn: string; dashboardTitle: string; selectionOption: string }, index: number) => {
+            const formattedLabel = `${mapping.selectionOption} -> ${mapping.dashboardTitle}`;
             const trimmedLabel = formattedLabel.length < 43 ? formattedLabel : `${formattedLabel.substring(0, 40)}...`;
 
             return (

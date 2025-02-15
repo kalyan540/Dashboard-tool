@@ -128,6 +128,7 @@ class ChartRenderer extends Component {
           const { navigate } = dataMask;
           // Find the matching entry where selectionOption matches navigate
           const matchingEntry = navigation_config.find(item => item.selectionOption === navigate);
+          console.log('matchingEntry:', matchingEntry);
 
           // If a match is found, update with inputValue
           if (matchingEntry) {

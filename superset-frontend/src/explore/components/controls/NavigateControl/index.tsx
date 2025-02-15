@@ -211,7 +211,7 @@ class NavigateControl extends Component {
     const { selectedColumn, dashboard, selectionOption } = this.state;
     this.setState(
       (prevState) => ({
-        values: [...prevState.values, { selectedColumn, dashboard.value,dashboard.label, selectionOption }],
+        values: [...prevState.values, { selectedColumn, dashboardId:dashboard.value, dashboardTitle:dashboard.label, selectionOption }],
         isPopoverVisible: false, // Close popover after adding
         selectedColumn: '', // Reset selected column
         inputValue: '', // Reset input value

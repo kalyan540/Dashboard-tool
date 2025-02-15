@@ -109,43 +109,50 @@ class NavigateControl extends Component {
     );
   }
 
-  handleOpenPopover = () => {
-    this.setState({ isPopoverVisible: true });
-  };
-
-  handleClosePopover = () => {
-    this.setState({ isPopoverVisible: false });
-  };
-
-  handleAddItem() {
-    const { selectedColumn, inputValue, selectionOption } = this.state;
-    this.setState(
-      (prevState) => ({
-        values: [...prevState.values, { selectedColumn, inputValue, selectionOption }],
-        isPopoverVisible: false, // Close popover after adding
-        selectedColumn: '', // Reset selected column
-        inputValue: '', // Reset input value
-        selectionOption: null, // Reset selection option
-        suggestions: [], // Suggestions for select control
-        selectOption: null,
-        loadingComparatorSuggestions: false,
-      }),
-      () => this.props.onChange(this.state.values)
-    );
-  }
-
   componentDidUpdate(prevProps, prevState) {
     // Only run refreshComparatorSuggestions if selectedColumn has changed
     if (prevState.selectedColumn !== this.state.selectedColumn && this.state.selectedColumn) {
       this.refreshComparatorSuggestions();
     }
   }
-  /*componentDidMount() {
-    this.refreshComparatorSuggestions();
-  }*/
+  
+  fetchAllDashboards = async () => {
+    this.setState({ loadingDashboards: true });
+    try {
+      let allDashboards = [];
+      let page = 0;
+      const pageSize = 100; // Adjust based on API's max limit
 
+      while (true) {
+        const response = await SupersetClient.get({
+          endpoint: `/api/v1/dashboardlist`,
+          params: {
+            page,
+            page_size: pageSize,
+          },
+        });
 
-  //label.length < 43 ? label : `${label.substring(0, 40)}...`;
+        if (response.status !== 200) {
+          throw new Error(`Failed to fetch data: ${response.status}`);
+        }
+        console.log(response);
+        const data = response.json;
+        allDashboards = [...allDashboards, ...data.result];
+
+        // Break the loop if we've fetched all items
+        if (data.result.length < pageSize) {
+          break;
+        }
+
+        page++;
+      }
+
+      this.setState({ dashboards: allDashboards, loadingDashboards: false });
+    } catch (err) {
+      console.error('Error fetching dashboards:', err);
+      this.setState({ dashboards: [], loadingDashboards: false });
+    }
+  };
 
   refreshComparatorSuggestions = () => {
     const { datasource } = this.props;
@@ -179,6 +186,34 @@ class NavigateControl extends Component {
     }
     console.log(this.state.suggestions);
   };
+
+
+  handleOpenPopover = () => {
+    this.setState({ isPopoverVisible: true }, () => {
+      this.fetchAllDashboards();
+    });
+  };
+
+  handleClosePopover = () => {
+    this.setState({ isPopoverVisible: false });
+  };
+
+  handleAddItem() {
+    const { selectedColumn, inputValue, selectionOption } = this.state;
+    this.setState(
+      (prevState) => ({
+        values: [...prevState.values, { selectedColumn, inputValue, selectionOption }],
+        isPopoverVisible: false, // Close popover after adding
+        selectedColumn: '', // Reset selected column
+        inputValue: '', // Reset input value
+        selectionOption: null, // Reset selection option
+        suggestions: [], // Suggestions for select control
+        selectOption: null,
+        loadingComparatorSuggestions: false,
+      }),
+      () => this.props.onChange(this.state.values)
+    );
+  }
 
   handleSelectChange = (value) => {
     this.setState({ selectionOption: value });

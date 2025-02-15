@@ -124,8 +124,8 @@ class ChartRenderer extends Component {
       onLegendStateChanged: this.handleLegendStateChanged,
       setDataMask: dataMask => {
         console.log('setDataMask called with:', dataMask);
-        console.log('navigation_config:', this.props.formData);
-        console.log('navigate:', this.props.dataMask.navigate);
+        console.log('navigation_config:', this.props.formData?.navigation_config);
+        console.log('navigate:', this.props.dataMask?.navigate);
         if (dataMask?.navigate && this.props.updateidOrSlug) {
   
             // Find the matching entry where selectionOption matches navigate

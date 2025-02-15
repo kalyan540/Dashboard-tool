@@ -120,6 +120,39 @@ const config: ControlPanelConfig = {
         [yAxisBounds],
       ],
     },
+    {
+      label: t('Dashboard Navigation'),
+      expanded: true,
+      controlSetRows: [
+        [{
+          name: 'enable_navigation',
+          config: {
+            type: 'CheckboxControl',
+            label: t('Enable navigation'),
+            default: false,
+            renderTrigger: true,
+            description: t('Whether to display bubbles on top of countries'),
+          },
+        },
+        ],
+        [{
+          name: 'navigation_config',
+          config: {
+            type: 'NavigateControl',
+            label: t('Navigation Config'),
+            default: false,
+            renderTrigger: true,
+            description: t('Navigation Config for the dashboard navigation'),
+            mapStateToProps: ({ datasource }) => ({
+              options: datasource?.columns || [],
+              datasource,
+              
+            }),
+          },
+        },
+        ]
+      ]
+    },
     timeSeriesSection[1],
     sections.annotations,
   ],

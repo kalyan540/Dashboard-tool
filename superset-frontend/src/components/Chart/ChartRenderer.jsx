@@ -133,6 +133,7 @@ class ChartRenderer extends Component {
 
           // Find the matching entry where selectionOption matches navigate
           const matchingEntry = navigation_config.find(item => item.selectionOption === navigate);
+          console.log(navigation_config[0].selectionOption);
           console.log( 'matchingEntry:', matchingEntry);
           console.log('navigation_config:', navigation_config);
           console.log('navigate:', navigate);

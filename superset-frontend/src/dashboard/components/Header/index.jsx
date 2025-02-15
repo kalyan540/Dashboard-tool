@@ -667,10 +667,10 @@ const Header = () => {
               onClick={toggleEditMode}
               data-test="back-dashboard-button"
               className="action-button"
-              css={editButtonStyle}
+              css={backButtonStyle}
               aria-label={t('Back')}
             >
-              {t('Edit dashboard')}
+              {t('Back')}
             </Button>
           </div>
         )}

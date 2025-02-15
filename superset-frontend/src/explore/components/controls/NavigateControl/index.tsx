@@ -153,7 +153,7 @@ class NavigateControl extends Component {
     }).then(({ json }) => {
       console.log(json);
       this.setState({
-        dashboards: json.result.map(dashboard => ({ 
+        dashboards: json.result.map(dashboard => ({
           value: dashboard.id,
           label: optionLabel(dashboard.dashboard_title),
         })),
@@ -211,7 +211,15 @@ class NavigateControl extends Component {
     const { selectedColumn, dashboard, selectionOption } = this.state;
     this.setState(
       (prevState) => ({
-        values: [...prevState.values, { selectedColumn, dashboardId:dashboard.value, dashboardTitle:dashboard.label, selectionOption }],
+        values: [
+          ...prevState.values,
+          {
+            selectedColumn,
+            dashboardId: dashboard ? dashboard.value : null,
+            dashboardTitle: dashboard ? dashboard.label : '',
+            selectionOption
+          }
+        ],
         isPopoverVisible: false, // Close popover after adding
         selectedColumn: '', // Reset selected column
         inputValue: '', // Reset input value
@@ -229,10 +237,11 @@ class NavigateControl extends Component {
     this.setState({ selectionOption: value });
   };
 
-  handleDashboardChange = (value) => {
-    console.log('Value:',value);
-    this.setState({ dashboard: value });
+  handleDashboardChange = (value, option) => {
+    console.log('Selected Dashboard:', option);
+    this.setState({ dashboard: { value: option.value, label: option.label } });
   };
+
 
   // Create the placeholder text for the select input
 
@@ -272,15 +281,15 @@ class NavigateControl extends Component {
             notFoundContent={t('Type a value here')}
             placeholder={this.createSuggestionsPlaceholder()}
           />
-          <Input
+          {/*<Input
             placeholder={t('ID or SlugId')}
             value={inputValue}
             onChange={(e) => this.setState({ inputValue: e.target.value })}
-          />
+          />*/}
           <SelectWithLabel
             labelText="Dashboard"
             options={dashboards}
-            value={dashboards}
+            value={this.state.dashboard ? this.state.dashboard.value : undefined}
             onChange={this.handleDashboardChange}
             loading={this.state.loadingComparatorSuggestions}
             notFoundContent={t('Type a value here')}

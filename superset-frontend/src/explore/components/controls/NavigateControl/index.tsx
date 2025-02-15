@@ -252,7 +252,7 @@ class NavigateControl extends Component {
     if (!isPopoverVisible) return null;
 
     return (
-      <div className="popover-content" style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff', width: '100px' }}>
+      <div className="popover-content" style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff', width: '300px' }}>
         <Select
           style={{ width: '100%', marginBottom: '10px' }}
           onChange={(value) => this.setState({ selectedColumn: value })}

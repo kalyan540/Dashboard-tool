@@ -79,6 +79,12 @@ class NavigateControl extends Component {
     return optionsRemaining ? placeholder : 'Value';
   };
 
+  createDashboardsPlaceholder = () => {
+    const optionsRemaining = this.state.dashboard?.length || 0;
+    const placeholder = t('%s dashboard(s)', optionsRemaining);
+    return optionsRemaining ? placeholder : 'Value';
+  };
+
 
   onAddMapping() {
     /*this.setState(
@@ -283,7 +289,7 @@ class NavigateControl extends Component {
             onChange={this.handleDashboardChange}
             loading={this.state.loadingComparatorSuggestions}
             notFoundContent={t('Type a value here')}
-            placeholder={this.createSuggestionsPlaceholder()}
+            placeholder={this.createDashboardsPlaceholder()}
           />
         </div>
 

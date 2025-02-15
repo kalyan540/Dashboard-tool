@@ -27,7 +27,8 @@ const propTypes = {
   value: PropTypes.arrayOf(
     PropTypes.shape({
       selectedColumn: PropTypes.string.isRequired,
-      inputValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      dashboardId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      dashboardTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       selectionOption: PropTypes.string.isRequired,
     })
   ),
@@ -68,6 +69,7 @@ class NavigateControl extends Component {
       selectedColumn: '', // State for selected column in popover
       inputValue: '', // State for input value in popover
       selectionOption: null, // State for selection option in popover 
+      dashboard: null, // State for dashboard in popover
     };
   }
 
@@ -150,6 +152,13 @@ class NavigateControl extends Component {
       endpoint: `/api/v1/dashboard/?q=${queryParams}`,
     }).then(({ json }) => {
       console.log(json);
+      this.setState({
+        dashboards: json.result.map(dashboard => ({ 
+          value: dashboard.id,
+          label: optionLabel(dashboard.dashboard_title),
+        })),
+        loadingComparatorSuggestions: false,
+      });
     })
       .catch(() => {
         this.setState({ loadingComparatorSuggestions: false });
@@ -199,10 +208,10 @@ class NavigateControl extends Component {
   };
 
   handleAddItem() {
-    const { selectedColumn, inputValue, selectionOption } = this.state;
+    const { selectedColumn, dashboard, selectionOption } = this.state;
     this.setState(
       (prevState) => ({
-        values: [...prevState.values, { selectedColumn, inputValue, selectionOption }],
+        values: [...prevState.values, { selectedColumn, dashboard.value,dashboard.label, selectionOption }],
         isPopoverVisible: false, // Close popover after adding
         selectedColumn: '', // Reset selected column
         inputValue: '', // Reset input value
@@ -210,6 +219,7 @@ class NavigateControl extends Component {
         suggestions: [], // Suggestions for select control
         selectOption: null,
         loadingComparatorSuggestions: false,
+        dashboard: null,
       }),
       () => this.props.onChange(this.state.values)
     );
@@ -219,11 +229,16 @@ class NavigateControl extends Component {
     this.setState({ selectionOption: value });
   };
 
+  handleDashboardChange = (value) => {
+    console.log('Value:',value);
+    this.setState({ dashboard: value });
+  };
+
   // Create the placeholder text for the select input
 
 
   renderPopoverContent() {
-    const { isPopoverVisible, selectedColumn, inputValue, selectionOption, suggestions } = this.state;
+    const { isPopoverVisible, selectedColumn, inputValue, dashboards, suggestions } = this.state;
 
     if (!isPopoverVisible) return null;
 
@@ -261,6 +276,15 @@ class NavigateControl extends Component {
             placeholder={t('ID or SlugId')}
             value={inputValue}
             onChange={(e) => this.setState({ inputValue: e.target.value })}
+          />
+          <SelectWithLabel
+            labelText="Dashboard"
+            options={dashboards}
+            value={dashboards}
+            onChange={this.handleDashboardChange}
+            loading={this.state.loadingComparatorSuggestions}
+            notFoundContent={t('Type a value here')}
+            placeholder={this.createSuggestionsPlaceholder()}
           />
         </div>
 

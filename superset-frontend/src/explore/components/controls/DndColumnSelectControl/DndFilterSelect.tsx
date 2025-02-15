@@ -349,7 +349,7 @@ const DndFilterSelect = (props: DndFilterSelectProps) => {
   const closePopover = useCallback(() => {
     togglePopover(false);
   }, [togglePopover]);
-  console.log(values);
+  //console.log(values);
   const valuesRenderer = useCallback(
     () =>
       values.map((adhocFilter: AdhocFilter, index: number) => (

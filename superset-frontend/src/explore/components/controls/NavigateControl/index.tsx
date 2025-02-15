@@ -121,68 +121,39 @@ class NavigateControl extends Component {
 
   fetchAllDashboards = async () => {
     this.setState({ loadingDashboards: true });
-    try {
-      //let allDashboards = [];
-      let page = 0;
-      const filterValue = '';
-      const pageSize = 100; // Adjust based on API's max limit
-      const filters = filterValue
-        ? {
-          filters: [
-            {
-              col: 'dashboard_title',
-              opr: FilterOperator.StartsWith,
-              value: filterValue,
-            },
-          ],
-        }
-        : {};
-
-      const queryParams = rison.encode({
-        columns: ['dashboard_title', 'id'],
-        keys: ['none'],
-        order_column: 'dashboard_title',
-        order_direction: 'asc',
-        page,
-        page_size: pageSize,
-        ...filters,
-      });
-
-      while (true) {
-        const response = await SupersetClient.get({
-          endpoint: `/api/v1/dashboard/?q=${queryParams}`,
-        });
-
-        if (response.status !== 200) {
-          throw new Error(`Failed to fetch data: ${response.status}`);
-        }
-        console.log(response);
-        const data = response.json;
-        console.log('API Response Data:', data);
-        //allDashboards = [...allDashboards, ...data.result];
-
-        // Break the loop if we've fetched all items
-        if (data.result.length < pageSize) {
-          break;
-        }
-        const dashboards = response.json.result.map(
-          ({ dashboard_title: dashboardTitle, id }) => ({
-            label: dashboardTitle,
-            value: id,
-          }),
-        );
-        console.log(dashboards);
-
-        page++;
+    //let allDashboards = [];
+    let page = 0;
+    const filterValue = '';
+    const pageSize = 100; // Adjust based on API's max limit
+    const filters = filterValue
+      ? {
+        filters: [
+          {
+            col: 'dashboard_title',
+            opr: FilterOperator.StartsWith,
+            value: filterValue,
+          },
+        ],
       }
-      
-      
+      : {};
 
-      //this.setState({ dashboards: allDashboards, loadingDashboards: false });
-    } catch (err) {
-      console.error('Error fetching dashboards:', err);
-      this.setState({ loadingDashboards: false });
-    }
+    const queryParams = rison.encode({
+      columns: ['dashboard_title', 'id'],
+      keys: ['none'],
+      order_column: 'dashboard_title',
+      order_direction: 'asc',
+      page,
+      page_size: pageSize,
+      ...filters,
+    });
+    SupersetClient.get({
+      endpoint: `/api/v1/dashboard/?q=${queryParams}`,
+    }).then(({ json }) => {
+      console.log(json);
+    })
+      .catch(() => {
+        this.setState({ loadingComparatorSuggestions: false });
+      });
   };
 
   refreshComparatorSuggestions = () => {
@@ -202,7 +173,7 @@ class NavigateControl extends Component {
         endpoint: `/api/v1/datasource/table/${datasource.id}/column/${selectedColumn}/values/`,
       })
         .then(({ json }) => {
-          console.log(json);
+          //console.log(json);
           this.setState({
             suggestions: json.result.map(suggestion => ({
               value: suggestion,
@@ -215,7 +186,7 @@ class NavigateControl extends Component {
           this.setState({ suggestions: [], loadingComparatorSuggestions: false });
         });
     }
-    console.log(this.state.suggestions);
+    //console.log(this.state.suggestions);
   };
 
 

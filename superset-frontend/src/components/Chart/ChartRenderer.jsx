@@ -125,7 +125,7 @@ class ChartRenderer extends Component {
       setDataMask: dataMask => {
         console.log('setDataMask called with:', dataMask);
         console.log('enable_navigation:', this.props.formData?.enable_navigation);
-        if (this.props.formData?.enable_navigation) {
+        if (!this.props.formData?.enable_navigation) {
           const { navigation_config } = this.props.formData;
           const { navigate } = this.props.dataMask;
 

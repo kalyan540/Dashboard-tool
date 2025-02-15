@@ -101,6 +101,10 @@ const editButtonStyle = theme => css`
 const backButtonStyle = theme => css`
   color: ${theme.colors.grayscale.light4};
   background-color: ${theme.colors.error.dark1};
+  &:hover {
+    color: ${theme.colors.error.dark1};
+    background-color: ${theme.colors.grayscale.light4};
+  }
 `;
 
 const actionButtonsStyle = theme => css`

@@ -661,7 +661,7 @@ const Header = () => {
             {idState.length > 1 && (
               <Button
                 buttonStyle="secondary"
-                onClick={toggleEditMode}
+                onClick={removeLastIdOrSlug}
                 data-test="back-dashboard-button"
                 className="back-action-button"
                 css={backButtonStyle}
@@ -673,7 +673,7 @@ const Header = () => {
             {userCanEdit && (
               <Button
                 buttonStyle="secondary"
-                onClick={removeLastIdOrSlug}
+                onClick={toggleEditMode}
                 data-test="edit-dashboard-button"
                 className="action-button"
                 css={editButtonStyle}

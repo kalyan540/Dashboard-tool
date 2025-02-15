@@ -113,6 +113,7 @@ class NavigateControl extends Component {
     // Only run refreshComparatorSuggestions if selectedColumn has changed
     if (prevState.selectedColumn !== this.state.selectedColumn && this.state.selectedColumn) {
       this.refreshComparatorSuggestions();
+      this.fetchAllDashboards();
     }
   }
   
@@ -189,9 +190,7 @@ class NavigateControl extends Component {
 
 
   handleOpenPopover = () => {
-    this.setState({ isPopoverVisible: true }, () => {
-      this.fetchAllDashboards();
-    });
+    this.setState({ isPopoverVisible: true });
   };
 
   handleClosePopover = () => {

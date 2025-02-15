@@ -131,7 +131,7 @@ class ChartRenderer extends Component {
 
           // If a match is found, update with inputValue
           if (matchingEntry) {
-            this.props.updateidOrSlug(matchingEntry.inputValue);
+            this.props.updateidOrSlug(matchingEntry.dashboardId);
           }
 
         }

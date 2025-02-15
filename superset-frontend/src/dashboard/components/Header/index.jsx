@@ -87,6 +87,7 @@ import { dashboardInfoChanged } from '../../actions/dashboardInfo';
 import isDashboardLoading from '../../util/isDashboardLoading';
 import { useChartIds } from '../../util/charts/useChartIds';
 import { useDashboardMetadataBar } from './useDashboardMetadataBar';
+import { useID } from 'src/views/idOrSlugContext';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -576,6 +577,8 @@ const Header = () => {
     ],
   );
 
+  const { idState, removeLastIdOrSlug } = useID();
+
   const rightPanelAdditionalItems = useMemo(
     () => (
       <div className="button-container">
@@ -655,20 +658,22 @@ const Header = () => {
         ) : (
           <div css={actionButtonsStyle}>
             {NavExtension && <NavExtension />}
-            <Button
-              buttonStyle="secondary"
-              onClick={toggleEditMode}
-              data-test="back-dashboard-button"
-              className="back-action-button"
-              css={backButtonStyle}
-              aria-label={t('Back')}
-            >
-              {t('Back')}
-            </Button>
-            {userCanEdit && (
+            {idState.length > 1 && (
               <Button
                 buttonStyle="secondary"
                 onClick={toggleEditMode}
+                data-test="back-dashboard-button"
+                className="back-action-button"
+                css={backButtonStyle}
+                aria-label={t('Back')}
+              >
+                {t('Back')}
+              </Button>
+            )}
+            {userCanEdit && (
+              <Button
+                buttonStyle="secondary"
+                onClick={removeLastIdOrSlug}
                 data-test="edit-dashboard-button"
                 className="action-button"
                 css={editButtonStyle}
@@ -677,7 +682,7 @@ const Header = () => {
                 {t('Edit dashboard')}
               </Button>
             )}
-            
+
           </div>
         )}
       </div>

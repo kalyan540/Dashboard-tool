@@ -112,6 +112,5 @@ export type TimeseriesChartTransformedProps =
         label: string;
         type: AxisType;
       };
-      enableNavigation: boolean;
       onFocusedSeries: (series: string | null) => void;
     };

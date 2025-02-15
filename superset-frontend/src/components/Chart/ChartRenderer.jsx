@@ -123,6 +123,7 @@ class ChartRenderer extends Component {
       onFilterMenuClose: this.props.onFilterMenuClose,
       onLegendStateChanged: this.handleLegendStateChanged,
       setDataMask: dataMask => {
+        console.log('dataMask:', dataMask);
         if (dataMask?.navigate && this.props.updateidOrSlug) {
           const { navigation_config } = this.props.formData;
           const { navigate } = dataMask;

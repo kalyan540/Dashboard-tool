@@ -47,6 +47,7 @@ export default function EchartsTimeseries({
   labelMap,
   selectedValues,
   setDataMask,
+  enableNavigation,
   setControlValue,
   legendData = [],
   onContextMenu,
@@ -135,9 +136,14 @@ export default function EchartsTimeseries({
         return;
       }
       const dataMask = getCrossFilterDataMask(value).dataMask;
-      dataMask.navigate = 'test';
+      if (dataMask) {
+        if (enableNavigation) {
+          console.log("Hello");
+          dataMask.navigate = value;
+        }
       console.log(value);
       setDataMask(dataMask);
+      }
     },
     [emitCrossFilters, setDataMask, getCrossFilterDataMask],
   );

@@ -99,7 +99,8 @@ const editButtonStyle = theme => css`
 `;
 
 const backButtonStyle = theme => css`
-  color: ${theme.colors.error.dark1};
+  color: ${theme.colors.grayscale.light4};
+  background-color: ${theme.colors.error.dark1};
 `;
 
 const actionButtonsStyle = theme => css`
@@ -650,6 +651,16 @@ const Header = () => {
         ) : (
           <div css={actionButtonsStyle}>
             {NavExtension && <NavExtension />}
+            <Button
+              buttonStyle="secondary"
+              onClick={toggleEditMode}
+              data-test="back-dashboard-button"
+              className="back-action-button"
+              css={backButtonStyle}
+              aria-label={t('Back')}
+            >
+              {t('Back')}
+            </Button>
             {userCanEdit && (
               <Button
                 buttonStyle="secondary"
@@ -662,16 +673,7 @@ const Header = () => {
                 {t('Edit dashboard')}
               </Button>
             )}
-            <Button
-              buttonStyle="secondary"
-              onClick={toggleEditMode}
-              data-test="back-dashboard-button"
-              className="action-button"
-              css={backButtonStyle}
-              aria-label={t('Back')}
-            >
-              {t('Back')}
-            </Button>
+            
           </div>
         )}
       </div>

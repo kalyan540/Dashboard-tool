@@ -289,7 +289,7 @@ class NavigateControl extends Component {
           <SelectWithLabel
             labelText="Dashboard"
             options={dashboards}
-            value={this.state.dashboard ? this.state.dashboard.value : undefined}
+            value={this.state.dashboard ? this.state.dashboard.label : undefined}
             onChange={this.handleDashboardChange}
             loading={this.state.loadingComparatorSuggestions}
             notFoundContent={t('Type a value here')}

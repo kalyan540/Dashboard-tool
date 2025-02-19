@@ -506,7 +506,7 @@ const transformProps = (
     const backgroundColor =
       colorOption === ColorSchemeEnum.Green
         ? `rgba(${isPositive ? '0,150,0' : '150,0,0'},0.2)`
-        : `rgba(${isPositive ? '150,0,0' : '0,150,0'},0.2)`;
+        : `rgba(${isPositive ? '150,0,0' : '0,150,0'},0.2)`;` `
 
     return { arrow, arrowColor, backgroundColor };
   };
@@ -572,6 +572,7 @@ const transformProps = (
           }
         }
       });
+      console.log(item);
       return item;
     });
   });

@@ -1,0 +1,24 @@
+{
+    "Button1": {
+      "name": "Engineering Metrics",
+      "type": "dashboard",
+      "dashboardId": "E_Metrics",
+      //"icon": "/static/assets/images/dashboard.png",
+      "divider": false
+    },
+    "Button2": {
+      "name": "Business Metrics",
+      "type": "dashboard",
+      "dashboardId": "B_Metrics",
+      //"icon": "/static/assets/images/dashboard.png",
+      "divider": false
+    },
+    "Button3": {
+        "name": "Optional Metrics",
+        "type": "dashboard",
+        "dashboardId": "O_Metrics",
+        //"icon": "/static/assets/images/dashboard.png",
+        "divider": false
+      }
+  }
+  

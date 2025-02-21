@@ -150,7 +150,6 @@ export const PageHeaderWithActions = ({
             {titlePanelAdditionalItems && titlePanelAdditionalItems[0] && titlePanelAdditionalItems[0]}
           </div>
         )}
-        {console.log(CertifiedBadge, FaveStar, buttonsStyles, titlePanelAdditionalItems)}
         
       </div>
       <div className="right-button-panel">

@@ -598,7 +598,10 @@ DEFAULT_FEATURE_FLAGS.update(
 )
 
 # This is merely a default.
-FEATURE_FLAGS: dict[str, bool] = {}
+#FEATURE_FLAGS: dict[str, bool] = {}
+FEATURE_FLAGS = {
+    "DASHBOARD_NATIVE_FILTERS": True,
+}
 
 # A function that receives a dict of all feature flags
 # (DEFAULT_FEATURE_FLAGS merged with FEATURE_FLAGS)
@@ -651,7 +654,17 @@ COMMON_BOOTSTRAP_OVERRIDES_FUNC: Callable[  # noqa: E731
 #     }]
 
 # This is merely a default
-EXTRA_CATEGORICAL_COLOR_SCHEMES: list[dict[str, Any]] = []
+#EXTRA_CATEGORICAL_COLOR_SCHEMES: list[dict[str, Any]] = []
+
+EXTRA_CATEGORICAL_COLOR_SCHEMES = [
+    {
+        "id": 'RAG',
+        "description": 'Color Scheme for Metrics Dashboard',
+        "label": 'RAG',
+        "isDefault": False,
+        "colors":
+         ["#FF0000", "#FFFF00", "#00FF00"]
+    }]
 
 # THEME_OVERRIDES is used for adding custom theme to superset
 # example code for "My theme" custom scheme
@@ -1603,7 +1616,7 @@ TALISMAN_CONFIG = {
             "https://api.mapbox.com",
             "https://events.mapbox.com",
             "ws://localhost:8765/",
-            "ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765",
+            "ws://ec2-54-152-143-184.compute-1.amazonaws.com:8765",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1635,7 +1648,7 @@ TALISMAN_DEV_CONFIG = {
             "https://api.mapbox.com",
             "https://events.mapbox.com",
             "ws://localhost:8765/",
-            "ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765",
+            "ws://ec2-54-152-143-184.compute-1.amazonaws.com:8765",
         ],
         "object-src": "'none'",
         "style-src": [

@@ -498,10 +498,10 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "GLOBAL_ASYNC_QUERIES": False,
     "EMBEDDED_SUPERSET": False,
     # Enables Alerts and reports new implementation
-    "ALERT_REPORTS": False,
+    "ALERT_REPORTS": True,
     "ALERT_REPORT_TABS": False,
     "ALERT_REPORT_SLACK_V2": False,
-    "DASHBOARD_RBAC": False,
+    "DASHBOARD_RBAC": True,
     "ENABLE_ADVANCED_DATA_TYPES": False,
     # Enabling ALERTS_ATTACH_REPORTS, the system sends email and slack message
     # with screenshot and link
@@ -530,7 +530,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "DRILL_TO_DETAIL": True,
     "DRILL_BY": True,
     "DATAPANEL_CLOSED_BY_DEFAULT": False,
-    "HORIZONTAL_FILTER_BAR": False,
+    "HORIZONTAL_FILTER_BAR": True,
     # The feature is off by default, and currently only supported in Presto and Postgres,
     # and Bigquery.
     # It also needs to be enabled on a per-database basis, by adding the key/value pair
@@ -663,7 +663,7 @@ EXTRA_CATEGORICAL_COLOR_SCHEMES = [
         "label": 'RAG',
         "isDefault": False,
         "colors":
-         ["#FF0000", "#FFFF00", "#00FF00"]
+         ["#CC0000", "#F4BF3F", "#008000"]
     }]
 
 # THEME_OVERRIDES is used for adding custom theme to superset

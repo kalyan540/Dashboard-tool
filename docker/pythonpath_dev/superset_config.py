@@ -105,7 +105,6 @@ CELERY_CONFIG = CeleryConfig
 FEATURE_FLAGS = {"ALERT_REPORTS": True,
                  "ALLOW_ADHOC_SUBQUERY": True,
                  "DASHBOARD_RBAC": True,
-                 "DASHBOARD_NATIVE_FILTERS": True,
                  }
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 

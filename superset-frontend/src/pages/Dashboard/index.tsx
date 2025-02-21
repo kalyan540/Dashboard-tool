@@ -80,6 +80,7 @@ const DashboardRoute: FC = () => {
     dashboardId?: string;
     src?: string;
     schema?: any;
+    suggestions?: any;
     icon?: string;
     divider?: boolean;
   }
@@ -152,12 +153,14 @@ const DashboardRoute: FC = () => {
           user={currentUser}
         />;
       case 'chatbot':
+        console.log(activeButtonConfig.schema.columns);
         return <ChatBOT
           //schema={activeButtonConfig.schema}
           tableName={activeButtonConfig.schema.table_name}
           columns={activeButtonConfig.schema.columns}
           primaryKey={activeButtonConfig.schema.primary_key}
           foreignKeys={activeButtonConfig.schema.foreign_keys}
+          queries={activeButtonConfig.suggestions}
         />;
       default:
         return <div style={{ textAlign: 'center', marginTop: '20px' }}>Unknown type: {activeButtonConfig.type}</div>;

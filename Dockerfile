@@ -50,10 +50,11 @@ RUN mkdir -p /app/superset/static/assets \
              /app/superset/translations
 
 # Mount package files and install dependencies if not in dev mode
-RUN --mount=type=bind,source=./superset-frontend/package.json,target=./package.json \
-    --mount=type=bind,source=./superset-frontend/package-lock.json,target=./package-lock.json \
+RUN --mount=type=bind,source=./superset-frontend/package.json,target=./package.json,rw \
+    --mount=type=bind,source=./superset-frontend/package-lock.json,target=./package-lock.json,rw \
     if [ "$DEV_MODE" = "false" ]; then \
-        npm ci; \
+        #npm ci; \
+        npm i && npm i primereact primeicons primeflex @react-spring/web global-box currencyformatter.js --legacy-peer-deps; \
     else \
         echo "Skipping 'npm ci' in dev mode"; \
     fi

@@ -9,6 +9,7 @@ import {
     css,t, withTheme
   } from '@superset-ui/core';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Adjust the import path as needed
+import Icons from 'src/components/Icons';
 
 const propTypes = {
   value: PropTypes.string,
@@ -99,7 +100,8 @@ class JsonEditorControl extends Component {
           visible={isPopoverVisible}
           onVisibleChange={this.handlePopoverVisibility}
         >
-          <Button>{t('Input form json')}</Button>
+          {/* <Button>{t('Input form json')}</Button> */}
+          <Icons.MenuOutlined aria-label="menu icon" />
         </Popover>
       </div>
     );

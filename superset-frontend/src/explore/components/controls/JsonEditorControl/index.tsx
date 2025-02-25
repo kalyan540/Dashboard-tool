@@ -9,7 +9,9 @@ import {
     css,t, withTheme
   } from '@superset-ui/core';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Adjust the import path as needed
-import Icons from 'src/components/Icons';
+
+import 'primeicons/primeicons.css';
+        
 
 const propTypes = {
   value: PropTypes.string,
@@ -101,7 +103,7 @@ class JsonEditorControl extends Component {
           onVisibleChange={this.handlePopoverVisibility}
         >
           {/* <Button>{t('Input form json')}</Button> */}
-          <Icons.MenuOutlined aria-label="menu icon" />
+          <span className="pi pi-ellipsis-v"></span>
         </Popover>
       </div>
     );

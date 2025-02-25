@@ -67,9 +67,9 @@ class JsonEditorControl extends Component {
           name="json-editor"
           tabSize = {defaultTabSize}
           defaultValue = ''
-          wrapEnabled
+          //wrapEnabled
           editorProps={{ $blockScrolling: true }}
-          width="100%"
+          width="300px"
           height="200px"
           fontSize={14}
           style={{

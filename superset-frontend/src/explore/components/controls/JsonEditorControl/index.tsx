@@ -6,7 +6,7 @@ import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-github';
 import {
-    css,t, useTheme
+    css,t, withTheme
   } from '@superset-ui/core';
 import ControlHeader from 'src/explore/components/ControlHeader'; // Adjust the import path as needed
 
@@ -21,7 +21,7 @@ const defaultProps = {
   onChange: () => {},
 };
 
-export default class JsonEditorControl extends Component {
+class JsonEditorControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,8 +50,8 @@ export default class JsonEditorControl extends Component {
   };
 
   render() {
-    const theme = useTheme();
     const { label } = this.props;
+    const { theme } = this.props;
     const { isPopoverVisible, editorValue } = this.state;
     const defaultTabSize = 2;
     const popoverContent = (
@@ -108,3 +108,5 @@ export default class JsonEditorControl extends Component {
 
 JsonEditorControl.propTypes = propTypes;
 JsonEditorControl.defaultProps = defaultProps;
+
+export default withTheme(JsonEditorControl);

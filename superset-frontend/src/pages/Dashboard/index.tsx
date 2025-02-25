@@ -31,6 +31,7 @@ import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
+//import metricJson from 'src/leftpanel/metrics.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
@@ -91,6 +92,7 @@ const DashboardRoute: FC = () => {
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
+    //Home: Object.values(metricJson),
   };
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
@@ -178,7 +180,7 @@ const DashboardRoute: FC = () => {
             onClick={() => setActiveButton('Dashboard')}
           >
             <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-            Dashboard
+            Home
           </button>
 
           {/* Dynamic Buttons from JSON */}
@@ -191,11 +193,13 @@ const DashboardRoute: FC = () => {
                 onClick={() => handleButtonClick(button)}
               >
                 {/* Render Icon Dynamically */}
-                <img
-                  src={button.icon || '/static/assets/images/default.png'}
-                  alt={`${button.name} Icon`}
-                  className="icon"
-                />
+                {button.icon && (
+                  <img
+                    src={button.icon}
+                    alt={`${button.name} Icon`}
+                    className="icon"
+                  />
+                )}
                 {button.name}
               </button>
             </React.Fragment>

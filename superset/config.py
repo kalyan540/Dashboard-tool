@@ -498,10 +498,10 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "GLOBAL_ASYNC_QUERIES": False,
     "EMBEDDED_SUPERSET": False,
     # Enables Alerts and reports new implementation
-    "ALERT_REPORTS": False,
+    "ALERT_REPORTS": True,
     "ALERT_REPORT_TABS": False,
     "ALERT_REPORT_SLACK_V2": False,
-    "DASHBOARD_RBAC": False,
+    "DASHBOARD_RBAC": True,
     "ENABLE_ADVANCED_DATA_TYPES": False,
     # Enabling ALERTS_ATTACH_REPORTS, the system sends email and slack message
     # with screenshot and link
@@ -530,7 +530,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "DRILL_TO_DETAIL": True,
     "DRILL_BY": True,
     "DATAPANEL_CLOSED_BY_DEFAULT": False,
-    "HORIZONTAL_FILTER_BAR": False,
+    "HORIZONTAL_FILTER_BAR": True,
     # The feature is off by default, and currently only supported in Presto and Postgres,
     # and Bigquery.
     # It also needs to be enabled on a per-database basis, by adding the key/value pair
@@ -598,7 +598,10 @@ DEFAULT_FEATURE_FLAGS.update(
 )
 
 # This is merely a default.
-FEATURE_FLAGS: dict[str, bool] = {}
+#FEATURE_FLAGS: dict[str, bool] = {}
+FEATURE_FLAGS = {
+    "DASHBOARD_NATIVE_FILTERS": True,
+}
 
 # A function that receives a dict of all feature flags
 # (DEFAULT_FEATURE_FLAGS merged with FEATURE_FLAGS)
@@ -651,7 +654,17 @@ COMMON_BOOTSTRAP_OVERRIDES_FUNC: Callable[  # noqa: E731
 #     }]
 
 # This is merely a default
-EXTRA_CATEGORICAL_COLOR_SCHEMES: list[dict[str, Any]] = []
+#EXTRA_CATEGORICAL_COLOR_SCHEMES: list[dict[str, Any]] = []
+
+EXTRA_CATEGORICAL_COLOR_SCHEMES = [
+    {
+        "id": 'RAG',
+        "description": 'Color Scheme for Metrics Dashboard',
+        "label": 'RAG',
+        "isDefault": False,
+        "colors":
+         ["#CC0000", "#F4BF3F", "#008000"]
+    }]
 
 # THEME_OVERRIDES is used for adding custom theme to superset
 # example code for "My theme" custom scheme

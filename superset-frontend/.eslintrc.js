@@ -285,6 +285,7 @@ module.exports = {
     },
   ],
   rules: {
+    "no-unused-vars": "off",
     'theme-colors/no-literal-colors': 'error',
     'translation-vars/no-template-vars': ['error', true],
     camelcase: [

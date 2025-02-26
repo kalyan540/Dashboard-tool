@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { FC, useState, useMemo } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
@@ -36,8 +36,6 @@ import npdJson from 'src/leftpanel/npd.json';
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [showJsonModal, setShowJsonModal] = useState(false);
-  const [jsonContent, setJsonContent] = useState('');
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
@@ -89,37 +87,18 @@ const DashboardRoute: FC = () => {
   }
 
   // Define the type for jsonFileMap
-  const jsonFileMap: { [key: string]: ButtonConfig[] } = useMemo(() => ({
+  const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
-  }), []);
+    //Home: Object.values(metricJson),
+  };
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
 
   const handleButtonClick = (button: ButtonConfig) => {
-    // Avoid setting the same active button again
-    if (activeButton !== button.name) {
-      setActiveButton(button.name);
-    }
-  };
-
-  const handleOpenJsonModal = () => {
-    // Set JSON content only once when the modal opens
-    const jsonData = JSON.stringify(jsonFileMap[idOrSlug || ''] || {}, null, 2);
-    setJsonContent(jsonData);
-    setShowJsonModal(true);
-  };
-
-  const handleSaveJson = () => {
-    try {
-      const updatedJson = JSON.parse(jsonContent);
-      console.log('Updated JSON:', updatedJson);
-      alert('JSON saved successfully! (Implement backend to persist changes)');
-    } catch (error) {
-      alert('Invalid JSON format!');
-    }
+    setActiveButton(button.name);
   };
 
 
@@ -195,16 +174,14 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Home Button with Three-Dots Menu */}
-          <div className="home-container">
-            <button className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`} onClick={() => setActiveButton('Dashboard')}>
-              <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-              Home
-            </button>
-            <div className="menu-button" onClick={handleOpenJsonModal}>
-              <span className="vertical-dots">&#8942;</span> {/* Vertical three-dots menu */}
-            </div>
-          </div>
+          {/* Default Dashboard Button */}
+          <button
+            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+            onClick={() => setActiveButton('Dashboard')}
+          >
+            <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
+            Home
+          </button>
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (
@@ -232,60 +209,7 @@ const DashboardRoute: FC = () => {
 
       {/* Right Panel Content */}
       <div className="right-panel">{renderContent()}</div>
-      {/* JSON Edit Modal */}
-      {showJsonModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Edit JSON for {idOrSlug}</h2>
-            <textarea value={jsonContent} onChange={e => setJsonContent(e.target.value)} rows={15} cols={50} />
-            <div className="modal-buttons">
-              <button onClick={handleSaveJson}>Save</button>
-              <button onClick={() => setShowJsonModal(false)}>Close</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Styles */}
-      <style>
-        {`
-          .home-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 5px;
-          }
-          .menu-button {
-            cursor: pointer;
-            padding: 5px;
-            margin-left: 10px;
-            display: flex;
-            align-items: center;
-          }
-          .vertical-dots {
-            font-size: 20px;
-          }
-          .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-          .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            min-width: 400px;
-          }
-        `}
-      </style>
     </div>
-      
   );
 };
 

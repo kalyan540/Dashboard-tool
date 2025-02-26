@@ -12,6 +12,17 @@ import ControlHeader from 'src/explore/components/ControlHeader'; // Adjust the 
 
 // import 'primeicons/primeicons.css';
         
+interface JsonEditorControlProps {
+  value: any;
+  label: string;
+  onChange: (value: any) => void;
+  theme: any;
+}
+
+interface JsonEditorControlState {
+  isPopoverVisible: boolean;
+  editorValue: any;
+}
 
 const propTypes = {
   value: PropTypes.string,
@@ -24,8 +35,8 @@ const defaultProps = {
   onChange: () => {},
 };
 
-class JsonEditorControl extends Component {
-  constructor(props) {
+class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorControlState> {
+  constructor(props: any) {
     super(props);
     this.state = {
       isPopoverVisible: false,
@@ -34,7 +45,7 @@ class JsonEditorControl extends Component {
   }
   
 
-  handlePopoverVisibility = (visible) => {
+  handlePopoverVisibility = (visible: boolean) => {
     this.setState({ isPopoverVisible: visible });
   };
 
@@ -48,7 +59,7 @@ class JsonEditorControl extends Component {
     this.setState({ isPopoverVisible: false, editorValue: this.props.value || '' });
   };
 
-  handleEditorChange = (newValue) => {
+  handleEditorChange = (newValue: string) => {
     this.setState({ editorValue: newValue });
   };
 

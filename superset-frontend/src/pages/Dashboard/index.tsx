@@ -36,6 +36,8 @@ import npdJson from 'src/leftpanel/npd.json';
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
+  const [showJsonModal, setShowJsonModal] = useState(false);
+  const [jsonContent, setJsonContent] = useState('');
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
@@ -99,6 +101,22 @@ const DashboardRoute: FC = () => {
 
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);
+  };
+
+  const handleOpenJsonModal = () => {
+    const jsonData = JSON.stringify(jsonFileMap[idOrSlug || ''] || {}, null, 2);
+    setJsonContent(jsonData);
+    setShowJsonModal(true);
+  };
+
+  const handleSaveJson = () => {
+    try {
+      const updatedJson = JSON.parse(jsonContent);
+      console.log('Updated JSON:', updatedJson);
+      alert('JSON saved successfully! (Implement backend to persist changes)');
+    } catch (error) {
+      alert('Invalid JSON format!');
+    }
   };
 
 
@@ -174,14 +192,16 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Default Dashboard Button */}
-          <button
-            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-            onClick={() => setActiveButton('Dashboard')}
-          >
-            <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-            Home
-          </button>
+          {/* Home Button with Three-Dots Menu */}
+          <div className="home-container">
+            <button className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`} onClick={() => setActiveButton('Dashboard')}>
+              <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
+              Home
+            </button>
+            <div className="menu-button" onClick={handleOpenJsonModal}>
+              <span className="vertical-dots">&#8942;</span> {/* Vertical three-dots menu */}
+            </div>
+          </div>
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (

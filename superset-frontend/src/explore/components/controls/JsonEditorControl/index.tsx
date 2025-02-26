@@ -121,7 +121,7 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
   }
 }
 
-JsonEditorControl.propTypes = propTypes;
-JsonEditorControl.defaultProps = defaultProps;
+//JsonEditorControl.propTypes = propTypes;
+//JsonEditorControl.defaultProps = defaultProps;
 
 export default withTheme(JsonEditorControl);

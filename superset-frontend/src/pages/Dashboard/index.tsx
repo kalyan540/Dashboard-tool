@@ -89,21 +89,24 @@ const DashboardRoute: FC = () => {
   }
 
   // Define the type for jsonFileMap
-  const jsonFileMap: { [key: string]: ButtonConfig[] } = {
+  const jsonFileMap: { [key: string]: ButtonConfig[] } = useMemo(() => ({
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
-    //Home: Object.values(metricJson),
-  };
+  }), []);
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
 
   const handleButtonClick = (button: ButtonConfig) => {
-    setActiveButton(button.name);
+    // Avoid setting the same active button again
+    if (activeButton !== button.name) {
+      setActiveButton(button.name);
+    }
   };
 
   const handleOpenJsonModal = () => {
+    // Set JSON content only once when the modal opens
     const jsonData = JSON.stringify(jsonFileMap[idOrSlug || ''] || {}, null, 2);
     setJsonContent(jsonData);
     setShowJsonModal(true);

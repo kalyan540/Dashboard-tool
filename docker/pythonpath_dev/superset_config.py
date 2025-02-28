@@ -108,6 +108,20 @@ FEATURE_FLAGS = {"ALERT_REPORTS": True,
                  "DASHBOARD_NATIVE_FILTERS": True,
                  "EMBEDDED_SUPERSET": True,
                  }
+
+GUEST_ROLE_NAME= 'embed_dashboard'
+GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"
+GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
+
+CORS_OPTIONS = {
+    "supports_credentials": True,
+    "allow_headers": ["*"],
+    "resources": ["*"],
+    "origins": ["http://localhost:3000"], # replace the port-number 
+                                          # as per your application.
+}
+
+
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 
 # Email configuration

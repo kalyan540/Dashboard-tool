@@ -109,18 +109,23 @@ FEATURE_FLAGS = {"ALERT_REPORTS": True,
                  "EMBEDDED_SUPERSET": True,
                  }
 
-GUEST_ROLE_NAME= 'Guest'
-GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"
-GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
 
 Enable_CORS = True
 CORS_OPTIONS = {
-    "supports_credentials": False,
-    "allow_headers": ["*"],
-    "resources": ["*"],
+    "supports_credentials": True,
+    "allow_headers": "*",
+    "expose_headers": "*",
+    "resources": "*",
     "origins": ["*"], # replace the port-number 
                                           # as per your application.
 }
+
+PUBLIC_ROLE_LIKE='Public'
+GUEST_ROLE_NAME= 'Guest'
+GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"
+GUEST_TOKEN_JWT_ALGO = "HS256" 
+GUEST_TOKEN_HEADER_NAME = "X-GuestToken" 
+GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
 
 
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False

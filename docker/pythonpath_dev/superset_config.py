@@ -111,13 +111,13 @@ FEATURE_FLAGS = {"ALERT_REPORTS": True,
 
 
 Enable_CORS = True
+HTTP_HEADERS = {'X-Frame-Options': 'ALLOWALL'}
 CORS_OPTIONS = {
     "supports_credentials": True,
-    "allow_headers": "*",
+    "allow_headers": ["*"],
     "expose_headers": "*",
-    "resources": "*",
-    "origins": ["*"], # replace the port-number 
-                                          # as per your application.
+    "resources": ["*"],
+    "origins": ["*"], # replace the port-number # as per your application.
 }
 
 PUBLIC_ROLE_LIKE='Public'

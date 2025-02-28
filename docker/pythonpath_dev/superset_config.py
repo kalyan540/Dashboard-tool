@@ -115,7 +115,7 @@ GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
 
 Enable_CORS = True
 CORS_OPTIONS = {
-    "supports_credentials": True,
+    "supports_credentials": False,
     "allow_headers": ["*"],
     "resources": ["*"],
     "origins": ["*"], # replace the port-number 

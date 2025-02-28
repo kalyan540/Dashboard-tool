@@ -116,10 +116,9 @@ GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
 Enable_CORS = True
 CORS_OPTIONS = {
     "supports_credentials": True,
-    "Access-Control-Allow-Origin": ["*"],
     "allow_headers": ["*"],
     "resources": ["*"],
-    "origins": ["http://localhost:3000"], # replace the port-number 
+    "origins": ["*"], # replace the port-number 
                                           # as per your application.
 }
 

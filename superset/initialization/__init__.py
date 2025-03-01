@@ -700,6 +700,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
 
 WELCOME_PAGE_REDIRECT_ADMIN="/superset/welcome/"
 WELCOME_PAGE_REDIRECT_DEFAULT="/dashboards/list"
+LOGIN_PAGE_REDIRECT="/login"
 
 WELCOME_PAGE_REDIRECT_BY_ROLE={
   'Ford Admin': '/superset/dashboard/Ford_Dashbord/?native_filters_key=gZFCW9sVo-En6EL0mozJAoQSVt1s6s2TixQ0BF6CH_3E7u92SMQtgV49K9M5lP-G',
@@ -718,6 +719,8 @@ class SupersetIndexView(IndexView):
         if security_manager.is_admin():
             return redirect(WELCOME_PAGE_REDIRECT_ADMIN)
         else:
+            if not user_roles:
+                return redirect(LOGIN_PAGE_REDIRECT)    
             for role in user_roles:
                 role_name = role.name
 

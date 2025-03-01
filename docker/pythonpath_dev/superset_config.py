@@ -111,7 +111,7 @@ FEATURE_FLAGS = {"ALERT_REPORTS": True,
 
 
 Enable_CORS = True
-HTTP_HEADERS = {'X-Frame-Options': 'ALLOWALL'}
+OVERRIDE_HTTP_HEADERS = {'X-Frame-Options': 'ALLOWALL'}
 CORS_OPTIONS = {
     "supports_credentials": True,
     "allow_headers": ["*"],

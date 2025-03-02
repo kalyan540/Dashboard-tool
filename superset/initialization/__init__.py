@@ -699,12 +699,13 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             profiling.init_app(self.superset_app)
 
 WELCOME_PAGE_REDIRECT_ADMIN="/superset/welcome/"
-WELCOME_PAGE_REDIRECT_DEFAULT="/dashboards/list"
+#WELCOME_PAGE_REDIRECT_DEFAULT="/dashboards/list"
+WELCOME_PAGE_REDIRECT_DEFAULT="/superset/welcome/"
 LOGIN_PAGE_REDIRECT="/login/"
 
 WELCOME_PAGE_REDIRECT_BY_ROLE={
   'Ford Admin': '/superset/dashboard/Ford_Dashbord/?native_filters_key=gZFCW9sVo-En6EL0mozJAoQSVt1s6s2TixQ0BF6CH_3E7u92SMQtgV49K9M5lP-G',
-  'Public': LOGIN_PAGE_REDIRECT
+  #'Public': LOGIN_PAGE_REDIRECT
 }
 
 

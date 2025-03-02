@@ -700,9 +700,11 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
 
 WELCOME_PAGE_REDIRECT_ADMIN="/superset/welcome/"
 WELCOME_PAGE_REDIRECT_DEFAULT="/dashboards/list"
+LOGIN_PAGE_REDIRECT="/login/"
 
 WELCOME_PAGE_REDIRECT_BY_ROLE={
   'Ford Admin': '/superset/dashboard/Ford_Dashbord/?native_filters_key=gZFCW9sVo-En6EL0mozJAoQSVt1s6s2TixQ0BF6CH_3E7u92SMQtgV49K9M5lP-G',
+  'Public': LOGIN_PAGE_REDIRECT
 }
 
 
@@ -710,7 +712,7 @@ class SupersetIndexView(IndexView):
     @expose("/")
     def index(self) -> FlaskResponse:
         from superset import security_manager
-
+        
         user_roles = security_manager.get_user_roles()
         import pprint
         logger.info('\n\n\n\n__DEBUG__ user roles: ' + pprint.pformat(user_roles)+'\n\n\n\n')

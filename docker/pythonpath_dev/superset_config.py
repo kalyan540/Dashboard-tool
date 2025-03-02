@@ -110,22 +110,22 @@ FEATURE_FLAGS = {"ALERT_REPORTS": True,
                  }
 
 
-Enable_CORS = True
+ENABLE_CORS = True
+ENABLE_PROXY_FIX = True
 OVERRIDE_HTTP_HEADERS = {'X-Frame-Options': 'ALLOWALL'}
 CORS_OPTIONS = {
     "supports_credentials": True,
     "allow_headers": ["*"],
-    "expose_headers": "*",
     "resources": ["*"],
     "origins": ["*"], # replace the port-number # as per your application.
 }
 
 PUBLIC_ROLE_LIKE = "Gamma"
-GUEST_ROLE_NAME= 'Guest'
-GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"
-GUEST_TOKEN_JWT_ALGO = "HS256" 
-GUEST_TOKEN_HEADER_NAME = "X-GuestToken" 
-GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
+# GUEST_ROLE_NAME= 'Guest'
+# GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"
+# GUEST_TOKEN_JWT_ALGO = "HS256" 
+# GUEST_TOKEN_HEADER_NAME = "X-GuestToken" 
+# GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
 
 
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False

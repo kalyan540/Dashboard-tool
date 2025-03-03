@@ -132,9 +132,6 @@ PUBLIC_ROLE_LIKE = "Gamma"
 
 
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
-BLUEPRINTS = [
-    ("superset_blueprint", {"url_prefix": "/superset"}),
-]
 
 # Email configuration
 SMTP_HOST = "smtp.gmail.com" # change to your host

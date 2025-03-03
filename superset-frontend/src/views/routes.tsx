@@ -132,7 +132,7 @@ type Routes = {
 
 export const routes: Routes = [
   {
-    path: '/welcome/',
+    path: '/superset/welcome/',
     Component: Home,
   },
   {

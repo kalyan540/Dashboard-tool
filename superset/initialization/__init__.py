@@ -235,7 +235,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_link(
             "Home",
             label=__("Home"),
-            href="/superset/welcome/",
+            href="/welcome/",
             cond=lambda: bool(appbuilder.app.config["LOGO_TARGET_PATH"]),
         )
 
@@ -698,9 +698,9 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         if self.config["PROFILING"]:
             profiling.init_app(self.superset_app)
 
-WELCOME_PAGE_REDIRECT_ADMIN="/superset/welcome/"
+WELCOME_PAGE_REDIRECT_ADMIN="/welcome/"
 #WELCOME_PAGE_REDIRECT_DEFAULT="/dashboards/list"
-WELCOME_PAGE_REDIRECT_DEFAULT="/superset/welcome/"
+WELCOME_PAGE_REDIRECT_DEFAULT="/welcome/"
 LOGIN_PAGE_REDIRECT="/login/"
 
 WELCOME_PAGE_REDIRECT_BY_ROLE={

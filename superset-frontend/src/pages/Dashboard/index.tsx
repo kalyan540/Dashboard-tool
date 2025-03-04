@@ -1,21 +1,3 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -26,12 +8,10 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
-
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
-//import metricJson from 'src/leftpanel/metrics.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
@@ -41,6 +21,7 @@ const DashboardRoute: FC = () => {
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+
   const injectCustomStyles = () => (
     <style>
       {`
@@ -72,11 +53,60 @@ const DashboardRoute: FC = () => {
             border: none;
             overflow: hidden;
         }
+
+        .home-button-container {
+          display: flex;
+          align-items: center;
+          gap: 8px; /* Space between home button and three dots */
+        }
+
+        .three-dots-button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+          display: flex;
+          align-items: center;
+        }
+
+        .three-dots-button img {
+          width: 24px;
+          height: 24px;
+        }
+
+        .modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .modal-content {
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          width: 50%;
+          max-width: 600px;
+        }
+
+        .modal-content textarea {
+          width: 100%;
+          height: 300px;
+          margin-bottom: 16px;
+        }
+
+        .modal-content button {
+          margin-right: 8px;
+        }
       `}
     </style>
   );
 
-  // Define the interface for button configuration
   interface ButtonConfig {
     name: string;
     type: string;
@@ -88,13 +118,11 @@ const DashboardRoute: FC = () => {
     divider?: boolean;
   }
 
-  // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
-    //Home: Object.values(metricJson),
   };
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
@@ -119,7 +147,6 @@ const DashboardRoute: FC = () => {
       addDangerToast(t('Invalid JSON'));
     }
   };
-
 
   const renderContent = () => {
     if (activeButton === 'Dashboard') {
@@ -174,9 +201,7 @@ const DashboardRoute: FC = () => {
           user={currentUser}
         />;
       case 'chatbot':
-        console.log(activeButtonConfig.schema.columns);
         return <ChatBOT
-          //schema={activeButtonConfig.schema}
           tableName={activeButtonConfig.schema.table_name}
           columns={activeButtonConfig.schema.columns}
           primaryKey={activeButtonConfig.schema.primary_key}
@@ -190,26 +215,24 @@ const DashboardRoute: FC = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Default Dashboard Button */}
-          <button
-            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-            onClick={() => setActiveButton('Dashboard')}
-          >
-            <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-            Home
-          </button>
-          <button
-            className="button"
-            onClick={handleEditClick}
-            style={{ marginLeft: 'auto' }}
-          >
-            <img src="/static/assets/images/three-dots.png" alt="Edit Icon" className="icon" />
-          </button>
+          <div className="home-button-container">
+            <button
+              className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+              onClick={() => setActiveButton('Dashboard')}
+            >
+              <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
+              Home
+            </button>
+            <button
+              className="three-dots-button"
+              onClick={handleEditClick}
+            >
+              <img src="/static/assets/images/three-dots.png" alt="Edit Icon" className="icon" />
+            </button>
+          </div>
 
-          {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (
             <React.Fragment key={index}>
               {button.divider && <div className="divider"></div>}
@@ -218,7 +241,6 @@ const DashboardRoute: FC = () => {
                 className={`button ${activeButton === button.name ? 'active' : ''}`}
                 onClick={() => handleButtonClick(button)}
               >
-                {/* Render Icon Dynamically */}
                 {button.icon && (
                   <img
                     src={button.icon}
@@ -233,7 +255,6 @@ const DashboardRoute: FC = () => {
         </div>
       </div>
 
-      {/* Right Panel Content */}
       <div className="right-panel">{renderContent()}</div>
 
       {isEditing && (
@@ -252,7 +273,5 @@ const DashboardRoute: FC = () => {
     </div>
   );
 };
-
-
 
 export default DashboardRoute;

@@ -1,21 +1,3 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -31,7 +13,6 @@ import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
-//import metricJson from 'src/leftpanel/metrics.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
@@ -41,6 +22,7 @@ const DashboardRoute: FC = () => {
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+
   const injectCustomStyles = () => (
     <style>
       {`
@@ -72,11 +54,37 @@ const DashboardRoute: FC = () => {
             border: none;
             overflow: hidden;
         }
+
+        /* New CSS for the Home and Three-Dots button container */
+        .home-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          margin-bottom: 10px; /* Add some spacing below the Home button */
+        }
+
+        .home-container button {
+          display: flex;
+          align-items: center;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 4px;
+        }
+
+        .home-container button:hover {
+          background-color: #f0f0f0;
+        }
+
+        .home-container button img {
+          margin-right: 8px;
+        }
       `}
     </style>
   );
 
-  // Define the interface for button configuration
   interface ButtonConfig {
     name: string;
     type: string;
@@ -88,13 +96,11 @@ const DashboardRoute: FC = () => {
     divider?: boolean;
   }
 
-  // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
-    //Home: Object.values(metricJson),
   };
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
@@ -118,7 +124,6 @@ const DashboardRoute: FC = () => {
     updatedButtons[index][field] = value;
     setEditedButtons(updatedButtons);
   };
-
 
   const renderContent = () => {
     if (activeButton === 'Dashboard') {
@@ -173,9 +178,7 @@ const DashboardRoute: FC = () => {
           user={currentUser}
         />;
       case 'chatbot':
-        console.log(activeButtonConfig.schema.columns);
         return <ChatBOT
-          //schema={activeButtonConfig.schema}
           tableName={activeButtonConfig.schema.table_name}
           columns={activeButtonConfig.schema.columns}
           primaryKey={activeButtonConfig.schema.primary_key}
@@ -192,18 +195,20 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Default Dashboard Button */}
-          <button
-            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-            onClick={() => setActiveButton('Dashboard')}
-          >
-            <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-            Home
-          </button>
-          {/* Three Dots Menu */}
-          <button onClick={handleEditClick} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer' }}>
-            <img src="/static/assets/images/more.png" alt="Edit Icon" className="icon" />
-          </button>
+          {/* Home and Three-Dots Button Container */}
+          <div className="home-container">
+            <button
+              className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+              onClick={() => setActiveButton('Dashboard')}
+            >
+              <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
+              Home
+            </button>
+            {/* Three Dots Menu */}
+            <button onClick={handleEditClick}>
+              <img src="/static/assets/images/more.png" alt="Edit Icon" className="icon" />
+            </button>
+          </div>
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (
@@ -214,7 +219,6 @@ const DashboardRoute: FC = () => {
                 className={`button ${activeButton === button.name ? 'active' : ''}`}
                 onClick={() => handleButtonClick(button)}
               >
-                {/* Render Icon Dynamically */}
                 {button.icon && (
                   <img
                     src={button.icon}
@@ -270,114 +274,4 @@ const DashboardRoute: FC = () => {
   );
 };
 
-/*return (<img src={`/static/assets/images/${button.name.toLowerCase()}.png`} alt="Button Icon" className="icon" />
-  <div style={{ display: "flex" }}>
-    {/* Left Panel with Buttons }
-    <div className="left-panel">
-      <div className="buttons-container">
-        <button
-          className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('Dashboard')}
-        >
-          <img src="/static/assets/images/dashboard.png" alt="Icon" className="icon" />
-          Dashboard
-        </button>
-
-        <button
-          className={`button ${activeButton === 'Analytics' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('Analytics')}
-        >
-          <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
-          Analytics
-        </button>
-
-        <button
-          className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('ChatBot')}
-        >
-          <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
-          ChatBot
-        </button>
-
-
-      </div>
-      <div className="divider"></div>
-      <div className="user-management">
-        <button
-          className={`button ${activeButton === 'User Management' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('User Management')}
-        >
-          <img src="/static/assets/images/user.png" alt="Icon" className="icon" />
-          User Management
-        </button>
-      </div>
-    </div>
-
-    {/* Right Panel Content }
-<div className="right-panel">
-{activeButton === 'Dashboard' ? (
-  <div className="dashboard-container">
-    <DashboardPage idOrSlug={idOrSlug} />
-  </div>
-) : activeButton === 'User Management' ? (
-  <>
-    {injectCustomStyles()}
-    <div>
-      <div className="header-bar">
-        <h1>User Management</h1>
-      </div>
-      <iframe
-        src="/users/list"
-        className="iframe-container"
-        title="User Management"
-      />
-    </div>
-  </>
-) : activeButton === 'Alerts' ? (
-  <AlertList
-    addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
-    addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
-    isReportEnabled={false}
-    user={currentUser}
-  />
-) : activeButton === 'Reports' ? (
-  <AlertList
-    addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
-    addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
-    isReportEnabled={true}
-    user={currentUser}
-  />
-) : activeButton === 'ChatBot' ? (
-  <ChatBOT />
-) : activeButton === 'Analytics' ? (
-  <DashboardPage idOrSlug={'15'} />
-) : (
-  <div>
-    <h2>This page is in development.</h2>
-  </div>
-)}
-</div>
-  </div >
-);
-
-};*/
-
 export default DashboardRoute;
-/*
-<button
-            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Alerts')}
-          >
-            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
-            Alerts
-          </button>
-
-          <button
-            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Reports')}
-          >
-            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
-            Reports
-          </button>
-
-*/

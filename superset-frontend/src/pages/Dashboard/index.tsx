@@ -132,9 +132,17 @@ const DashboardRoute: FC = () => {
   };
 
   const handleEditClick = () => {
-    const jsonFile = JSON.stringify(jsonFileMap[idOrSlug || ''], null, 2);
-    setJsonContent(jsonFile);
-    setIsEditing(true);
+    console.log('Edit button clicked'); // Debugging: Check if the function is triggered
+    const jsonFile = jsonFileMap[idOrSlug || ''];
+    if (jsonFile) {
+      const jsonString = JSON.stringify(jsonFile, null, 2);
+      console.log('JSON Content:', jsonString); // Debugging: Check the JSON content
+      setJsonContent(jsonString);
+      setIsEditing(true);
+    } else {
+      console.error('No JSON file found for the current dashboard'); // Debugging: Check if JSON file is missing
+      addDangerToast(t('No JSON file found for this dashboard'));
+    }
   };
 
   const handleSave = () => {
@@ -144,6 +152,7 @@ const DashboardRoute: FC = () => {
       setIsEditing(false);
       addSuccessToast(t('JSON updated successfully'));
     } catch (error) {
+      console.error('Error parsing JSON:', error); // Debugging: Check for JSON parsing errors
       addDangerToast(t('Invalid JSON'));
     }
   };

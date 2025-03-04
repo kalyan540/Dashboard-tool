@@ -81,6 +81,23 @@ const DashboardRoute: FC = () => {
         .home-container button img {
           margin-right: 8px;
         }
+        
+        .three-dots {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+      }
+
+      .three-dots span {
+        width: 4px;
+        height: 4px;
+        background-color: #000;
+        border-radius: 50%;
+      }
       `}
     </style>
   );
@@ -205,9 +222,11 @@ const DashboardRoute: FC = () => {
               Home
             </button>
             {/* Three Dots Menu */}
-            <button onClick={handleEditClick}>
-              <img src="/static/assets/images/more.png" alt="Edit Icon" className="icon" />
-            </button>
+            <div className="three-dots" onClick={handleEditClick}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
 
           {/* Dynamic Buttons from JSON */}

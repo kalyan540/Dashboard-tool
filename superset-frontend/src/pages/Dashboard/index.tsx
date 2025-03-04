@@ -82,11 +82,12 @@ const DashboardRoute: FC = () => {
           margin-right: 8px;
         }
 
-        /* Vertical Three Dots Icon */
-        .three-dots {
-          font-size: 24px;
+        /* Material Icons Three Dots */
+        .material-icons.three-dots {
+          font-size: 24px; /* Adjust size as needed */
           cursor: pointer;
           margin-left: 8px; /* Add some spacing */
+          color: #000; /* Icon color */
         }
       `}
     </style>
@@ -212,9 +213,9 @@ const DashboardRoute: FC = () => {
               Home
             </button>
             {/* Vertical Three Dots Menu */}
-            <div className="three-dots" onClick={handleEditClick}>
-              ⋮
-            </div>
+            <i className="material-icons three-dots" onClick={handleEditClick}>
+              more_vert
+            </i>
           </div>
 
           {/* Dynamic Buttons from JSON */}

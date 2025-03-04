@@ -1,3 +1,21 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -13,16 +31,16 @@ import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
+//import metricJson from 'src/leftpanel/metrics.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [editedButtons, setEditedButtons] = useState<ButtonConfig[]>([]);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [jsonContent, setJsonContent] = useState<string>('');
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
-
   const injectCustomStyles = () => (
     <style>
       {`
@@ -54,45 +72,11 @@ const DashboardRoute: FC = () => {
             border: none;
             overflow: hidden;
         }
-
-        /* Home and Three-Dots Container */
-        .home-container {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          margin-bottom: 10px; /* Add some spacing below the Home button */
-        }
-
-        .home-container button {
-          display: flex;
-          align-items: center;
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 8px;
-          border-radius: 4px;
-        }
-
-        .home-container button:hover {
-          background-color: #f0f0f0;
-        }
-
-        .home-container button img {
-          margin-right: 8px;
-        }
-
-        /* Material Icons Three Dots */
-        .material-icons.three-dots {
-          font-size: 24px; /* Adjust size as needed */
-          cursor: pointer;
-          margin-left: 8px; /* Add some spacing */
-          color: #000; /* Icon color */
-        }
       `}
     </style>
   );
 
+  // Define the interface for button configuration
   interface ButtonConfig {
     name: string;
     type: string;
@@ -104,11 +88,13 @@ const DashboardRoute: FC = () => {
     divider?: boolean;
   }
 
+  // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
+    //Home: Object.values(metricJson),
   };
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
@@ -118,20 +104,22 @@ const DashboardRoute: FC = () => {
   };
 
   const handleEditClick = () => {
-    setEditedButtons([...buttons]);
-    setEditMode(true);
+    const jsonFile = JSON.stringify(jsonFileMap[idOrSlug || ''], null, 2);
+    setJsonContent(jsonFile);
+    setIsEditing(true);
   };
 
   const handleSave = () => {
-    // Save the edited buttons back to the JSON file (you can implement this logic)
-    setEditMode(false);
+    try {
+      const updatedButtons = JSON.parse(jsonContent);
+      jsonFileMap[idOrSlug || ''] = updatedButtons;
+      setIsEditing(false);
+      addSuccessToast(t('JSON updated successfully'));
+    } catch (error) {
+      addDangerToast(t('Invalid JSON'));
+    }
   };
 
-  const handleChange = (index: number, field: string, value: string) => {
-    const updatedButtons = [...editedButtons];
-    updatedButtons[index][field] = value;
-    setEditedButtons(updatedButtons);
-  };
 
   const renderContent = () => {
     if (activeButton === 'Dashboard') {
@@ -186,7 +174,9 @@ const DashboardRoute: FC = () => {
           user={currentUser}
         />;
       case 'chatbot':
+        console.log(activeButtonConfig.schema.columns);
         return <ChatBOT
+          //schema={activeButtonConfig.schema}
           tableName={activeButtonConfig.schema.table_name}
           columns={activeButtonConfig.schema.columns}
           primaryKey={activeButtonConfig.schema.primary_key}
@@ -203,20 +193,21 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Home and Three-Dots Button Container */}
-          <div className="home-container">
-            <button
-              className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-              onClick={() => setActiveButton('Dashboard')}
-            >
-              <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-              Home
-            </button>
-            {/* Vertical Three Dots Menu */}
-            <i className="material-icons three-dots" onClick={handleEditClick}>
-              more_vert
-            </i>
-          </div>
+          {/* Default Dashboard Button */}
+          <button
+            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+            onClick={() => setActiveButton('Dashboard')}
+          >
+            <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
+            Home
+          </button>
+          <button
+            className="button"
+            onClick={handleEditClick}
+            style={{ marginLeft: 'auto' }}
+          >
+            <img src="/static/assets/images/three-dots.png" alt="Edit Icon" className="icon" />
+          </button>
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (
@@ -227,6 +218,7 @@ const DashboardRoute: FC = () => {
                 className={`button ${activeButton === button.name ? 'active' : ''}`}
                 onClick={() => handleButtonClick(button)}
               >
+                {/* Render Icon Dynamically */}
                 {button.icon && (
                   <img
                     src={button.icon}
@@ -244,42 +236,23 @@ const DashboardRoute: FC = () => {
       {/* Right Panel Content */}
       <div className="right-panel">{renderContent()}</div>
 
-      {/* Edit Modal */}
-      {editMode && (
-        <div style={{
-          position: 'fixed',
-          top: '0',
-          left: '0',
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          <div style={{
-            backgroundColor: '#fff',
-            padding: '20px',
-            borderRadius: '8px',
-            width: '300px',
-          }}>
-            <h2>Edit Buttons</h2>
-            {editedButtons.map((button, index) => (
-              <div key={index} style={{ marginBottom: '10px' }}>
-                <input
-                  value={button.name}
-                  onChange={(e) => handleChange(index, 'name', e.target.value)}
-                  style={{ width: '100%', padding: '5px' }}
-                />
-              </div>
-            ))}
-            <button onClick={handleSave} style={{ marginRight: '10px' }}>Save</button>
-            <button onClick={() => setEditMode(false)}>Cancel</button>
+      {isEditing && (
+        <div className="modal">
+          <div className="modal-content">
+            <textarea
+              value={jsonContent}
+              onChange={(e) => setJsonContent(e.target.value)}
+              style={{ width: '100%', height: '300px' }}
+            />
+            <button onClick={handleSave}>Save</button>
+            <button onClick={() => setIsEditing(false)}>Cancel</button>
           </div>
         </div>
       )}
     </div>
   );
 };
+
+
 
 export default DashboardRoute;

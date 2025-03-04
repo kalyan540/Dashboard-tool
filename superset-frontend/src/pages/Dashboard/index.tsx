@@ -55,7 +55,7 @@ const DashboardRoute: FC = () => {
             overflow: hidden;
         }
 
-        /* New CSS for the Home and Three-Dots button container */
+        /* Home and Three-Dots Container */
         .home-container {
           display: flex;
           align-items: center;
@@ -81,23 +81,13 @@ const DashboardRoute: FC = () => {
         .home-container button img {
           margin-right: 8px;
         }
-        
-        .three-dots {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-      }
 
-      .three-dots span {
-        width: 4px;
-        height: 4px;
-        background-color: #000;
-        border-radius: 50%;
-      }
+        /* Vertical Three Dots Icon */
+        .three-dots {
+          font-size: 24px;
+          cursor: pointer;
+          margin-left: 8px; /* Add some spacing */
+        }
       `}
     </style>
   );
@@ -221,11 +211,9 @@ const DashboardRoute: FC = () => {
               <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
               Home
             </button>
-            {/* Three Dots Menu */}
+            {/* Vertical Three Dots Menu */}
             <div className="three-dots" onClick={handleEditClick}>
-              <span></span>
-              <span></span>
-              <span></span>
+              ⋮
             </div>
           </div>
 

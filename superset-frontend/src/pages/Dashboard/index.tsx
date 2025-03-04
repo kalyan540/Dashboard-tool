@@ -36,6 +36,8 @@ import npdJson from 'src/leftpanel/npd.json';
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [editedButtons, setEditedButtons] = useState<ButtonConfig[]>([]);
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
@@ -99,6 +101,22 @@ const DashboardRoute: FC = () => {
 
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);
+  };
+
+  const handleEditClick = () => {
+    setEditedButtons([...buttons]);
+    setEditMode(true);
+  };
+
+  const handleSave = () => {
+    // Save the edited buttons back to the JSON file (you can implement this logic)
+    setEditMode(false);
+  };
+
+  const handleChange = (index: number, field: string, value: string) => {
+    const updatedButtons = [...editedButtons];
+    updatedButtons[index][field] = value;
+    setEditedButtons(updatedButtons);
   };
 
 
@@ -182,6 +200,10 @@ const DashboardRoute: FC = () => {
             <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
             Home
           </button>
+          {/* Three Dots Menu */}
+          <button onClick={handleEditClick} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer' }}>
+            <img src="/static/assets/images/more.png" alt="Edit Icon" className="icon" />
+          </button>
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (
@@ -209,6 +231,41 @@ const DashboardRoute: FC = () => {
 
       {/* Right Panel Content */}
       <div className="right-panel">{renderContent()}</div>
+
+      {/* Edit Modal */}
+      {editMode && (
+        <div style={{
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <div style={{
+            backgroundColor: '#fff',
+            padding: '20px',
+            borderRadius: '8px',
+            width: '300px',
+          }}>
+            <h2>Edit Buttons</h2>
+            {editedButtons.map((button, index) => (
+              <div key={index} style={{ marginBottom: '10px' }}>
+                <input
+                  value={button.name}
+                  onChange={(e) => handleChange(index, 'name', e.target.value)}
+                  style={{ width: '100%', padding: '5px' }}
+                />
+              </div>
+            ))}
+            <button onClick={handleSave} style={{ marginRight: '10px' }}>Save</button>
+            <button onClick={() => setEditMode(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

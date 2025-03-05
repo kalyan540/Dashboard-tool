@@ -266,6 +266,7 @@ WTF_CSRF_EXEMPT_LIST = [
     "superset.views.core.explore_json",
     "superset.charts.data.api.data",
     "superset.dashboards.api.cache_dashboard_screenshot",
+    "http://localhost:3000/.*",
 ]
 
 # Whether to run the web server in debug mode or not

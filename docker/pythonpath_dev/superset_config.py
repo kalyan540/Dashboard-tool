@@ -120,7 +120,7 @@ FEATURE_FLAGS = {"ALERT_REPORTS": True,
 #     "origins": ["*"], # replace the port-number # as per your application.
 # }
 
-# PUBLIC_ROLE_LIKE = "Gamma"
+PUBLIC_ROLE_LIKE = "Gamma"
 # GUEST_ROLE_NAME= 'Guest'
 # GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"
 # GUEST_TOKEN_JWT_ALGO = "HS256" 

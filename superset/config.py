@@ -266,7 +266,7 @@ WTF_CSRF_EXEMPT_LIST = [
     "superset.views.core.explore_json",
     "superset.charts.data.api.data",
     "superset.dashboards.api.cache_dashboard_screenshot",
-    "http://localhost:3000/*",
+    "http://localhost:3000/.*",
 ]
 
 # Whether to run the web server in debug mode or not
@@ -1626,6 +1626,7 @@ TALISMAN_CONFIG = {
             "'unsafe-inline'",
         ],
         "script-src": ["'self'", "'strict-dynamic'"],
+        "frame-ancestors": ["'self'", "http://localhost:3000"],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,

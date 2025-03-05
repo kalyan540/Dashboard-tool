@@ -1,3 +1,21 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -8,6 +26,7 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
+
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
@@ -16,7 +35,7 @@ import npdJson from 'src/leftpanel/npd.json';
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [jsonContent, setJsonContent] = useState<string>('');
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
@@ -54,28 +73,8 @@ const DashboardRoute: FC = () => {
             overflow: hidden;
         }
 
-        .home-button-container {
-          display: flex;
-          align-items: center;
-          gap: 8px; /* Space between home button and three dots */
-        }
-
-        .three-dots-button {
-          background: none;
-          border: none;
-          outline: none; /* Remove outline */
-          cursor: pointer;
-          padding: 0;
-          display: flex;
-          align-items: center;
-        }
-
-        .three-dots-button img {
-          width: 24px;
-          height: 24px;
-        }
-
-        .modal {
+        /* Popup styles */
+        .popup-overlay {
           position: fixed;
           top: 0;
           left: 0;
@@ -85,31 +84,30 @@ const DashboardRoute: FC = () => {
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 1000; /* Ensure modal is on top */
+          z-index: 1000;
         }
-
-        .modal-content {
+        .popup-content {
           background: white;
           padding: 20px;
           border-radius: 8px;
-          width: 50%;
-          max-width: 600px;
-          z-index: 1001; /* Ensure modal content is on top */
+          width: 500px;
+          max-width: 90%;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .modal-content textarea {
+        .popup-content textarea {
           width: 100%;
           height: 300px;
-          margin-bottom: 16px;
+          margin-bottom: 10px;
+          font-family: monospace;
         }
-
-        .modal-content button {
-          margin-right: 8px;
+        .popup-content button {
+          margin-right: 10px;
         }
       `}
     </style>
   );
 
+  // Define the interface for button configuration
   interface ButtonConfig {
     name: string;
     type: string;
@@ -121,6 +119,7 @@ const DashboardRoute: FC = () => {
     divider?: boolean;
   }
 
+  // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
@@ -134,31 +133,23 @@ const DashboardRoute: FC = () => {
     setActiveButton(button.name);
   };
 
-  const handleEditClick = () => {
-    console.log('Edit button clicked'); // Debugging: Check if the function is triggered
+  const handleThreeDotsClick = () => {
+    // Load the JSON file based on the current dashboard idOrSlug
     const jsonFile = jsonFileMap[idOrSlug || ''];
     if (jsonFile) {
-      const jsonString = JSON.stringify(jsonFile, null, 2);
-      console.log('JSON Content:', jsonString); // Debugging: Check the JSON content
-      setJsonContent(jsonString);
-      setIsEditing(true); // Ensure this is set to true
-      console.log('isEditing:', true); // Debugging: Check if isEditing is set to true
-    } else {
-      console.error('No JSON file found for the current dashboard'); // Debugging: Check if JSON file is missing
-      addDangerToast(t('No JSON file found for this dashboard'));
+      setJsonContent(JSON.stringify(jsonFile, null, 2));
+      setIsPopupOpen(true);
     }
   };
 
   const handleSave = () => {
-    try {
-      const updatedButtons = JSON.parse(jsonContent);
-      jsonFileMap[idOrSlug || ''] = updatedButtons;
-      setIsEditing(false);
-      addSuccessToast(t('JSON updated successfully'));
-    } catch (error) {
-      console.error('Error parsing JSON:', error); // Debugging: Check for JSON parsing errors
-      addDangerToast(t('Invalid JSON'));
-    }
+    // Save the edited JSON content (you can implement this logic)
+    console.log('Saved JSON:', jsonContent);
+    setIsPopupOpen(false);
+  };
+
+  const handleClose = () => {
+    setIsPopupOpen(false);
   };
 
   const renderContent = () => {
@@ -228,9 +219,11 @@ const DashboardRoute: FC = () => {
 
   return (
     <div style={{ display: 'flex' }}>
+      {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          <div className="home-button-container">
+          {/* Default Dashboard Button with Three Dots */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <button
               className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
               onClick={() => setActiveButton('Dashboard')}
@@ -238,14 +231,15 @@ const DashboardRoute: FC = () => {
               <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
               Home
             </button>
-            <button
-              className="three-dots-button"
-              onClick={handleEditClick}
-            >
-              <img src="/static/assets/images/three-dots.png" alt="Edit Icon" className="icon" />
-            </button>
+            <img
+              src="/static/assets/images/three-dots.png"
+              alt="Three Dots"
+              style={{ width: '20px', height: '20px', marginLeft: '10px', cursor: 'pointer' }}
+              onClick={handleThreeDotsClick}
+            />
           </div>
 
+          {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (
             <React.Fragment key={index}>
               {button.divider && <div className="divider"></div>}
@@ -254,6 +248,7 @@ const DashboardRoute: FC = () => {
                 className={`button ${activeButton === button.name ? 'active' : ''}`}
                 onClick={() => handleButtonClick(button)}
               >
+                {/* Render Icon Dynamically */}
                 {button.icon && (
                   <img
                     src={button.icon}
@@ -268,18 +263,22 @@ const DashboardRoute: FC = () => {
         </div>
       </div>
 
+      {/* Right Panel Content */}
       <div className="right-panel">{renderContent()}</div>
 
-      {isEditing && (
-        <div className="modal">
-          <div className="modal-content">
+      {/* Popup for Editing JSON */}
+      {isPopupOpen && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h3>Edit JSON</h3>
             <textarea
               value={jsonContent}
               onChange={(e) => setJsonContent(e.target.value)}
-              style={{ width: '100%', height: '300px' }}
             />
-            <button onClick={handleSave}>Save</button>
-            <button onClick={() => setIsEditing(false)}>Cancel</button>
+            <div>
+              <button onClick={handleSave}>Save</button>
+              <button onClick={handleClose}>Close</button>
+            </div>
           </div>
         </div>
       )}

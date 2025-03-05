@@ -90,13 +90,14 @@ const DashboardRoute: FC = () => {
           background: white;
           padding: 20px;
           border-radius: 8px;
-          width: 800px; /* Increased width */
-          height: 600px; /* Increased height */
-          max-width: 90%;
-          max-height: 90%;
+          width: 90%; /* Adjusted width */
+          height: 80%; /* Adjusted height */
+          max-width: 1200px; /* Increased max-width */
+          max-height: 800px; /* Increased max-height */
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
           display: flex;
           flex-direction: column;
+          overflow: auto; /* Enable scrolling if content overflows */
         }
         .popup-content textarea {
           width: 100%;
@@ -104,16 +105,31 @@ const DashboardRoute: FC = () => {
           margin-bottom: 10px;
           font-family: monospace;
           resize: none; /* Disable resizing */
+          border: 1px solid #ccc;
+          padding: 10px;
+          border-radius: 4px;
         }
         .popup-content button {
           margin-right: 10px;
+          padding: 8px 16px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          background-color: #007bff;
+          color: white;
+        }
+        .popup-content button:hover {
+          background-color: #0056b3;
         }
         .popup-content h3 {
           margin-bottom: 10px;
+          font-size: 18px;
+          font-weight: 600;
         }
         .popup-content .button-container {
           display: flex;
           justify-content: flex-end;
+          margin-top: 10px;
         }
       `}
     </style>

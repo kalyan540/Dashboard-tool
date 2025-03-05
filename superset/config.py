@@ -266,7 +266,7 @@ WTF_CSRF_EXEMPT_LIST = [
     "superset.views.core.explore_json",
     "superset.charts.data.api.data",
     "superset.dashboards.api.cache_dashboard_screenshot",
-    "http://localhost:3000/.*",
+    "http://localhost:3000/*",
 ]
 
 # Whether to run the web server in debug mode or not
@@ -1259,8 +1259,8 @@ PERMISSION_INSTRUCTIONS_LINK = ""
 
 # Integrate external Blueprints to the app by passing them to your
 # configuration. These blueprints will get integrated in the app
-#BLUEPRINTS: list[Blueprint] = []
-BLUEPRINTS = [Blueprint("kalyan", __name__, url_prefix="/kalyan")]
+BLUEPRINTS: list[Blueprint] = []
+#BLUEPRINTS = [Blueprint("kalyan", __name__, url_prefix="/kalyan")]
 
 # Provide a callable that receives a tracking_url and returns another
 # URL. This is used to translate internal Hadoop job tracker URL

@@ -90,18 +90,30 @@ const DashboardRoute: FC = () => {
           background: white;
           padding: 20px;
           border-radius: 8px;
-          width: 500px;
+          width: 800px; /* Increased width */
+          height: 600px; /* Increased height */
           max-width: 90%;
+          max-height: 90%;
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          display: flex;
+          flex-direction: column;
         }
         .popup-content textarea {
           width: 100%;
-          height: 300px;
+          height: 100%; /* Take up remaining space */
           margin-bottom: 10px;
           font-family: monospace;
+          resize: none; /* Disable resizing */
         }
         .popup-content button {
           margin-right: 10px;
+        }
+        .popup-content h3 {
+          margin-bottom: 10px;
+        }
+        .popup-content .button-container {
+          display: flex;
+          justify-content: flex-end;
         }
       `}
     </style>
@@ -275,7 +287,7 @@ const DashboardRoute: FC = () => {
               value={jsonContent}
               onChange={(e) => setJsonContent(e.target.value)}
             />
-            <div>
+            <div className="button-container">
               <button onClick={handleSave}>Save</button>
               <button onClick={handleClose}>Close</button>
             </div>

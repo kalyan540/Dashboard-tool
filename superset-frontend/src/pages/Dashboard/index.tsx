@@ -84,6 +84,7 @@ const DashboardRoute: FC = () => {
           display: flex;
           justify-content: center;
           align-items: center;
+          z-index: 1000; /* Ensure modal is on top */
         }
 
         .modal-content {
@@ -92,6 +93,7 @@ const DashboardRoute: FC = () => {
           border-radius: 8px;
           width: 50%;
           max-width: 600px;
+          z-index: 1001; /* Ensure modal content is on top */
         }
 
         .modal-content textarea {
@@ -138,7 +140,8 @@ const DashboardRoute: FC = () => {
       const jsonString = JSON.stringify(jsonFile, null, 2);
       console.log('JSON Content:', jsonString); // Debugging: Check the JSON content
       setJsonContent(jsonString);
-      setIsEditing(true);
+      setIsEditing(true); // Ensure this is set to true
+      console.log('isEditing:', true); // Debugging: Check if isEditing is set to true
     } else {
       console.error('No JSON file found for the current dashboard'); // Debugging: Check if JSON file is missing
       addDangerToast(t('No JSON file found for this dashboard'));

@@ -90,10 +90,10 @@ const DashboardRoute: FC = () => {
           background: white;
           padding: 20px;
           border-radius: 8px;
-          width: 90%; /* Adjusted width */
-          height: 80%; /* Adjusted height */
-          max-width: 1200px; /* Increased max-width */
-          max-height: 800px; /* Increased max-height */
+          width: 80%; /* Larger width */
+          height: 80%; /* Larger height */
+          max-width: 1000px; /* Maximum width */
+          max-height: 800px; /* Maximum height */
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
           display: flex;
           flex-direction: column;

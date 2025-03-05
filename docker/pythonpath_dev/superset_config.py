@@ -120,7 +120,7 @@ FEATURE_FLAGS = {"ALERT_REPORTS": True,
 #     "origins": ["*"], # replace the port-number # as per your application.
 # }
 
-PUBLIC_ROLE_LIKE = "Gamma"
+#PUBLIC_ROLE_LIKE = "Gamma"
 # GUEST_ROLE_NAME= 'Guest'
 # GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"
 # GUEST_TOKEN_JWT_ALGO = "HS256" 
@@ -128,7 +128,7 @@ PUBLIC_ROLE_LIKE = "Gamma"
 # GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
 
 #SESSION_COOKIE_SECURE = False
-#WTF_CSRF_ENABLED = False
+WTF_CSRF_ENABLED = False
 
 
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False

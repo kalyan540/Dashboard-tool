@@ -63,6 +63,7 @@ const DashboardRoute: FC = () => {
         .three-dots-button {
           background: none;
           border: none;
+          outline: none; /* Remove outline */
           cursor: pointer;
           padding: 0;
           display: flex;
@@ -134,12 +135,16 @@ const DashboardRoute: FC = () => {
   };
 
   const handleEditClick = () => {
+    console.log('Edit button clicked'); // Debugging: Check if the function is triggered
     const jsonFile = jsonFileMap[idOrSlug || ''];
     if (jsonFile) {
       const jsonString = JSON.stringify(jsonFile, null, 2);
+      console.log('JSON Content:', jsonString); // Debugging: Check the JSON content
       setJsonContent(jsonString);
-      setIsEditing(true);
+      setIsEditing(true); // Ensure this is set to true
+      console.log('isEditing:', true); // Debugging: Check if isEditing is set to true
     } else {
+      console.error('No JSON file found for the current dashboard'); // Debugging: Check if JSON file is missing
       addDangerToast(t('No JSON file found for this dashboard'));
     }
   };
@@ -151,6 +156,7 @@ const DashboardRoute: FC = () => {
       setIsEditing(false);
       addSuccessToast(t('JSON updated successfully'));
     } catch (error) {
+      console.error('Error parsing JSON:', error); // Debugging: Check for JSON parsing errors
       addDangerToast(t('Invalid JSON'));
     }
   };

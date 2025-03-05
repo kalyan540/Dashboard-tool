@@ -1660,7 +1660,7 @@ TALISMAN_DEV_CONFIG = {
             "'unsafe-inline'",
         ],
         "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-        "frame-ancestors": ["'self'", "http://localhost:3000", "http://localhost:3002"],
+        "frame-ancestors": ["'self'", "http://localhost:3000"],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,

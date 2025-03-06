@@ -102,6 +102,7 @@ const DashboardRoute: FC = () => {
   };
 
   const handleJsonEditorToggle = () => {
+    console.log('Toggling JSON Editor Visibility:', !isJsonEditorVisible); // Debugging
     setIsJsonEditorVisible(!isJsonEditorVisible); // Toggle JSON editor visibility
   };
 

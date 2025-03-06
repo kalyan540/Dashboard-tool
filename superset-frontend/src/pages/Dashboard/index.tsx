@@ -26,7 +26,7 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
-import JsonEditorControl from './jsoneditcontrol'; // Import the JsonEditorControl component
+import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index'; // Import the JSON editor component
 
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';

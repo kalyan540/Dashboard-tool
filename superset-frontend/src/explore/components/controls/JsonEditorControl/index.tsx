@@ -16,7 +16,6 @@ interface JsonEditorControlProps {
 }
 
 interface JsonEditorControlState {
-  isPopoverVisible: boolean;
   editorValue: any;
 }
 
@@ -48,11 +47,10 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
   handleSave = () => {
     const { editorValue } = this.state;
     this.props.onChange(editorValue);
-    this.setState({ isPopoverVisible: false });
   };
 
   handleCancel = () => {
-    this.setState({ isPopoverVisible: false, editorValue: this.props.value || '' });
+    this.setState({ editorValue: this.props.value || '' });
   };
 
   handleEditorChange = (newValue: string) => {
@@ -62,7 +60,7 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
   render() {
     console.log('JsonEditorControl Rendered'); // Debugging
     const { label, theme } = this.props;
-    const { isPopoverVisible, editorValue } = this.state;
+    const { editorValue } = this.state;
     const defaultTabSize = 2;
 
     const popoverContent = (
@@ -104,11 +102,11 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
           arrowPointAtCenter
           title={t('Json Editor')}
           trigger="click"
-          visible={isPopoverVisible}
-          onVisibleChange={this.handlePopoverVisibility}
+          visible={true}
           overlayStyle={{ zIndex: 1000, border: '2px solid red' }} // Debugging
         >
-          <span className="pi pi-ellipsis-v" style={{ cursor: 'pointer' }} />
+        <div />
+    
         </Popover>
       </div>
     );

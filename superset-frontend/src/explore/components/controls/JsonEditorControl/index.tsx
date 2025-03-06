@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'src/components/Button';
 import { Popover } from 'antd';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';
@@ -20,6 +19,17 @@ interface JsonEditorControlState {
   editorValue: any;
 }
 
+const propTypes = {
+  value: PropTypes.string,
+  label: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+const defaultProps = {
+  value: '',
+  onChange: () => {},
+};
+
 class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorControlState> {
   constructor(props: any) {
     super(props);
@@ -28,6 +38,10 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
       editorValue: props.value || '',
     };
   }
+
+  handlePopoverVisibility = (visible: boolean) => {
+    this.setState({ isPopoverVisible: visible });
+  };
 
   handleSave = () => {
     const { editorValue } = this.state;
@@ -45,12 +59,11 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
 
   render() {
     const { label, theme } = this.props;
-    const { editorValue } = this.state;
+    const { isPopoverVisible, editorValue } = this.state;
     const defaultTabSize = 2;
 
-    return (
+    const popoverContent = (
       <div>
-        <ControlHeader {...this.props} />
         <AceEditor
           mode="json"
           theme="github"
@@ -58,22 +71,41 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
           value={editorValue}
           name="json-editor"
           tabSize={defaultTabSize}
-          width="100%"
-          height="300px"
+          defaultValue=""
+          width="300px"
+          height="200px"
           fontSize={14}
           style={{
             border: `1px solid ${theme.colors.grayscale.light2}`,
             background: theme.colors.secondary.light5,
+            maxWidth: theme.gridUnit * 100,
           }}
         />
         <div style={{ marginTop: '10px', textAlign: 'right' }}>
-          <Button onClick={this.handleCancel} css={css`margin-right: ${theme.gridUnit * 2}px;`}>
+          <Button placement="top" onClick={this.handleCancel} css={css`margin-right: ${theme.gridUnit * 2}px;`}>
             {t('Close')}
           </Button>
-          <Button type="primary" onClick={this.handleSave}>
+          <Button placement="top" type="primary" onClick={this.handleSave}>
             {t('Save')}
           </Button>
         </div>
+      </div>
+    );
+
+    return (
+      <div>
+        <ControlHeader {...this.props} />
+        <Popover
+          content={popoverContent}
+          placement="bottomLeft"
+          arrowPointAtCenter
+          title={t('Json Editor')}
+          trigger="click"
+          visible={isPopoverVisible}
+          onVisibleChange={this.handlePopoverVisibility}
+        >
+          <span className="pi pi-ellipsis-v" style={{ cursor: 'pointer' }} />
+        </Popover>
       </div>
     );
   }

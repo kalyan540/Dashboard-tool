@@ -26,23 +26,22 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
+import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index'; // Import the JSON editor component
+import 'primeicons/primeicons.css'; // Import PrimeIcons for the three-dots icon
 
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
-import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index.tsx';
-import { Modal } from 'antd'; // Import Modal for the centered popup
-import 'primeicons/primeicons.css'; // Import PrimeIcons for the three dots icon
-//import metricJson from 'src/leftpanel/metrics.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [isJsonEditorVisible, setIsJsonEditorVisible] = useState<boolean>(false); // State for JSON editor visibility
+  const [isJsonEditorVisible, setIsJsonEditorVisible] = useState<boolean>(false); // State for JSON editor popup
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+
   const injectCustomStyles = () => (
     <style>
       {`
@@ -78,7 +77,6 @@ const DashboardRoute: FC = () => {
     </style>
   );
 
-  // Define the interface for button configuration
   interface ButtonConfig {
     name: string;
     type: string;
@@ -90,13 +88,11 @@ const DashboardRoute: FC = () => {
     divider?: boolean;
   }
 
-  // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
-    //Home: Object.values(metricJson),
   };
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
@@ -105,14 +101,9 @@ const DashboardRoute: FC = () => {
     setActiveButton(button.name);
   };
 
-  const handleJsonEditorOpen = () => {
-    setIsJsonEditorVisible(true);
+  const handleJsonEditorToggle = () => {
+    setIsJsonEditorVisible(!isJsonEditorVisible); // Toggle JSON editor visibility
   };
-
-  const handleJsonEditorClose = () => {
-    setIsJsonEditorVisible(false);
-  };
-
 
   const renderContent = () => {
     if (activeButton === 'Dashboard') {
@@ -167,9 +158,7 @@ const DashboardRoute: FC = () => {
           user={currentUser}
         />;
       case 'chatbot':
-        console.log(activeButtonConfig.schema.columns);
         return <ChatBOT
-          //schema={activeButtonConfig.schema}
           tableName={activeButtonConfig.schema.table_name}
           columns={activeButtonConfig.schema.columns}
           primaryKey={activeButtonConfig.schema.primary_key}
@@ -186,7 +175,7 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Default Dashboard Button */}
+          {/* Default Dashboard Button with Three Dots Icon */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <button
               className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
@@ -197,8 +186,8 @@ const DashboardRoute: FC = () => {
             </button>
             <span
               className="pi pi-ellipsis-v"
-              style={{ marginLeft: '10px', cursor: 'pointer' }}
-              onClick={handleJsonEditorOpen}
+              style={{ marginLeft: '8px', cursor: 'pointer' }}
+              onClick={handleJsonEditorToggle}
             />
           </div>
 
@@ -211,7 +200,6 @@ const DashboardRoute: FC = () => {
                 className={`button ${activeButton === button.name ? 'active' : ''}`}
                 onClick={() => handleButtonClick(button)}
               >
-                {/* Render Icon Dynamically */}
                 {button.icon && (
                   <img
                     src={button.icon}
@@ -227,119 +215,22 @@ const DashboardRoute: FC = () => {
       </div>
 
       {/* Right Panel Content */}
-      <div className="right-panel">{renderContent()}</div>
+      <div className="right-panel">
+        {renderContent()}
+        {/* JSON Editor Popup */}
+        {isJsonEditorVisible && (
+          <JsonEditorControl
+            value={JSON.stringify(buttons, null, 2)} // Pass the buttons JSON data
+            label="JSON Editor"
+            onChange={(newValue) => {
+              // Handle JSON changes if needed
+              console.log('Updated JSON:', newValue);
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };
 
-/*return (<img src={`/static/assets/images/${button.name.toLowerCase()}.png`} alt="Button Icon" className="icon" />
-  <div style={{ display: "flex" }}>
-    {/* Left Panel with Buttons }
-    <div className="left-panel">
-      <div className="buttons-container">
-        <button
-          className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('Dashboard')}
-        >
-          <img src="/static/assets/images/dashboard.png" alt="Icon" className="icon" />
-          Dashboard
-        </button>
-
-        <button
-          className={`button ${activeButton === 'Analytics' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('Analytics')}
-        >
-          <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
-          Analytics
-        </button>
-
-        <button
-          className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('ChatBot')}
-        >
-          <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
-          ChatBot
-        </button>
-
-
-      </div>
-      <div className="divider"></div>
-      <div className="user-management">
-        <button
-          className={`button ${activeButton === 'User Management' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('User Management')}
-        >
-          <img src="/static/assets/images/user.png" alt="Icon" className="icon" />
-          User Management
-        </button>
-      </div>
-    </div>
-
-    {/* Right Panel Content }
-<div className="right-panel">
-{activeButton === 'Dashboard' ? (
-  <div className="dashboard-container">
-    <DashboardPage idOrSlug={idOrSlug} />
-  </div>
-) : activeButton === 'User Management' ? (
-  <>
-    {injectCustomStyles()}
-    <div>
-      <div className="header-bar">
-        <h1>User Management</h1>
-      </div>
-      <iframe
-        src="/users/list"
-        className="iframe-container"
-        title="User Management"
-      />
-    </div>
-  </>
-) : activeButton === 'Alerts' ? (
-  <AlertList
-    addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
-    addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
-    isReportEnabled={false}
-    user={currentUser}
-  />
-) : activeButton === 'Reports' ? (
-  <AlertList
-    addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
-    addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
-    isReportEnabled={true}
-    user={currentUser}
-  />
-) : activeButton === 'ChatBot' ? (
-  <ChatBOT />
-) : activeButton === 'Analytics' ? (
-  <DashboardPage idOrSlug={'15'} />
-) : (
-  <div>
-    <h2>This page is in development.</h2>
-  </div>
-)}
-</div>
-  </div >
-);
-
-};*/
-
 export default DashboardRoute;
-/*
-<button
-            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Alerts')}
-          >
-            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
-            Alerts
-          </button>
-
-          <button
-            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Reports')}
-          >
-            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
-            Reports
-          </button>
-
-*/

@@ -41,6 +41,7 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
   }
 
   handlePopoverVisibility = (visible: boolean) => {
+    console.log('Popover Visibility:', visible); // Debugging
     this.setState({ isPopoverVisible: visible });
   };
 
@@ -59,6 +60,7 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
   };
 
   render() {
+    console.log('JsonEditorControl Rendered'); // Debugging
     const { label, theme } = this.props;
     const { isPopoverVisible, editorValue } = this.state;
     const defaultTabSize = 2;
@@ -104,6 +106,7 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
           trigger="click"
           visible={isPopoverVisible}
           onVisibleChange={this.handlePopoverVisibility}
+          overlayStyle={{ zIndex: 1000, border: '2px solid red' }} // Debugging
         >
           <span className="pi pi-ellipsis-v" style={{ cursor: 'pointer' }} />
         </Popover>

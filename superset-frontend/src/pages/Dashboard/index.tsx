@@ -31,16 +31,18 @@ import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
+import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index.tsx';
+import { Modal } from 'antd'; // Import Modal for the centered popup
+import 'primeicons/primeicons.css'; // Import PrimeIcons for the three dots icon
+//import metricJson from 'src/leftpanel/metrics.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
-  const [jsonContent, setJsonContent] = useState<string>('');
+  const [isJsonEditorVisible, setIsJsonEditorVisible] = useState<boolean>(false); // State for JSON editor visibility
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
-
   const injectCustomStyles = () => (
     <style>
       {`
@@ -72,65 +74,6 @@ const DashboardRoute: FC = () => {
             border: none;
             overflow: hidden;
         }
-
-        /* Popup styles */
-        .popup-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-        .popup-content {
-          background: white;
-          padding: 20px;
-          border-radius: 8px;
-          width: 80%; /* Larger width */
-          height: 80%; /* Larger height */
-          max-width: 1000px; /* Maximum width */
-          max-height: 800px; /* Maximum height */
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          display: flex;
-          flex-direction: column;
-          overflow: auto; /* Enable scrolling if content overflows */
-        }
-        .popup-content textarea {
-          width: 100%;
-          height: 100%; /* Take up remaining space */
-          margin-bottom: 10px;
-          font-family: monospace;
-          resize: none; /* Disable resizing */
-          border: 1px solid #ccc;
-          padding: 10px;
-          border-radius: 4px;
-        }
-        .popup-content button {
-          margin-right: 10px;
-          padding: 8px 16px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          background-color: #007bff;
-          color: white;
-        }
-        .popup-content button:hover {
-          background-color: #0056b3;
-        }
-        .popup-content h3 {
-          margin-bottom: 10px;
-          font-size: 18px;
-          font-weight: 600;
-        }
-        .popup-content .button-container {
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 10px;
-        }
       `}
     </style>
   );
@@ -153,6 +96,7 @@ const DashboardRoute: FC = () => {
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
+    //Home: Object.values(metricJson),
   };
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
@@ -161,24 +105,14 @@ const DashboardRoute: FC = () => {
     setActiveButton(button.name);
   };
 
-  const handleThreeDotsClick = () => {
-    // Load the JSON file based on the current dashboard idOrSlug
-    const jsonFile = jsonFileMap[idOrSlug || ''];
-    if (jsonFile) {
-      setJsonContent(JSON.stringify(jsonFile, null, 2));
-      setIsPopupOpen(true);
-    }
+  const handleJsonEditorOpen = () => {
+    setIsJsonEditorVisible(true);
   };
 
-  const handleSave = () => {
-    // Save the edited JSON content (you can implement this logic)
-    console.log('Saved JSON:', jsonContent);
-    setIsPopupOpen(false);
+  const handleJsonEditorClose = () => {
+    setIsJsonEditorVisible(false);
   };
 
-  const handleClose = () => {
-    setIsPopupOpen(false);
-  };
 
   const renderContent = () => {
     if (activeButton === 'Dashboard') {
@@ -233,7 +167,9 @@ const DashboardRoute: FC = () => {
           user={currentUser}
         />;
       case 'chatbot':
+        console.log(activeButtonConfig.schema.columns);
         return <ChatBOT
+          //schema={activeButtonConfig.schema}
           tableName={activeButtonConfig.schema.table_name}
           columns={activeButtonConfig.schema.columns}
           primaryKey={activeButtonConfig.schema.primary_key}
@@ -250,7 +186,7 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Default Dashboard Button with Three Dots */}
+          {/* Default Dashboard Button */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <button
               className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
@@ -259,11 +195,10 @@ const DashboardRoute: FC = () => {
               <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
               Home
             </button>
-            <img
-              src="/static/assets/images/three-dots.png"
-              alt="Three Dots"
-              style={{ width: '20px', height: '20px', marginLeft: '10px', cursor: 'pointer' }}
-              onClick={handleThreeDotsClick}
+            <span
+              className="pi pi-ellipsis-v"
+              style={{ marginLeft: '10px', cursor: 'pointer' }}
+              onClick={handleJsonEditorOpen}
             />
           </div>
 
@@ -293,25 +228,118 @@ const DashboardRoute: FC = () => {
 
       {/* Right Panel Content */}
       <div className="right-panel">{renderContent()}</div>
-
-      {/* Popup for Editing JSON */}
-      {isPopupOpen && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <h3>Edit JSON</h3>
-            <textarea
-              value={jsonContent}
-              onChange={(e) => setJsonContent(e.target.value)}
-            />
-            <div className="button-container">
-              <button onClick={handleSave}>Save</button>
-              <button onClick={handleClose}>Close</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
+/*return (<img src={`/static/assets/images/${button.name.toLowerCase()}.png`} alt="Button Icon" className="icon" />
+  <div style={{ display: "flex" }}>
+    {/* Left Panel with Buttons }
+    <div className="left-panel">
+      <div className="buttons-container">
+        <button
+          className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+          onClick={() => handleButtonClick('Dashboard')}
+        >
+          <img src="/static/assets/images/dashboard.png" alt="Icon" className="icon" />
+          Dashboard
+        </button>
+
+        <button
+          className={`button ${activeButton === 'Analytics' ? 'active' : ''}`}
+          onClick={() => handleButtonClick('Analytics')}
+        >
+          <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
+          Analytics
+        </button>
+
+        <button
+          className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
+          onClick={() => handleButtonClick('ChatBot')}
+        >
+          <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
+          ChatBot
+        </button>
+
+
+      </div>
+      <div className="divider"></div>
+      <div className="user-management">
+        <button
+          className={`button ${activeButton === 'User Management' ? 'active' : ''}`}
+          onClick={() => handleButtonClick('User Management')}
+        >
+          <img src="/static/assets/images/user.png" alt="Icon" className="icon" />
+          User Management
+        </button>
+      </div>
+    </div>
+
+    {/* Right Panel Content }
+<div className="right-panel">
+{activeButton === 'Dashboard' ? (
+  <div className="dashboard-container">
+    <DashboardPage idOrSlug={idOrSlug} />
+  </div>
+) : activeButton === 'User Management' ? (
+  <>
+    {injectCustomStyles()}
+    <div>
+      <div className="header-bar">
+        <h1>User Management</h1>
+      </div>
+      <iframe
+        src="/users/list"
+        className="iframe-container"
+        title="User Management"
+      />
+    </div>
+  </>
+) : activeButton === 'Alerts' ? (
+  <AlertList
+    addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
+    addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
+    isReportEnabled={false}
+    user={currentUser}
+  />
+) : activeButton === 'Reports' ? (
+  <AlertList
+    addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
+    addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
+    isReportEnabled={true}
+    user={currentUser}
+  />
+) : activeButton === 'ChatBot' ? (
+  <ChatBOT />
+) : activeButton === 'Analytics' ? (
+  <DashboardPage idOrSlug={'15'} />
+) : (
+  <div>
+    <h2>This page is in development.</h2>
+  </div>
+)}
+</div>
+  </div >
+);
+
+};*/
+
 export default DashboardRoute;
+/*
+<button
+            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Alerts')}
+          >
+            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
+            Alerts
+          </button>
+
+          <button
+            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('Reports')}
+          >
+            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
+            Reports
+          </button>
+
+*/

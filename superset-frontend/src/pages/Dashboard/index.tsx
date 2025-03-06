@@ -26,8 +26,7 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
-import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index'; // Import the JSON editor component
-import 'primeicons/primeicons.css'; // Import PrimeIcons for the three-dots icon
+import JsonEditorControl from './jsoneditcontrol'; // Import the JsonEditorControl component
 
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
@@ -37,7 +36,6 @@ import npdJson from 'src/leftpanel/npd.json';
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
-  const [isJsonEditorVisible, setIsJsonEditorVisible] = useState<boolean>(false); // State for JSON editor popup
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
@@ -77,6 +75,7 @@ const DashboardRoute: FC = () => {
     </style>
   );
 
+  // Define the interface for button configuration
   interface ButtonConfig {
     name: string;
     type: string;
@@ -88,6 +87,7 @@ const DashboardRoute: FC = () => {
     divider?: boolean;
   }
 
+  // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
@@ -99,11 +99,6 @@ const DashboardRoute: FC = () => {
 
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);
-  };
-
-  const handleJsonEditorToggle = () => {
-    console.log('Toggling JSON Editor Visibility:', !isJsonEditorVisible); // Debugging
-    setIsJsonEditorVisible(!isJsonEditorVisible); // Toggle JSON editor visibility
   };
 
   const renderContent = () => {
@@ -131,7 +126,6 @@ const DashboardRoute: FC = () => {
       case 'iframe':
         return (
           <>
-            {injectCustomStyles()}
             <div>
               <div className="header-bar">
                 <h1>User Management</h1>
@@ -176,21 +170,17 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Default Dashboard Button with Three Dots Icon */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <button
-              className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-              onClick={() => setActiveButton('Dashboard')}
-            >
-              <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-              Home
-            </button>
-            <span
-              className="pi pi-ellipsis-v"
-              style={{ marginLeft: '8px', cursor: 'pointer' }}
-              onClick={handleJsonEditorToggle}
-            />
-          </div>
+          {/* Default Dashboard Button */}
+          <button
+            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+            onClick={() => setActiveButton('Dashboard')}
+          >
+            <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
+            Home
+          </button>
+
+          {/* Add the three dots icon and JsonEditorControl */}
+          <JsonEditorControl value={buttons} onChange={(value) => console.log(value)} label="Edit JSON" />
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (
@@ -216,20 +206,7 @@ const DashboardRoute: FC = () => {
       </div>
 
       {/* Right Panel Content */}
-      <div className="right-panel">
-        {renderContent()}
-        {/* JSON Editor Popup */}
-        {isJsonEditorVisible && (
-          <JsonEditorControl
-            value={JSON.stringify(buttons, null, 2)} // Pass the buttons JSON data
-            label="JSON Editor"
-            onChange={(newValue) => {
-              // Handle JSON changes if needed
-              console.log('Updated JSON:', newValue);
-            }}
-          />
-        )}
-      </div>
+      <div className="right-panel">{renderContent()}</div>
     </div>
   );
 };

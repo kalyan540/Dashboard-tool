@@ -7,6 +7,7 @@ import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-github';
 import { css, t, withTheme } from '@superset-ui/core';
 import ControlHeader from 'src/explore/components/ControlHeader';
+import 'primeicons/primeicons.css'; // Import PrimeIcons CSS
 
 interface JsonEditorControlProps {
   value: any;
@@ -16,6 +17,7 @@ interface JsonEditorControlProps {
 }
 
 interface JsonEditorControlState {
+  isPopoverVisible: boolean;
   editorValue: any;
 }
 
@@ -35,22 +37,27 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
     super(props);
     this.state = {
       isPopoverVisible: false,
-      editorValue: props.value || '',
+      editorValue: JSON.stringify(props.value, null, 2), // Initialize with formatted JSON
     };
   }
 
   handlePopoverVisibility = (visible: boolean) => {
-    console.log('Popover Visibility:', visible); // Debugging
     this.setState({ isPopoverVisible: visible });
   };
 
   handleSave = () => {
     const { editorValue } = this.state;
-    this.props.onChange(editorValue);
+    try {
+      const parsedValue = JSON.parse(editorValue); // Parse the JSON string
+      this.props.onChange(parsedValue); // Pass the updated JSON to the parent
+      this.setState({ isPopoverVisible: false });
+    } catch (error) {
+      console.error('Invalid JSON:', error);
+    }
   };
 
   handleCancel = () => {
-    this.setState({ editorValue: this.props.value || '' });
+    this.setState({ isPopoverVisible: false, editorValue: JSON.stringify(this.props.value, null, 2) });
   };
 
   handleEditorChange = (newValue: string) => {
@@ -58,9 +65,8 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
   };
 
   render() {
-    console.log('JsonEditorControl Rendered'); // Debugging
     const { label, theme } = this.props;
-    const { editorValue } = this.state;
+    const { isPopoverVisible, editorValue } = this.state;
     const defaultTabSize = 2;
 
     const popoverContent = (
@@ -83,10 +89,10 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
           }}
         />
         <div style={{ marginTop: '10px', textAlign: 'right' }}>
-          <Button placement="top" onClick={this.handleCancel} css={css`margin-right: ${theme.gridUnit * 2}px;`}>
+          <Button onClick={this.handleCancel} css={css`margin-right: ${theme.gridUnit * 2}px;`}>
             {t('Close')}
           </Button>
-          <Button placement="top" type="primary" onClick={this.handleSave}>
+          <Button type="primary" onClick={this.handleSave}>
             {t('Save')}
           </Button>
         </div>
@@ -102,15 +108,18 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
           arrowPointAtCenter
           title={t('Json Editor')}
           trigger="click"
-          visible={true}
-          overlayStyle={{ zIndex: 1000, border: '2px solid red' }} // Debugging
+          visible={isPopoverVisible}
+          onVisibleChange={this.handlePopoverVisibility}
         >
-        <div />
-    
+          {/* Replace the button with the three dots icon */}
+          <span className="pi pi-ellipsis-v" style={{ cursor: 'pointer' }}></span>
         </Popover>
       </div>
     );
   }
 }
+
+JsonEditorControl.propTypes = propTypes;
+JsonEditorControl.defaultProps = defaultProps;
 
 export default withTheme(JsonEditorControl);

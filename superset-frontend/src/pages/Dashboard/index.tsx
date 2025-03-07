@@ -179,8 +179,14 @@ const DashboardRoute: FC = () => {
             Home
           </button>
 
-          {/* Add the three dots icon and JsonEditorControl */}
-          <JsonEditorControl value={buttons} onChange={(value) => console.log(value)} label="Edit JSON" />
+
+          {/* Three Dots Icon with Border */}
+          <div style={{ display: 'inline-block', border: '1px solid #ccc', borderRadius: '4px', marginLeft: '8px'}}>
+           <JsonEditorControl
+              value={buttons}
+              onChange={(value) => console.log(value)}
+            />
+          </div>
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (

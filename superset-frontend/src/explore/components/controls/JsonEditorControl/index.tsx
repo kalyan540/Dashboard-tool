@@ -111,8 +111,8 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
           visible={isPopoverVisible}
           onVisibleChange={this.handlePopoverVisibility}
         >
-          {/* Replace the button with the three dots icon */}
-          <span className="pi pi-ellipsis-v" style={{ cursor: 'pointer' }}></span>
+          {/* Three Dots Icon */}
+          <span className="pi pi-ellipsis-v" style={{ cursor: 'pointer', padding: '4px' }}></span>
         </Popover>
       </div>
     );

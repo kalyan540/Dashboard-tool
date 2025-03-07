@@ -187,8 +187,12 @@ const DashboardRoute: FC = () => {
               borderRadius: '4px', 
               cursor: 'pointer', 
               padding: '2px' ,
-              backgroundColor: '#795EFE', // Add background color here
-            }}>
+              backgroundColor: '#f0f0f0', // Add background color here
+              transition: 'background-color 0.3s', // Smooth transition
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#617be3'} // Hover background color
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'} // Reset on mouse leave
+            >
               <JsonEditorControl
                 value={buttons}
                 onChange={(value) => console.log(value)}

@@ -171,7 +171,7 @@ const DashboardRoute: FC = () => {
       <div className="left-panel">
         <div className="buttons-container">
           {/* Home Button and Three Dots Icon */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             {/* Default Dashboard Button */}
             <button
               className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
@@ -184,9 +184,10 @@ const DashboardRoute: FC = () => {
             {/* Three Dots Icon with Border */}
             <div style={{ 
               border: '1px solid #ccc', 
-              borderRadius: '8px', 
+              borderRadius: '4px', 
               cursor: 'pointer', 
-              padding: '4px' 
+              padding: '2px' ,
+              backgroundColor: '#795EFE', // Add background color here
             }}>
               <JsonEditorControl
                 value={buttons}

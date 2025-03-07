@@ -170,23 +170,31 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Default Dashboard Button */}
-          <button
-            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-            onClick={() => setActiveButton('Dashboard')}
-          >
-            <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-            Home
-          </button>
+          {/* Home Button and Three Dots Icon */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {/* Default Dashboard Button */}
+            <button
+              className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+              onClick={() => setActiveButton('Dashboard')}
+            >
+              <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
+              Home
+            </button>
 
-
-          {/* Three Dots Icon with Border */}
-          <div style={{ display: 'inline-block', border: '1px solid #ccc', borderRadius: '4px', marginLeft: '8px'}}>
-           <JsonEditorControl
-              value={buttons}
-              onChange={(value) => console.log(value)}
-            />
+            {/* Three Dots Icon with Border */}
+            <div style={{ 
+              border: '1px solid #ccc', 
+              borderRadius: '8px', 
+              cursor: 'pointer', 
+              padding: '4px' 
+            }}>
+              <JsonEditorControl
+                value={buttons}
+                onChange={(value) => console.log(value)}
+              />
+            </div>
           </div>
+
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (

@@ -11,10 +11,8 @@ import 'primeicons/primeicons.css';
 
 interface JsonEditorControlProps {
   value: any;
-  label: string;
   onChange: (value: any) => void;
   theme: any;
-  idOrSlug: string; // Add idOrSlug prop
 }
 
 interface JsonEditorControlState {
@@ -24,15 +22,12 @@ interface JsonEditorControlState {
 
 const propTypes = {
   value: PropTypes.string,
-  label: PropTypes.string,
   onChange: PropTypes.func,
-  idOrSlug: PropTypes.string, // Add idOrSlug prop type
 };
 
 const defaultProps = {
   value: '',
   onChange: () => {},
-  idOrSlug: '', // Default value for idOrSlug
 };
 
 class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorControlState> {
@@ -55,7 +50,7 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
     try {
       const parsedValue = JSON.parse(editorValue); // Parse the JSON string
       onChange(parsedValue); // Pass the updated JSON to the parent
-      this.setState({ isPopoverVisible: false });
+      this.setState({ isPopoverVisible: false }); // Close the popover
     } catch (error) {
       console.error('Invalid JSON:', error);
     }
@@ -70,7 +65,7 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
   };
 
   render() {
-    const { label, theme } = this.props;
+    const { theme } = this.props;
     const { isPopoverVisible, editorValue } = this.state;
     const defaultTabSize = 2;
 

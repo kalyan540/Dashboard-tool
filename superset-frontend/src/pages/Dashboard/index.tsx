@@ -85,9 +85,6 @@ const DashboardRoute: FC = () => {
   const handleJsonUpdate = (updatedJson: ButtonConfig[]) => {
     setButtons(updatedJson); // Update the state with the new JSON
     console.log('Updated JSON:', updatedJson); // Log the updated JSON (for debugging)
-
-    // Optional: Save the updated JSON to local storage
-    localStorage.setItem(`json_${idOrSlug}`, JSON.stringify(updatedJson));
   };
 
   const handleButtonClick = (button: ButtonConfig) => {
@@ -189,7 +186,6 @@ const DashboardRoute: FC = () => {
               <JsonEditorControl
                 value={buttons}
                 onChange={handleJsonUpdate} // Pass the callback function
-                idOrSlug={idOrSlug} // Pass the dashboard identifier
               />
             </div>
           </div>

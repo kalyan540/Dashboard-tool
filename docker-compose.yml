@@ -225,6 +225,18 @@ services:
     networks:
       - default  # Ensures it uses the same network as other containers
 
+  node-red:
+    image: nodered/node-red:latest
+    container_name: node_red
+    restart: unless-stopped
+    ports:
+      - "1880:1880"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - node_red_data:/data
+
   superset-tests-worker:
     build:
       <<: *common-build
@@ -259,4 +271,6 @@ volumes:
   db_home:
     external: false
   redis:
+    external: false
+  node_red_data:
     external: false

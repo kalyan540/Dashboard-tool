@@ -95,7 +95,14 @@ const DashboardRoute: FC = () => {
     npd: Object.values(npdJson),
   };
 
-  const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
+  const isAdmin = currentUser?.roles?.some(role => role.name === 'Admin');
+
+  const buttons: ButtonConfig[] = (jsonFileMap[idOrSlug || ''] || []).filter(button => {
+    if (button.name === 'Cost') {
+      return isAdmin;
+    }
+    return true;
+  });
 
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);

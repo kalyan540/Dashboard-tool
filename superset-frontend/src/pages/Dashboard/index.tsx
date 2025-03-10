@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
@@ -21,7 +21,6 @@ const DashboardRoute: FC = () => {
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
-
 
   const injectCustomStyles = () => (
     <style>
@@ -58,6 +57,7 @@ const DashboardRoute: FC = () => {
     </style>
   );
 
+
   // Define the interface for button configuration
   interface ButtonConfig {
     name: string;
@@ -79,12 +79,22 @@ const DashboardRoute: FC = () => {
   };
 
   // State to hold the buttons data
-  const [buttons, setButtons] = useState<ButtonConfig[]>(jsonFileMap[idOrSlug || ''] || []);
+  const [buttons, setButtons] = useState<ButtonConfig[]>([]);
+
+  // Initialize state from localStorage or original JSON file
+  useEffect(() => {
+    const savedJson = localStorage.getItem(`json_${idOrSlug}`);
+    if (savedJson) {
+      setButtons(JSON.parse(savedJson)); // Use saved JSON from localStorage
+    } else {
+      setButtons(jsonFileMap[idOrSlug || ''] || []); // Use original JSON file
+    }
+  }, [idOrSlug]);
 
   // Callback function to handle JSON updates
   const handleJsonUpdate = (updatedJson: ButtonConfig[]) => {
     setButtons(updatedJson); // Update the state with the new JSON
-    console.log('Updated JSON:', updatedJson); // Log the updated JSON (for debugging)
+    localStorage.setItem(`json_${idOrSlug}`, JSON.stringify(updatedJson)); // Save to localStorage
   };
 
   const handleButtonClick = (button: ButtonConfig) => {

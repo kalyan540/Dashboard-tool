@@ -14,6 +14,13 @@
       "divider": false
     },
     "Button3": {
+      "name": "Cost Analysis",
+      "type": "dashboard",
+      "dashboardId": "Npd_Analytics",
+      "icon": "/static/assets/images/Analytics.png",
+      "divider": false
+    },
+    "Button4": {
       "name": "Chat BOT",
       "type": "chatbot",
       "icon": "/static/assets/images/chatboticon.png",
@@ -52,19 +59,19 @@
         "List all NPD names which have assessment score above 80"
       ]
     },
-    "Button4": {
+    "Button5": {
       "name": "Reports",
       "type": "report",
       "icon": "/static/assets/images/Reports.png",
       "divider": false
     },
-    "Button5": {
+    "Button6": {
       "name": "Alerts",
       "type": "alert",
       "icon": "/static/assets/images/Alerts.png",
       "divider": false
     },
-    "Button6": {
+    "Button7": {
       "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",

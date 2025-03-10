@@ -83,16 +83,28 @@ const DashboardRoute: FC = () => {
 
   // Initialize state from localStorage or original JSON file
   useEffect(() => {
+    console.log('Initializing buttons state...');
     const savedJson = localStorage.getItem(`json_${idOrSlug}`);
+    console.log('Saved JSON from localStorage:', savedJson);
+
     if (savedJson) {
-      setButtons(JSON.parse(savedJson)); // Use saved JSON from localStorage
+      try {
+        const parsedJson = JSON.parse(savedJson);
+        setButtons(parsedJson); // Use saved JSON from localStorage
+        console.log('Initialized state with saved JSON:', parsedJson);
+      } catch (error) {
+        console.error('Error parsing saved JSON:', error);
+        setButtons(jsonFileMap[idOrSlug || ''] || []); // Fallback to original JSON
+      }
     } else {
       setButtons(jsonFileMap[idOrSlug || ''] || []); // Use original JSON file
+      console.log('Initialized state with original JSON:', jsonFileMap[idOrSlug || '']);
     }
   }, [idOrSlug]);
 
   // Callback function to handle JSON updates
   const handleJsonUpdate = (updatedJson: ButtonConfig[]) => {
+    console.log('Updated JSON:', updatedJson);
     setButtons(updatedJson); // Update the state with the new JSON
     localStorage.setItem(`json_${idOrSlug}`, JSON.stringify(updatedJson)); // Save to localStorage
   };

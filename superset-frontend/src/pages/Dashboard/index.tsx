@@ -1,21 +1,3 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -26,7 +8,7 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
-import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index'; // Import the JSON editor component
+import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index';
 
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
@@ -39,6 +21,7 @@ const DashboardRoute: FC = () => {
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+
 
   const injectCustomStyles = () => (
     <style>
@@ -87,7 +70,7 @@ const DashboardRoute: FC = () => {
     divider?: boolean;
   }
 
-  // Define the type for jsonFileMap
+  // Define the JSON file map
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
@@ -95,7 +78,17 @@ const DashboardRoute: FC = () => {
     npd: Object.values(npdJson),
   };
 
-  const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
+  // State to hold the buttons data
+  const [buttons, setButtons] = useState<ButtonConfig[]>(jsonFileMap[idOrSlug || ''] || []);
+
+  // Callback function to handle JSON updates
+  const handleJsonUpdate = (updatedJson: ButtonConfig[]) => {
+    setButtons(updatedJson); // Update the state with the new JSON
+    console.log('Updated JSON:', updatedJson); // Log the updated JSON (for debugging)
+
+    // Optional: Save the updated JSON to local storage
+    localStorage.setItem(`json_${idOrSlug}`, JSON.stringify(updatedJson));
+  };
 
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);
@@ -187,19 +180,19 @@ const DashboardRoute: FC = () => {
               borderRadius: '4px', 
               cursor: 'pointer', 
               padding: '2px' ,
-              backgroundColor: '#f0f0f0', // Add background color here
-              transition: 'background-color 0.3s', // Smooth transition
+              backgroundColor: '#f0f0f0',
+              transition: 'background-color 0.3s',
             }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#617be3'} // Hover background color
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'} // Reset on mouse leave
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#617be3'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
             >
               <JsonEditorControl
                 value={buttons}
-                onChange={(value) => console.log(value)}
+                onChange={handleJsonUpdate} // Pass the callback function
+                idOrSlug={idOrSlug} // Pass the dashboard identifier
               />
             </div>
           </div>
-
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (

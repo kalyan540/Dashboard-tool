@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button  from 'src/components/Button'; // Assuming you're using Ant Design for UI components
+import Button from 'src/components/Button';
 import { Popover } from 'antd';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-github';
 import { css, t, withTheme } from '@superset-ui/core';
 import ControlHeader from 'src/explore/components/ControlHeader';
-import 'primeicons/primeicons.css'; // Import PrimeIcons CSS
+import 'primeicons/primeicons.css';
 
 interface JsonEditorControlProps {
   value: any;
   label: string;
   onChange: (value: any) => void;
   theme: any;
+  idOrSlug: string; // Add idOrSlug prop
 }
 
 interface JsonEditorControlState {
@@ -25,11 +26,13 @@ const propTypes = {
   value: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
+  idOrSlug: PropTypes.string, // Add idOrSlug prop type
 };
 
 const defaultProps = {
   value: '',
   onChange: () => {},
+  idOrSlug: '', // Default value for idOrSlug
 };
 
 class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorControlState> {
@@ -47,9 +50,11 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
 
   handleSave = () => {
     const { editorValue } = this.state;
+    const { onChange } = this.props;
+
     try {
       const parsedValue = JSON.parse(editorValue); // Parse the JSON string
-      this.props.onChange(parsedValue); // Pass the updated JSON to the parent
+      onChange(parsedValue); // Pass the updated JSON to the parent
       this.setState({ isPopoverVisible: false });
     } catch (error) {
       console.error('Invalid JSON:', error);

@@ -1,4 +1,22 @@
-import React, { FC, useState, useEffect } from 'react';
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserWithPermissionsAndRoles } from 'src/types/bootstrapTypes';
@@ -8,7 +26,7 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
-import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index';
+import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index'; // Import the JSON editor component
 
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
@@ -57,7 +75,6 @@ const DashboardRoute: FC = () => {
     </style>
   );
 
-
   // Define the interface for button configuration
   interface ButtonConfig {
     name: string;
@@ -70,7 +87,7 @@ const DashboardRoute: FC = () => {
     divider?: boolean;
   }
 
-  // Define the JSON file map
+  // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
     Tech_Park: Object.values(techparkJson),
     ford: Object.values(fordJson),
@@ -78,36 +95,7 @@ const DashboardRoute: FC = () => {
     npd: Object.values(npdJson),
   };
 
-  // State to hold the buttons data
-  const [buttons, setButtons] = useState<ButtonConfig[]>([]);
-
-  // Initialize state from localStorage or original JSON file
-  useEffect(() => {
-    console.log('Initializing buttons state...');
-    const savedJson = localStorage.getItem(`json_${idOrSlug}`);
-    console.log('Saved JSON from localStorage:', savedJson);
-
-    if (savedJson) {
-      try {
-        const parsedJson = JSON.parse(savedJson);
-        setButtons(parsedJson); // Use saved JSON from localStorage
-        console.log('Initialized state with saved JSON:', parsedJson);
-      } catch (error) {
-        console.error('Error parsing saved JSON:', error);
-        setButtons(jsonFileMap[idOrSlug || ''] || []); // Fallback to original JSON
-      }
-    } else {
-      setButtons(jsonFileMap[idOrSlug || ''] || []); // Use original JSON file
-      console.log('Initialized state with original JSON:', jsonFileMap[idOrSlug || '']);
-    }
-  }, [idOrSlug]);
-
-  // Callback function to handle JSON updates
-  const handleJsonUpdate = (updatedJson: ButtonConfig[]) => {
-    console.log('Updated JSON:', updatedJson);
-    setButtons(updatedJson); // Update the state with the new JSON
-    localStorage.setItem(`json_${idOrSlug}`, JSON.stringify(updatedJson)); // Save to localStorage
-  };
+  const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
 
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);
@@ -199,18 +187,19 @@ const DashboardRoute: FC = () => {
               borderRadius: '4px', 
               cursor: 'pointer', 
               padding: '2px' ,
-              backgroundColor: '#f0f0f0',
-              transition: 'background-color 0.3s',
+              backgroundColor: '#f0f0f0', // Add background color here
+              transition: 'background-color 0.3s', // Smooth transition
             }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#617be3'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#617be3'} // Hover background color
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'} // Reset on mouse leave
             >
               <JsonEditorControl
                 value={buttons}
-                onChange={handleJsonUpdate} // Pass the callback function
+                onChange={(value) => console.log(value)}
               />
             </div>
           </div>
+
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (

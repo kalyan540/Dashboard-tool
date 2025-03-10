@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'src/components/Button';
+import Button  from 'src/components/Button'; // Assuming you're using Ant Design for UI components
 import { Popover } from 'antd';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-github';
 import { css, t, withTheme } from '@superset-ui/core';
 import ControlHeader from 'src/explore/components/ControlHeader';
-import 'primeicons/primeicons.css';
+import 'primeicons/primeicons.css'; // Import PrimeIcons CSS
 
 interface JsonEditorControlProps {
   value: any;
+  label: string;
   onChange: (value: any) => void;
   theme: any;
 }
@@ -22,6 +23,7 @@ interface JsonEditorControlState {
 
 const propTypes = {
   value: PropTypes.string,
+  label: PropTypes.string,
   onChange: PropTypes.func,
 };
 
@@ -45,12 +47,10 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
 
   handleSave = () => {
     const { editorValue } = this.state;
-    const { onChange } = this.props;
-
     try {
       const parsedValue = JSON.parse(editorValue); // Parse the JSON string
-      onChange(parsedValue); // Pass the updated JSON to the parent
-      this.setState({ isPopoverVisible: false }); // Close the popover
+      this.props.onChange(parsedValue); // Pass the updated JSON to the parent
+      this.setState({ isPopoverVisible: false });
     } catch (error) {
       console.error('Invalid JSON:', error);
     }
@@ -65,7 +65,7 @@ class JsonEditorControl extends Component<JsonEditorControlProps, JsonEditorCont
   };
 
   render() {
-    const { theme } = this.props;
+    const { label, theme } = this.props;
     const { isPopoverVisible, editorValue } = this.state;
     const defaultTabSize = 2;
 

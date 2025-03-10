@@ -15,13 +15,13 @@ import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
 
-
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const [activeButton, setActiveButton] = useState<string>('Dashboard');
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+
 
   const injectCustomStyles = () => (
     <style>
@@ -58,9 +58,21 @@ const DashboardRoute: FC = () => {
     </style>
   );
 
+  // Define the interface for button configuration
+  interface ButtonConfig {
+    name: string;
+    type: string;
+    dashboardId?: string;
+    src?: string;
+    schema?: any;
+    suggestions?: any;
+    icon?: string;
+    divider?: boolean;
+  }
 
   // Safely check if the current user is an admin
-  const isAdmin = Array.isArray(currentUser?.roles) && currentUser.roles.some(role => role.name === 'Admin');
+  const userRoles = currentUser?.roles?.[currentUser.username]; // Access roles for the logged-in user
+  const isAdmin = Array.isArray(userRoles) && userRoles.some(role => role.name === 'Admin');
 
   // Define the type for jsonFileMap
   const jsonFileMap: { [key: string]: ButtonConfig[] } = {
@@ -69,9 +81,6 @@ const DashboardRoute: FC = () => {
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
   };
-
-  console.log('Current User:', currentUser);
-console.log('Roles:', currentUser?.roles);
 
   // Filter the buttons based on the user's role
   const buttons: ButtonConfig[] = (jsonFileMap[idOrSlug || ''] || []).filter(button => {

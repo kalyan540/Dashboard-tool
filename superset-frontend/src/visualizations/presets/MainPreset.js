@@ -90,6 +90,8 @@ import TimeTableChartPlugin from '../TimeTable';
 import { PluginChartCustomBar } from 'src/Custom_Viz_Plugins/plugin-chart-custom-bar/src';
 import { EngineeringMetricsInputForm } from 'src/Custom_Viz_Plugins/engineering-metrics-input-form/src';
 import { NpdAssessment } from 'src/Custom_Viz_Plugins/NPD-Assessment/src';
+import { FlowBuilder } from 'src/Custom_Viz_Plugins/FlowBuilder/src';
+
 export default class MainPreset extends Preset {
   constructor() {
     const experimentalPlugins = isFeatureEnabled(

@@ -111,6 +111,7 @@ export default class MainPreset extends Preset {
         new PluginChartCustomBar().configure({key: "plugin-chart-custom-bar"}),
         new EngineeringMetricsInputForm().configure({key: "engineering-metrics-input-form"}),
         new NpdAssessment().configure({key: "NPD-Assessment"}),
+        new FlowBuilder().configure({key: "FlowBuilder"}),
         new AreaChartPlugin().configure({ key: VizType.LegacyArea }),
         new BarChartPlugin().configure({ key: VizType.LegacyBar }),
         new BigNumberChartPlugin().configure({ key: VizType.BigNumber }),

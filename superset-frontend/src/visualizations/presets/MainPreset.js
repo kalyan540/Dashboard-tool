@@ -90,7 +90,12 @@ import TimeTableChartPlugin from '../TimeTable';
 import { PluginChartCustomBar } from 'src/Custom_Viz_Plugins/plugin-chart-custom-bar/src';
 import { EngineeringMetricsInputForm } from 'src/Custom_Viz_Plugins/engineering-metrics-input-form/src';
 import { NpdAssessment } from 'src/Custom_Viz_Plugins/NPD-Assessment/src';
+<<<<<<< HEAD
 import { UserAction1 } from 'src/Custom_Viz_Plugins/user-action-1/src';
+=======
+import { FlowBuilder } from 'src/Custom_Viz_Plugins/FlowBuilder/src';
+
+>>>>>>> 6a87b7fae7281b172bf980fb58c5aca4ab34d3e8
 export default class MainPreset extends Preset {
   constructor() {
     const experimentalPlugins = isFeatureEnabled(
@@ -110,7 +115,11 @@ export default class MainPreset extends Preset {
         new PluginChartCustomBar().configure({key: "plugin-chart-custom-bar"}),
         new EngineeringMetricsInputForm().configure({key: "engineering-metrics-input-form"}),
         new NpdAssessment().configure({key: "NPD-Assessment"}),
+<<<<<<< HEAD
         new UserAction1().configure({key: "user-action-1"}),
+=======
+        new FlowBuilder().configure({key: "FlowBuilder"}),
+>>>>>>> 6a87b7fae7281b172bf980fb58c5aca4ab34d3e8
         new AreaChartPlugin().configure({ key: VizType.LegacyArea }),
         new BarChartPlugin().configure({ key: VizType.LegacyBar }),
         new BigNumberChartPlugin().configure({ key: VizType.BigNumber }),

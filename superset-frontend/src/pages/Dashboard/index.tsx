@@ -26,12 +26,12 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 import ChatBOT from './bot';
 import AlertList from '../AlertReportList';
 import { addDangerToast, addSuccessToast } from 'src/components/MessageToasts/actions';
+import JsonEditorControl from 'src/explore/components/controls/JsonEditorControl/index'; // Import the JSON editor component
 
 import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
-//import metricJson from 'src/leftpanel/metrics.json';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
@@ -39,6 +39,7 @@ const DashboardRoute: FC = () => {
   const currentUser = useSelector<any, UserWithPermissionsAndRoles>(
     state => state.user,
   );
+
   const injectCustomStyles = () => (
     <style>
       {`
@@ -92,7 +93,6 @@ const DashboardRoute: FC = () => {
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
-    //Home: Object.values(metricJson),
   };
 
   const buttons: ButtonConfig[] = jsonFileMap[idOrSlug || ''] || [];
@@ -100,7 +100,6 @@ const DashboardRoute: FC = () => {
   const handleButtonClick = (button: ButtonConfig) => {
     setActiveButton(button.name);
   };
-
 
   const renderContent = () => {
     if (activeButton === 'Dashboard') {
@@ -127,7 +126,6 @@ const DashboardRoute: FC = () => {
       case 'iframe':
         return (
           <>
-            {injectCustomStyles()}
             <div>
               <div className="header-bar">
                 <h1>User Management</h1>
@@ -155,9 +153,7 @@ const DashboardRoute: FC = () => {
           user={currentUser}
         />;
       case 'chatbot':
-        console.log(activeButtonConfig.schema.columns);
         return <ChatBOT
-          //schema={activeButtonConfig.schema}
           tableName={activeButtonConfig.schema.table_name}
           columns={activeButtonConfig.schema.columns}
           primaryKey={activeButtonConfig.schema.primary_key}
@@ -174,14 +170,36 @@ const DashboardRoute: FC = () => {
       {/* Left Panel with Buttons */}
       <div className="left-panel">
         <div className="buttons-container">
-          {/* Default Dashboard Button */}
-          <button
-            className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-            onClick={() => setActiveButton('Dashboard')}
-          >
-            <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-            Home
-          </button>
+          {/* Home Button and Three Dots Icon */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            {/* Default Dashboard Button */}
+            <button
+              className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
+              onClick={() => setActiveButton('Dashboard')}
+            >
+              <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
+              Home
+            </button>
+
+            {/* Three Dots Icon with Border */}
+            <div style={{ 
+              border: '1px solid #ccc', 
+              borderRadius: '4px', 
+              cursor: 'pointer', 
+              padding: '2px' ,
+              backgroundColor: '#f0f0f0', // Add background color here
+              transition: 'background-color 0.3s', // Smooth transition
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#617be3'} // Hover background color
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'} // Reset on mouse leave
+            >
+              <JsonEditorControl
+                value={buttons}
+                onChange={(value) => console.log(value)}
+              />
+            </div>
+          </div>
+
 
           {/* Dynamic Buttons from JSON */}
           {buttons.map((button, index) => (
@@ -192,7 +210,6 @@ const DashboardRoute: FC = () => {
                 className={`button ${activeButton === button.name ? 'active' : ''}`}
                 onClick={() => handleButtonClick(button)}
               >
-                {/* Render Icon Dynamically */}
                 {button.icon && (
                   <img
                     src={button.icon}
@@ -213,114 +230,4 @@ const DashboardRoute: FC = () => {
   );
 };
 
-/*return (<img src={`/static/assets/images/${button.name.toLowerCase()}.png`} alt="Button Icon" className="icon" />
-  <div style={{ display: "flex" }}>
-    {/* Left Panel with Buttons }
-    <div className="left-panel">
-      <div className="buttons-container">
-        <button
-          className={`button ${activeButton === 'Dashboard' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('Dashboard')}
-        >
-          <img src="/static/assets/images/dashboard.png" alt="Icon" className="icon" />
-          Dashboard
-        </button>
-
-        <button
-          className={`button ${activeButton === 'Analytics' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('Analytics')}
-        >
-          <img src="/static/assets/images/Analytics.png" alt="Icon" className="icon" />
-          Analytics
-        </button>
-
-        <button
-          className={`button ${activeButton === 'ChatBot' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('ChatBot')}
-        >
-          <img src="/static/assets/images/chatboticon.png" alt="Icon" className="icon" />
-          ChatBot
-        </button>
-
-
-      </div>
-      <div className="divider"></div>
-      <div className="user-management">
-        <button
-          className={`button ${activeButton === 'User Management' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('User Management')}
-        >
-          <img src="/static/assets/images/user.png" alt="Icon" className="icon" />
-          User Management
-        </button>
-      </div>
-    </div>
-
-    {/* Right Panel Content }
-<div className="right-panel">
-{activeButton === 'Dashboard' ? (
-  <div className="dashboard-container">
-    <DashboardPage idOrSlug={idOrSlug} />
-  </div>
-) : activeButton === 'User Management' ? (
-  <>
-    {injectCustomStyles()}
-    <div>
-      <div className="header-bar">
-        <h1>User Management</h1>
-      </div>
-      <iframe
-        src="/users/list"
-        className="iframe-container"
-        title="User Management"
-      />
-    </div>
-  </>
-) : activeButton === 'Alerts' ? (
-  <AlertList
-    addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
-    addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
-    isReportEnabled={false}
-    user={currentUser}
-  />
-) : activeButton === 'Reports' ? (
-  <AlertList
-    addDangerToast={addDangerToast(t('Hello from Dashboard screen at DangerToast'))}
-    addSuccessToast={addSuccessToast(t('Hello from Dashboard screen at SuccessToast'))}
-    isReportEnabled={true}
-    user={currentUser}
-  />
-) : activeButton === 'ChatBot' ? (
-  <ChatBOT />
-) : activeButton === 'Analytics' ? (
-  <DashboardPage idOrSlug={'15'} />
-) : (
-  <div>
-    <h2>This page is in development.</h2>
-  </div>
-)}
-</div>
-  </div >
-);
-
-};*/
-
 export default DashboardRoute;
-/*
-<button
-            className={`button ${activeButton === 'Alerts' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Alerts')}
-          >
-            <img src="/static/assets/images/Alerts.png" alt="Icon" className="icon" />
-            Alerts
-          </button>
-
-          <button
-            className={`button ${activeButton === 'Reports' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('Reports')}
-          >
-            <img src="/static/assets/images/Reports.png" alt="Icon" className="icon" />
-            Reports
-          </button>
-
-*/

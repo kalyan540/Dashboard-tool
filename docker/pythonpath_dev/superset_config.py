@@ -105,7 +105,32 @@ CELERY_CONFIG = CeleryConfig
 FEATURE_FLAGS = {"ALERT_REPORTS": True,
                  "ALLOW_ADHOC_SUBQUERY": True,
                  "DASHBOARD_RBAC": True,
+                 "DASHBOARD_NATIVE_FILTERS": True,
+                 "EMBEDDED_SUPERSET": True,
                  }
+
+
+# ENABLE_CORS = True
+# ENABLE_PROXY_FIX = True
+# OVERRIDE_HTTP_HEADERS = {'X-Frame-Options': 'ALLOWALL'}
+# CORS_OPTIONS = {
+#     "supports_credentials": True,
+#     "allow_headers": ["*"],
+#     "resources": ["*"],
+#     "origins": ["*"], # replace the port-number # as per your application.
+# }
+
+#PUBLIC_ROLE_LIKE = "Gamma"
+# GUEST_ROLE_NAME= 'Guest'
+# GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"
+# GUEST_TOKEN_JWT_ALGO = "HS256" 
+# GUEST_TOKEN_HEADER_NAME = "X-GuestToken" 
+# GUEST_TOKEN_JWT_EXP_SECONDS = 3600  # 1 hour
+
+#SESSION_COOKIE_SECURE = False
+WTF_CSRF_ENABLED = False
+
+
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 
 # Email configuration

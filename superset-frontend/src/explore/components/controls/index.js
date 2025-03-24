@@ -38,6 +38,7 @@ import TimeOffsetControl from './TimeOffsetControl';
 import ViewportControl from './ViewportControl';
 import VizTypeControl from './VizTypeControl';
 import MetricsControl from './MetricControl/MetricsControl';
+import JsonEditorControl from './JsonEditorControl';
 import AdhocFilterControl from './FilterControl/AdhocFilterControl';
 import ConditionalFormattingControl from './ConditionalFormattingControl';
 import ContourControl from './ContourControl';
@@ -78,6 +79,7 @@ const controlMap = {
   ViewportControl,
   VizTypeControl,
   MetricsControl,
+  JsonEditorControl,
   AdhocFilterControl,
   ConditionalFormattingControl,
   XAxisSortControl,

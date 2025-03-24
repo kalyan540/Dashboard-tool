@@ -266,6 +266,7 @@ WTF_CSRF_EXEMPT_LIST = [
     "superset.views.core.explore_json",
     "superset.charts.data.api.data",
     "superset.dashboards.api.cache_dashboard_screenshot",
+    "http://localhost:3000/.*",
 ]
 
 # Whether to run the web server in debug mode or not
@@ -316,7 +317,7 @@ APP_ICON = "/static/assets/images/superset-logo-horiz.png"
 # Default value of None will take you to '/superset/welcome'
 # You can also specify a relative URL e.g. '/superset/welcome' or '/dashboards/list'
 # or you can specify a full URL e.g. 'https://foo.bar'
-LOGO_TARGET_PATH = None
+LOGO_TARGET_PATH = '/dashboards/list'
 
 # Specify tooltip that should appear when hovering over the App Icon/Logo
 LOGO_TOOLTIP = ""
@@ -498,10 +499,10 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "GLOBAL_ASYNC_QUERIES": False,
     "EMBEDDED_SUPERSET": False,
     # Enables Alerts and reports new implementation
-    "ALERT_REPORTS": False,
+    "ALERT_REPORTS": True,
     "ALERT_REPORT_TABS": False,
     "ALERT_REPORT_SLACK_V2": False,
-    "DASHBOARD_RBAC": False,
+    "DASHBOARD_RBAC": True,
     "ENABLE_ADVANCED_DATA_TYPES": False,
     # Enabling ALERTS_ATTACH_REPORTS, the system sends email and slack message
     # with screenshot and link
@@ -530,7 +531,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "DRILL_TO_DETAIL": True,
     "DRILL_BY": True,
     "DATAPANEL_CLOSED_BY_DEFAULT": False,
-    "HORIZONTAL_FILTER_BAR": False,
+    "HORIZONTAL_FILTER_BAR": True,
     # The feature is off by default, and currently only supported in Presto and Postgres,
     # and Bigquery.
     # It also needs to be enabled on a per-database basis, by adding the key/value pair
@@ -598,7 +599,10 @@ DEFAULT_FEATURE_FLAGS.update(
 )
 
 # This is merely a default.
-FEATURE_FLAGS: dict[str, bool] = {}
+#FEATURE_FLAGS: dict[str, bool] = {}
+FEATURE_FLAGS = {
+    "DASHBOARD_NATIVE_FILTERS": True,
+}
 
 # A function that receives a dict of all feature flags
 # (DEFAULT_FEATURE_FLAGS merged with FEATURE_FLAGS)
@@ -651,7 +655,17 @@ COMMON_BOOTSTRAP_OVERRIDES_FUNC: Callable[  # noqa: E731
 #     }]
 
 # This is merely a default
-EXTRA_CATEGORICAL_COLOR_SCHEMES: list[dict[str, Any]] = []
+#EXTRA_CATEGORICAL_COLOR_SCHEMES: list[dict[str, Any]] = []
+
+EXTRA_CATEGORICAL_COLOR_SCHEMES = [
+    {
+        "id": 'RAG',
+        "description": 'Color Scheme for Metrics Dashboard',
+        "label": 'RAG',
+        "isDefault": False,
+        "colors":
+         ["#CC0000", "#F4BF3F", "#008000"]
+    }]
 
 # THEME_OVERRIDES is used for adding custom theme to superset
 # example code for "My theme" custom scheme
@@ -1246,6 +1260,7 @@ PERMISSION_INSTRUCTIONS_LINK = ""
 # Integrate external Blueprints to the app by passing them to your
 # configuration. These blueprints will get integrated in the app
 BLUEPRINTS: list[Blueprint] = []
+#BLUEPRINTS = [Blueprint("kalyan", __name__, url_prefix="/kalyan")]
 
 # Provide a callable that receives a tracking_url and returns another
 # URL. This is used to translate internal Hadoop job tracker URL
@@ -1603,7 +1618,7 @@ TALISMAN_CONFIG = {
             "https://api.mapbox.com",
             "https://events.mapbox.com",
             "ws://localhost:8765/",
-            "ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765",
+            "ws://ec2-54-152-143-184.compute-1.amazonaws.com:8765",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1611,10 +1626,12 @@ TALISMAN_CONFIG = {
             "'unsafe-inline'",
         ],
         "script-src": ["'self'", "'strict-dynamic'"],
+        #"frame-ancestors": ["'self'", "http://localhost:3000"],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,
     "session_cookie_secure": False,
+    #"frame_options": "ALLOWALL",
 }
 # React requires `eval` to work correctly in dev mode
 TALISMAN_DEV_CONFIG = {
@@ -1635,7 +1652,7 @@ TALISMAN_DEV_CONFIG = {
             "https://api.mapbox.com",
             "https://events.mapbox.com",
             "ws://localhost:8765/",
-            "ws://ec2-54-221-103-4.compute-1.amazonaws.com:8765",
+            "ws://ec2-54-152-143-184.compute-1.amazonaws.com:8765",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1643,10 +1660,12 @@ TALISMAN_DEV_CONFIG = {
             "'unsafe-inline'",
         ],
         "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        "frame-ancestors": ["'self'", "http://localhost:3000", "http://localhost:3002", "http://localhost:5000"],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,
     "session_cookie_secure": False,
+    "frame_options": "ALLOWALL",
 }
 
 #

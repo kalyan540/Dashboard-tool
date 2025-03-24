@@ -48,7 +48,7 @@ function isHTML(res) {
 function toDevHTML(originalHtml) {
   let html = originalHtml.replace(
     /(<head>\s*<title>)([\s\S]*)(<\/title>)/i,
-    '$1[DEV] $2 $3',
+    '$1 $2 $3',
   );
   if (manifest) {
     const loaded = new Set();

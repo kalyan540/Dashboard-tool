@@ -1,0 +1,21 @@
+{
+    "Button1": {
+      "name": "Engineering Metrics",
+      "type": "dashboard",
+      "dashboardId": "E_Metrics",
+      "divider": false
+    },
+    "Button2": {
+      "name": "Business Metrics",
+      "type": "dashboard",
+      "dashboardId": "B_Metrics",
+      "divider": false
+    },
+    "Button3": {
+        "name": "Optional Metrics",
+        "type": "dashboard",
+        "dashboardId": "O_Metrics",
+        "divider": false
+      }
+  }
+  

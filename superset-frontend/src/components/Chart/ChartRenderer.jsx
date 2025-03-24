@@ -85,6 +85,7 @@ const defaultProps = {
 class ChartRenderer extends Component {
   constructor(props) {
     super(props);
+    console.log('ChartRenderer props:', props);
     const suppressContextMenu = getChartMetadataRegistry().get(
       props.formData.viz_type ?? props.vizType,
     )?.suppressContextMenu;
@@ -123,6 +124,7 @@ class ChartRenderer extends Component {
       onLegendStateChanged: this.handleLegendStateChanged,
       setDataMask: dataMask => {
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);
+        console.log(dataMask);
       },
     };
 

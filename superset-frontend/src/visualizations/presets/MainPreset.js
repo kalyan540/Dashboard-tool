@@ -88,7 +88,7 @@ import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import { FilterPlugins } from 'src/constants';
 import TimeTableChartPlugin from '../TimeTable';
 import { PluginChartCustomBar } from 'src/Custom_Viz_Plugins/plugin-chart-custom-bar/src';
-import { EngineeringMetricsInputForm } from 'src/Custom_Viz_Plugins/engineering-metrics-input-form/src';
+//import { EngineeringMetricsInputForm } from 'src/Custom_Viz_Plugins/engineering-metrics-input-form/src';
 import { NpdAssessment } from 'src/Custom_Viz_Plugins/NPD-Assessment/src';
 import { UserAction1 } from 'src/Custom_Viz_Plugins/user-action-1/src';
 export default class MainPreset extends Preset {
@@ -108,7 +108,7 @@ export default class MainPreset extends Preset {
       presets: [new DeckGLChartPreset()],
       plugins: [
         new PluginChartCustomBar().configure({key: "plugin-chart-custom-bar"}),
-        new EngineeringMetricsInputForm().configure({key: "engineering-metrics-input-form"}),
+        //new EngineeringMetricsInputForm().configure({key: "engineering-metrics-input-form"}),
         new NpdAssessment().configure({key: "NPD-Assessment"}),
         new UserAction1().configure({key: "user-action-1"}),
         new AreaChartPlugin().configure({ key: VizType.LegacyArea }),

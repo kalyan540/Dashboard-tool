@@ -31,6 +31,8 @@ import techparkJson from 'src/leftpanel/techpark.json';
 import fordJson from 'src/leftpanel/ford.json';
 import lonzaJson from 'src/leftpanel/lonza.json';
 import npdJson from 'src/leftpanel/npd.json';
+import buiJson from 'src/leftpanel/bui.json';
+import fordnewJson from 'src/leftpanel/fordnew.json';
 //import metricJson from 'src/leftpanel/metrics.json';
 
 const DashboardRoute: FC = () => {
@@ -92,6 +94,8 @@ const DashboardRoute: FC = () => {
     ford: Object.values(fordJson),
     lonza: Object.values(lonzaJson),
     npd: Object.values(npdJson),
+    bui: Object.values(buiJson),
+    fordnew: Object.values(fordnewJson),
     usernpd: Object.values(npdJson),
     //Home: Object.values(metricJson),
   };
@@ -181,7 +185,9 @@ const DashboardRoute: FC = () => {
             onClick={() => setActiveButton('Dashboard')}
           >
             <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-            Home
+            {idOrSlug === 'bui' ? 'BUI' : 
+            idOrSlug === 'fordnew' ? 'Ford' : 
+            'Home'}
           </button>
 
           {/* Dynamic Buttons from JSON */}

@@ -1,12 +1,40 @@
 {
     "Button1": {
-      "name": "Analytics",
+      "name": "Ford",
       "type": "dashboard",
-      "dashboardId": "Ford_Analytics",
-      "icon": "/static/assets/images/Analytics.png",
+      "dashboardId": "fordnew",
+      "icon": "/static/assets/images/dashboard.png",
       "divider": false
     },
     "Button2": {
+      "name": "JCI",
+      "type": "dashboard",
+      "dashboardId": "jci",
+      "icon": "/static/assets/images/dashboard.png",
+      "divider": false
+    },
+    "Button3": {
+      "name": "Eaton",
+      "type": "dashboard",
+      "dashboardId": "eaton",
+      "icon": "/static/assets/images/dashboard.png",
+      "divider": false
+    },
+    "Button4": {
+      "name": "JCI Billing",
+      "type": "dashboard",
+      "dashboardId": "jcibilling",
+      "icon": "/static/assets/images/dashboard.png",
+      "divider": false
+    },
+    "Button5": {
+    "name": "Analytics",
+    "type": "dashboard",
+    "dashboardId": "analytics",
+    "icon": "/static/assets/images/Analytics.png",
+    "divider": false
+  },
+    "Button6": {
         "name": "Chat BOT",
         "type": "chatbot",
         "icon": "/static/assets/images/chatboticon.png",
@@ -47,19 +75,19 @@
           "Which candidates have Manager as 'Selvakumar G' in their records?"
         ]
       },
-    "Button3": {
+    "Button7": {
       "name": "Reports",
       "type": "report",
       "icon": "/static/assets/images/Reports.png",
       "divider": false
     },
-    "Button4": {
+    "Button8": {
       "name": "Alerts",
       "type": "alert",
       "icon": "/static/assets/images/Alerts.png",
       "divider": false
     },
-    "Button5": {
+    "Button9": {
       "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",

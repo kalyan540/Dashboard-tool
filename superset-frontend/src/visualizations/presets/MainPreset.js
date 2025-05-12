@@ -91,6 +91,8 @@ import { PluginChartCustomBar } from 'src/Custom_Viz_Plugins/plugin-chart-custom
 //import { EngineeringMetricsInputForm } from 'src/Custom_Viz_Plugins/engineering-metrics-input-form/src';
 import { NpdAssessment } from 'src/Custom_Viz_Plugins/NPD-Assessment/src';
 import { UserAction1 } from 'src/Custom_Viz_Plugins/user-action-1/src';
+import { UserAction2 } from 'src/Custom_Viz_Plugins/user-action-1/src';
+import { ChatBot } from 'src/Custom_Viz_Plugins/ChatBot/src';
 export default class MainPreset extends Preset {
   constructor() {
     const experimentalPlugins = isFeatureEnabled(
@@ -111,6 +113,8 @@ export default class MainPreset extends Preset {
         //new EngineeringMetricsInputForm().configure({key: "engineering-metrics-input-form"}),
         new NpdAssessment().configure({key: "NPD-Assessment"}),
         new UserAction1().configure({key: "user-action-1"}),
+        new UserAction2().configure({key: "user-action-1"}),
+        new ChatBot().configure({key: "chat-bot"}),
         new AreaChartPlugin().configure({ key: VizType.LegacyArea }),
         new BarChartPlugin().configure({ key: VizType.LegacyBar }),
         new BigNumberChartPlugin().configure({ key: VizType.BigNumber }),

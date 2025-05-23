@@ -184,7 +184,7 @@ const DashboardRoute: FC = () => {
             onClick={() => setActiveButton('Dashboard')}
           >
             <img src="/static/assets/images/dashboard.png" alt="Dashboard Icon" className="icon" />
-            {idOrSlug === 'bui' ? 'BU Dashboard' : 'Home'}
+            {idOrSlug === 'bui' ? 'Central BU Dashboard' : 'Home'}
           </button>
 
           {/* Dynamic Buttons from JSON */}

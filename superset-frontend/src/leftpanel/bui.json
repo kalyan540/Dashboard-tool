@@ -21,18 +21,25 @@
       "divider": false
     },
     "Button4": {
+      "name": "AgentSync",
+      "type": "dashboard",
+      "dashboardId": "agentsync",
+      "icon": "/static/assets/images/dashboard.png",
+      "divider": false
+    },
+    "Button5": {
       "name": "Reports",
       "type": "report",
       "icon": "/static/assets/images/Reports.png",
       "divider": false
     },
-    "Button5": {
+    "Button6": {
       "name": "Alerts",
       "type": "alert",
       "icon": "/static/assets/images/Alerts.png",
       "divider": false
     },
-    "Button6": {
+    "Button7": {
       "name": "Manage Users",
       "type": "iframe",
       "src": "/users/list",

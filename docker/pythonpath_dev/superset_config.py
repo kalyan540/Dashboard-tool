@@ -134,14 +134,24 @@ WTF_CSRF_ENABLED = False
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 
 # Email configuration
-SMTP_HOST = "smtp.gmail.com" # change to your host
-SMTP_PORT = 465 # your port, e.g. 587
-SMTP_STARTTLS = False
-SMTP_SSL_SERVER_AUTH = False # If your using an SMTP server with a valid certificate
-SMTP_SSL = True
-SMTP_USER = "superset2145@gmail.com" # use the empty string "" if using an unauthenticated SMTP server
-SMTP_PASSWORD = "vuyzbzkedpbxlwnu" # use the empty string "" if using an unauthenticated SMTP server
-SMTP_MAIL_FROM = "superset2145@gmail.com"
+# SMTP_HOST = "smtp.gmail.com" # change to your host
+# SMTP_PORT = 465 # your port, e.g. 587
+# SMTP_STARTTLS = False
+# SMTP_SSL_SERVER_AUTH = False # If your using an SMTP server with a valid certificate
+# SMTP_SSL = True
+# SMTP_USER = "superset2145@gmail.com" # use the empty string "" if using an unauthenticated SMTP server
+# SMTP_PASSWORD = "vuyzbzkedpbxlwnu" # use the empty string "" if using an unauthenticated SMTP server
+# SMTP_MAIL_FROM = "superset2145@gmail.com"
+
+EMAIL_NOTIFICATIONS = True
+SMTP_HOST = "sandbox.smtp.mailtrap.io"
+SMTP_STARTTLS = True
+SMTP_SSL = False
+SMTP_USER = "978964f0e6eb85"
+SMTP_PORT = 587
+SMTP_PASSWORD = "042973301efdc2"
+SMTP_MAIL_FROM = "superset@example.com"
+
 
 # SMTP_USER = "altimetrikinsights@gmail.com" # use the empty string "" if using an unauthenticated SMTP server
 # SMTP_PASSWORD = "wjbesvvwksldquos" # use the empty string "" if using an unauthenticated SMTP server

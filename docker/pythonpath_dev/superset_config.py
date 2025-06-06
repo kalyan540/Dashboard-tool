@@ -172,7 +172,7 @@ WEBDRIVER_OPTION_ARGS = [
 SCREENSHOT_LOCATE_WAIT = 300
 SCREENSHOT_LOAD_WAIT = 1200
 
-WEBDRIVER_BASEURL = "http://superset:8088/"  # When using docker compose baseurl should be http://superset_app:8088/
+WEBDRIVER_BASEURL = "http://superset_app:8088/"  # When using docker compose baseurl should be http://superset_app:8088/
 # The base URL for the email report hyperlinks.
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 SQLLAB_CTAS_NO_LIMIT = True
